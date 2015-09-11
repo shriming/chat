@@ -45,7 +45,7 @@
     "gulp": "^3.9.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-shell": "^0.4.3",
-    "run-sequence": "^1.1.2",
+    "run-sequence": "^1.1.2"
   },
   "scripts": {
     "test": "npm run init && make test",
