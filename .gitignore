@@ -31,3 +31,8 @@ frontend/*bundles*/merged/
 frontend/*.bundles/*/*.*
 frontend/*.bundles/*/*.*.*
 !frontend/*bundles*/*/*.bemdecl.js
+
+########################
+# local config
+########################
+config/local.js
