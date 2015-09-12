@@ -7,7 +7,6 @@ modules.define(
                 'js': {
                     'inited': function () {
                         console.log('feed inited!')
-                    }
                 }
             }
         }));
