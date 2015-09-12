@@ -15,57 +15,69 @@
  */
 
 module.exports.passport = {
-    local: {
-        strategy: require('passport-local').Strategy
-    },
+    /*local : {
+        strategy : require('passport-local').Strategy
+    },*/
 
-    /*  twitter: {
-     name: 'Twitter',
-     protocol: 'oauth',
-     strategy: require('passport-twitter').Strategy,
-     options: {
-     consumerKey: 'your-consumer-key',
-     consumerSecret: 'your-consumer-secret'
-     }
+    /*  twitter : {
+         name : 'Twitter',
+         protocol : 'oauth',
+         strategy : require('passport-twitter').Strategy,
+         options  : {
+             consumerKey  : 'your-consumer-key',
+             consumerSecr : 'your-consumer-secret'
+         }
      },*/
 
-    /*  github: {
-     name: 'GitHub',
-     protocol: 'oauth2',
-     strategy: require('passport-github').Strategy,
-     options: {
-     clientID: 'your-client-id',
-     clientSecret: 'your-client-secret'
-     }
+    /*  github : {
+         name : 'GitHub',
+         protocol : 'oauth2',
+         strategy : require('passport-github').Strategy,
+         options  : {
+             clientID : 'your-client-id',
+             clientSecret : 'your-client-secret'
+         }
      },*/
 
-    vkontakte: {
-        name: 'Вконтакте',
-        protocol: 'oauth2',
-        strategy: require('passport-vkontakte').Strategy,
-        options: {
-            clientID: 'in-dev-use-local.js',
-            clientSecret: 'in-dev-use-local.js'
+ /*   vkontakte : {
+        name : 'Вконтакте',
+        protocol : 'oauth2',
+        strategy : require('passport-vkontakte').Strategy,
+        options : {
+            clientID : 'in-dev-use-local.js',
+            clientSecret : 'in-dev-use-local.js'
         }
     },
 
-    facebook: {
-        name: 'Facebook',
-        protocol: 'oauth2',
-        strategy: require('passport-facebook').Strategy,
-        options: {
-            clientID: 'in-dev-use-local.js',
-            clientSecret: 'in-dev-use-local.js'
+    facebook : {
+        name : 'Facebook',
+        protocol : 'oauth2',
+        strategy : require('passport-facebook').Strategy,
+        options : {
+            clientID : 'in-dev-use-local.js',
+            clientSecret : 'in-dev-use-local.js'
         }
-    }
+    },*/
 
-    /*  google: {
-     name: 'Google',
-     protocol: 'oauth2',
-     strategy: require('passport-google-oauth').OAuth2Strategy,
-     options: {
-     clientID: 'your-client-id',
-     clientSecret: 'your-client-secret'
-     }
+    slack : {
+        name : 'Slack',
+        protocol : 'oauth2',
+        strategy : require('passport-slack').Strategy,
+        options : {
+            clientID : '10604590981.10604605940',
+            clientSecret : '9ef1641f8d0916773ed900a1bba17b04',
+            callbackURL : 'http://localhost:8080/auth/slack/callback',
+            scope : 'identify,client,admin'
+        }
+    },
+
+    /*  google : {
+         name : 'Google',
+         protocol : 'oauth2',
+         strategy : require('passport-google-oauth').OAuth2Strategy,
+         options : {
+            clientID : 'your-client-id',
+            clientSecret : 'your-client-secret'
+         }
      }*/
 };

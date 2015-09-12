@@ -30,25 +30,23 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  login: function (req, res) {
-    var strategies = sails.config.passport
-      , providers  = {};
+  login : function (req, res) {
+    var strategies = sails.config.passport, providers  = {};
 
         // Get a list of available providers for using in your templates.
     Object.keys(strategies).forEach(function (key) {
-      if (key === 'local') {
+      if(key === 'local') {
         return;
       }
 
       providers[key] = {
-        name: strategies[key].name
-      , slug: key
+        name : strategies[key].name, slug : key
       };
     });
 
         passport.retpath = req.query.retpath;
 
-        res.render({data: {providers: providers, errors: req.flash('error'), options: res.req.options}});
+        res.render({ data : { providers : providers, errors : req.flash('error'), options : res.req.options } });
   },
 
   /**
@@ -65,7 +63,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  logout: function (req, res) {
+  logout : function (req, res) {
     req.logout();
         // TODO: Maybe it's not necessary
         req.session.User = res.locals.currentUser = null;
@@ -88,8 +86,8 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  register: function (req, res) {
-        res.render({data: {errors: req.flash('error')}});
+  register : function (req, res) {
+        res.render({ data : { errors : req.flash('error') } });
   },
 
   /**
@@ -98,7 +96,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  provider: function (req, res) {
+  provider : function (req, res) {
     passport.endpoint(req, res);
   },
 
@@ -118,17 +116,18 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  callback: function (req, res) {
-    function tryAgain (err) {
+  callback : function (req, res) {
+      console.log(arguments);
+    function tryAgain(err) {
 
       // Only certain error messages are returned via req.flash('error', someError)
       // because we shouldn't expose internal authorization errors to the user.
       // We do return a generic error and the original request body.
       var flashError = req.flash('error')[0];
 
-      if (err && !flashError ) {
+      if(err && !flashError) {
         req.flash('error', 'Error.Passport.Generic');
-      } else if (flashError) {
+      } else if(flashError) {
         req.flash('error', flashError);
       }
       req.flash('form', req.body);
@@ -138,7 +137,7 @@ var AuthController = {
       // These views should take care of rendering the error messages.
       var action = req.param('action');
 
-      switch (action) {
+      switch(action) {
         case 'register':
           res.redirect('/register');
           break;
@@ -151,18 +150,17 @@ var AuthController = {
     }
 
     passport.callback(req, res, function(err, user) {
-        if (err) {
+        console.log(arguments);
+        if(err) {
             return tryAgain(err);
         }
 
-
         req.login(user, function(err) {
-            if (err) {
+            if(err) {
                 return tryAgain(err);
             }
-
             // Upon successful login, send the user to the retpath.
-            res.redirect(passport.retpath ? encodeURI(passport.retpath) : '/');
+            res.redirect(passport.retpath? encodeURI(passport.retpath) : '/');
         });
     });
   },
@@ -173,7 +171,7 @@ var AuthController = {
    * @param {Object} req
    * @param {Object} res
    */
-  disconnect: function (req, res) {
+  disconnect : function (req, res) {
     passport.disconnect(req, res);
   }
 };
