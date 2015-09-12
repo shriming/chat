@@ -10,3 +10,7 @@ branches:
     - master
     - stable
     - beta
+
+scripts: {
+    "test": "make test"
+}
