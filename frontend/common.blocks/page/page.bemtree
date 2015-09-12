@@ -44,7 +44,16 @@ match(this.ctx.data)
             },
             {
                 block: 'footer',
-                content: 'sails bem project stub 2015'
+                content: [
+                  {
+                      block: 'feed',
+                      js: true,
+                      content: 'FEED block here!'
+                  },
+                  {
+                      content: "FOOTER no cahe123"
+                  }
+                ]
             },
             {elem: 'js', url: '/static/js/_merged.js'}
         ]

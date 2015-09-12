@@ -70,7 +70,7 @@ gulp.task('watch', function() {
 * Rebuild frontend using enb compiler
 * */
 gulp.task('enb', shell.task([
-    "./node_modules/.bin/enb make -d frontend",
+    "./node_modules/.bin/enb make -d frontend  --no-cache",
     'npm run copy-views'
 ]));
 
