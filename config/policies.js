@@ -16,7 +16,6 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.policies.html
  */
 
-
 module.exports.policies = {
 
     /***************************************************************************
@@ -26,19 +25,19 @@ module.exports.policies = {
      *                                                                          *
      ***************************************************************************/
 
-    '*': ['passport'],
+    '*' : ['passport'],
 
-/*    ProductController: {
-        '*': ['passport', 'isAdmin'],
-        show: 'passport',
-        index: 'passport'
-    },*/
+    /*    ProductController: {
+     '*': ['passport', 'isAdmin'],
+     show: 'passport',
+     index: 'passport'
+     },*/
 
-    UserController: {
-        '*': ['passport', 'isAdmin'],
-        'show': ['passport', 'isAdminOrOwner'],
-        'edit': ['passport', 'isAdminOrOwner'],
-        'update': ['passport', 'isAdminOrOwner']
+    UserController : {
+        '*' : ['passport', 'isAdmin'],
+        'show' : ['passport', 'isAdminOrOwner'],
+        'edit' : ['passport', 'isAdminOrOwner'],
+        'update' : ['passport', 'isAdminOrOwner']
     }
 
     /***************************************************************************

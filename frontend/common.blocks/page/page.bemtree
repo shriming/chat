@@ -1,61 +1,62 @@
 match(this.ctx.data)
-    .def()(function() {
+    .def()(function () {
     var data = this.ctx.data,
         options = data.req.options;
 
     return applyCtx({
-        block: 'page',
-        head: [{elem: 'css', url: '/static/css/_merged.css'}],
-        title: data.title,
-        content: [
+        block : 'page',
+        head : [{ elem : 'css', url : '/static/css/_merged.css' }],
+        title : data.title,
+        content : [
             {
-                block: 'head',
-                data: data
+                block : 'head',
+                mix : [{ block : 'clearfix' }],
+                data : data
             },
             {
-                block: 'menu',
-                mods: {theme: 'islands', size: 'm'},
-                content: [
+                block : 'menu',
+                mods : { theme : 'islands', size : 'm' },
+                content : [
                     {
-                        block: 'menu-item',
-                        mods: {type: 'link'},
-                        content: {
-                            block: 'link',
-                            url: '/',
-                            content: 'Main'
+                        block : 'menu-item',
+                        mods : { type : 'link' },
+                        content : {
+                            block : 'link',
+                            url : '/',
+                            content : 'Main'
                         }
                     },
                     {
-                        block: 'menu-item',
-                        mods: {type: 'link'},
-                        content: {
-                            block: 'link',
-                            url: '/products/',
-                            content: 'Products'
+                        block : 'menu-item',
+                        mods : { type : 'link' },
+                        content : {
+                            block : 'link',
+                            url : '/products/',
+                            content : 'Products'
                         }
                     }
                 ]
             },
             {
-                block: 'controller',
-                elem: options.controller,
-                mods: {action: options.action},
-                data: data
+                block : 'controller',
+                elem : options.controller,
+                mods : { action : options.action },
+                data : data
             },
             {
-                block: 'footer',
-                content: [
-                  {
-                      block: 'feed',
-                      js: true,
-                      content: 'FEED block here!'
-                  },
-                  {
-                      content: "FOOTER no cahe123"
-                  }
+                block : 'footer',
+                content : [
+                    {
+                        block : 'feed',
+                        js : true,
+                        content : 'FEED block here!'
+                    },
+                    {
+                        content : "FOOTER!"
+                    }
                 ]
             },
-            {elem: 'js', url: '/static/js/_merged.js'}
+            { elem : 'js', url : '/static/js/_merged.js' }
         ]
     });
 });

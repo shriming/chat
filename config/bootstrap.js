@@ -11,7 +11,7 @@
 
 var fs = require('fs');
 
-module.exports.bootstrap = function(cb) {
+module.exports.bootstrap = function (cb) {
 
     // https://github.com/sahanDissanayake/sails-passport
     sails.services.passport.loadStrategies();
@@ -19,8 +19,8 @@ module.exports.bootstrap = function(cb) {
     // It's very important to trigger this callback method when you are finished
     // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
 
-    if (!fs.existsSync(sails.config.fileUpload.uploadDir)) {
-        fs.mkdirSync(sails.config.fileUpload.uploadDir, {mode: '0775'});
+    if(!fs.existsSync(sails.config.fileUpload.uploadDir)) {
+        fs.mkdirSync(sails.config.fileUpload.uploadDir, { mode : '0775' });
     }
 
     cb();

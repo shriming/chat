@@ -1,3 +1,4 @@
-({
-    shouldDeps: []
+(
+{
+    shouldDeps : []
 });

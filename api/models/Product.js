@@ -7,22 +7,24 @@
 
 module.exports = {
 
-    attributes: {
-        title: 'string',
-        image: 'string',
-        price: 'integer'
+    attributes : {
+        title : 'string',
+        image : 'string',
+        price : 'integer'
     },
 
-    toJSON: function() {
+    toJSON : function () {
         var obj = this.toObject();
         delete obj._csrf;
 
         return obj;
     },
 
-    beforeValidate: function(values, next) {
+    beforeValidate : function (values, next) {
         // don't save _csrf token in database
-        if(values._csrf) delete values._csrf;
+        if(values._csrf) {
+            delete values._csrf;
+        }
         next();
     },
 
@@ -30,7 +32,7 @@ module.exports = {
      * TODO: is it necessary?
      * Create stub to product
      */
-    'new': function() {
+    'new' : function () {
 
     }
 };

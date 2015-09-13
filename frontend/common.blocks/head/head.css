@@ -1,6 +1,8 @@
-.head
-{
-    padding: 15px;
+.head {
+    padding:    15px;
 
-    background: #ccc;
+    height:     48px;
+    background: #cccccc;
+
+    box-sizing: border-box;
 }

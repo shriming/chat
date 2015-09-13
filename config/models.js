@@ -12,7 +12,7 @@
 module.exports.models = {
 
     // Will use Mongo
-    schema: false,
+    schema : false,
 
     /***************************************************************************
      *                                                                          *
@@ -20,7 +20,7 @@ module.exports.models = {
      * connections (see `config/connections.js`)                                *
      *                                                                          *
      ***************************************************************************/
-    connection: 'localDiskDb',
+    connection : 'mongo',
 
     /***************************************************************************
      *                                                                          *
@@ -30,11 +30,11 @@ module.exports.models = {
      * See http://sailsjs.org/#/documentation/concepts/ORM/model-settings.html  *
      *                                                                          *
      ***************************************************************************/
-    migrate: 'alter',
+    migrate : 'alter',
 
     // A flag to toggle the automatic definition of a primary key in your model.
     // autoPK: false,
 
-    autoUpdatedAt: true
+    autoUpdatedAt : true
 
 };

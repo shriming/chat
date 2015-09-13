@@ -1,11 +1,13 @@
-({
-    shouldDeps: [
-        {block: 'controller'},
-        {block: 'head'},
-        {block: 'menu'},
-        {block: 'feed'},
-        {block: 'content'},
-        {block: 'footer'},
-        {block: 'link'}
+(
+{
+    shouldDeps : [
+        { block : 'controller' },
+        { block : 'clearfix' },
+        { block : 'head' },
+        { block : 'menu' },
+        { block : 'feed' },
+        { block : 'content' },
+        { block : 'footer' },
+        { block : 'link' }
     ]
 });

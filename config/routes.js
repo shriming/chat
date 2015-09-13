@@ -29,7 +29,7 @@ module.exports.routes = {
      *                                                                          *
      ***************************************************************************/
 
-    '/': 'IndexPageController.index',
+    '/' : 'IndexPageController.index',
 
     /***************************************************************************
      *                                                                          *
@@ -42,34 +42,34 @@ module.exports.routes = {
      ***************************************************************************/
 
     // AuthController
-    'get /login': 'AuthController.login',
-    'get /logout': 'AuthController.logout',
-    'get /register': 'AuthController.register',
+    'get /login' : 'AuthController.login',
+    'get /logout' : 'AuthController.logout',
+    'get /register' : 'AuthController.register',
 
-    'post /auth/local': 'AuthController.callback',
-    'post /auth/local/:action': 'AuthController.callback',
+    'post /auth/local' : 'AuthController.callback',
+    'post /auth/local/:action' : 'AuthController.callback',
 
-    'get /auth/:provider': 'AuthController.provider',
-    'get /auth/:provider/callback': 'AuthController.callback',
-    'get /auth/:provider/:action': 'AuthController.callback',
+    'get /auth/:provider' : 'AuthController.provider',
+    'get /auth/:provider/callback' : 'AuthController.callback',
+    'get /auth/:provider/:action' : 'AuthController.callback',
 
     // Product
-    'get /products/': 'ProductController.index',
-    'get /product/new': 'ProductController.new',
-    'post /product/create': 'ProductController.create',
-    'get /product/:id': 'ProductController.show',
-    'get /product/:id/edit': 'ProductController.edit',
-    'post /product/:id/update': 'ProductController.update',
-    'post /product/:id/delete': 'ProductController.delete',
+    'get /products/' : 'ProductController.index',
+    'get /product/new' : 'ProductController.new',
+    'post /product/create' : 'ProductController.create',
+    'get /product/:id' : 'ProductController.show',
+    'get /product/:id/edit' : 'ProductController.edit',
+    'post /product/:id/update' : 'ProductController.update',
+    'post /product/:id/delete' : 'ProductController.delete',
 
     // Users
-    'get /user/:id': 'UserController.show',
-    'get /user/:id/edit': 'UserController.edit',
-    'post /user/:id/update': 'UserController.update',
+    'get /user/:id' : 'UserController.show',
+    'get /user/:id/edit' : 'UserController.edit',
+    'post /user/:id/update' : 'UserController.update',
 
     // Files
-    'get /uploads/:id': 'FileController.download',
+    'get /uploads/:id' : 'FileController.download',
 
     // static
-    'get /static/:directory/:file': 'FileController.getStatic'
+    'get /static/:directory/:file' : 'FileController.getStatic'
 };

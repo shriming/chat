@@ -1,8 +1,9 @@
-({
+(
+{
 
-    shouldDeps: [
+    shouldDeps : [
         {
-            mods: {action: ['index']}
+            mods : { action : ['index'] }
         }
     ]
 });

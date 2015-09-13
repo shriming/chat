@@ -1,8 +1,9 @@
-({
-    shouldDeps: [
+(
+{
+    shouldDeps : [
         {
-            block: 'product-card',
-            mods: {type: 'edit'}
+            block : 'product-card',
+            mods : { type : 'edit' }
         }
     ]
 });

@@ -1,10 +1,11 @@
-({
-    shouldDeps: [
+(
+{
+    shouldDeps : [
         {
-            mods: {action: ['login']}
+            mods : { action : ['login'] }
         },
         {
-            block: 'login'
+            block : 'login'
         }
     ]
 });

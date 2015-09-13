@@ -5,13 +5,14 @@ module.exports = {
 
     attributes : {
         id : { type : 'string', unique : true, primaryKey : true },
+        email : { type : 'email', unique : true },
+        passports : { collection : 'Passport', via : 'user' },
         name : { type : 'string' },
         deleted : { type : 'boolean', defaultsTo : false },
         color : { type : 'string' },
         first_name : { type : 'string' },
         last_name : { type : 'string' },
         real_name : { type : 'string' },
-        email : { type : 'string' },
         skype : { type : 'string' },
         phone : { type : 'string' },
         image_24 : { type : 'string' },
@@ -23,20 +24,11 @@ module.exports = {
         is_owner : { type : 'boolean' },
         has_2fa : { type : 'boolean' },
         has_files : { type : 'boolean' },
-        passports : { collection : 'Passport', via : 'user' }
+        createdAt : { type : 'datetime' },
+        updatedAt : { type : 'datetime' }
     },
 
-    // set first user as admin
-    beforeCreate : function(values, next) {
-        User.find({ limit : 1 }, function(err, result) {
-            if(err) next(next);
-
-            if(!result || result.length === 0) {
-                values.isAdmin = true;
-            }
-
-            next();
-        });
+    beforeCreate : function (values, next) {
     }
 
 };

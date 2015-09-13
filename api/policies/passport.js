@@ -22,16 +22,16 @@
  * @param {Function} next
  */
 module.exports = function (req, res, next) {
-  // Initialize Passport
-  passport.initialize()(req, res, function () {
-    // Use the built-in sessions
-    passport.session()(req, res, function () {
+    // Initialize Passport
+    passport.initialize()(req, res, function () {
+        // Use the built-in sessions
+        passport.session()(req, res, function () {
 
             // Make the user available throughout the frontend and in session
             req.session.User = res.locals.currentUser = req.user;
             req.session.auth = !!req.user;
 
-      next();
+            next();
+        });
     });
-  });
 };

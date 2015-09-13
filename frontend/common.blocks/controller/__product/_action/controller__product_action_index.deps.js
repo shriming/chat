@@ -1,7 +1,8 @@
-({
-    shouldDeps: [
+(
+{
+    shouldDeps : [
         {
-            block: 'image'
+            block : 'image'
         }
     ]
 });

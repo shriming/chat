@@ -17,8 +17,8 @@ module.exports = {
      * environment (see config/connections.js and config/models.js )           *
      ***************************************************************************/
 
-    models: {
-        migrate: 'alter'
+    models : {
+        migrate : 'alter'
     }
 
 };

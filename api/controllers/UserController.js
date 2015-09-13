@@ -7,36 +7,44 @@
 
 module.exports = {
 
-    show: function(req, res, next) {
+    show : function (req, res, next) {
 
-        User.findOne(req.param('id'), function(err, user) {
-            if (err) next(err);
+        User.findOne(req.param('id'), function (err, user) {
+            if(err) {
+                next(err);
+            }
 
-            if (!user) {
+            if(!user) {
                 res.notFound()
             } else {
-                res.render({data: {user: user}});
+                res.render({ data : { user : user } });
             }
         });
     },
 
-    edit: function(req, res, next) {
-        User.findOne(req.param('id'), function(err, user) {
-            if (err) next(err);
+    edit : function (req, res, next) {
+        User.findOne(req.param('id'), function (err, user) {
+            if(err) {
+                next(err);
+            }
 
-            res.render({data: {user: user}});
+            res.render({ data : { user : user } });
         });
     },
 
-    update: function(req, res, next) {
+    update : function (req, res, next) {
 
         var data = req.params.all();
 
         // TODO: refactor
-        data.isAdmin = (req.session.User.isAdmin) && (data.isAdmin === 'yes');
+        data.isAdmin = (
+                           req.session.User.isAdmin) && (
+                       data.isAdmin === 'yes');
 
-        User.update(req.param('id'), data, function(err, user) {
-            if (err) next(err);
+        User.update(req.param('id'), data, function (err, user) {
+            if(err) {
+                next(err);
+            }
 
             res.redirect('/user/' + data.id);
         });

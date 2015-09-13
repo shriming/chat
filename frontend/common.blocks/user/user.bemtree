@@ -1,35 +1,41 @@
 block('user')(
-    def()(function() {
+    def()(function () {
         var user = this.ctx.data.req.session.User || {},
             content = [];
 
-        if (user.email) {
+        if(user.email) {
             content.push({
-                    elem: 'email',
-                    content: user.email
+                    elem : 'avatar',
+                    data : user
+                }, {
+                    elem : 'title',
+                    content : user.email
                 },
                 {
-                    elem: 'logout',
-                    content: {
-                        block: 'link',
-                        url: '/logout/',
-                        content: 'logout'
+                    block : 'current-user',
+                    elem : 'logout',
+                    tag : 'span',
+                    content : {
+                        block : 'link',
+                        url : '/logout/',
+                        content : 'logout'
                     }
                 });
         } else {
             content.push({
-                elem: 'logout',
-                content: {
-                    block: 'link',
-                    url: '/login/',
-                    content: 'login'
+                block : 'current-user',
+                elem : 'logout',
+                content : {
+                    block : 'link',
+                    url : '/login/',
+                    content : 'login'
                 }
             });
         }
 
         return applyCtx({
-            block: 'user',
-            content: content
+            block : 'user',
+            content : content
         });
 
     })

@@ -1,0 +1,15 @@
+block('user')(
+    elem('avatar')(
+        def()(function () {
+            var user = this.ctx.data || {};
+            return applyCtx({
+                block : 'image',
+                title : user.name,
+                alt : user.name,
+                url : user.image_48,
+                width : 48,
+                height : 48
+            });
+        })
+    )
+);

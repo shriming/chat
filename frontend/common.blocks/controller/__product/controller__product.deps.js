@@ -1,16 +1,17 @@
-({
-    shouldDeps: [
+(
+{
+    shouldDeps : [
         {
-            mods: {action: ['index', 'edit', 'show']}
+            mods : { action : ['index', 'edit', 'show'] }
         },
         {
-            block: 'product'
+            block : 'product'
         },
         {
-            block: 'breadcrumb'
+            block : 'breadcrumb'
         },
         {
-            block: 'catalog'
+            block : 'catalog'
         }
     ]
 });

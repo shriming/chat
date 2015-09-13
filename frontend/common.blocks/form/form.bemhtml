@@ -1,26 +1,26 @@
 block('form')(
     tag()('form'),
     attrs()(
-        function() {
+        function () {
             return {
-                action: this.ctx.action,
-                method: this.ctx.method,
-                enctype: this.ctx.enctype
+                action : this.ctx.action,
+                method : this.ctx.method,
+                enctype : this.ctx.enctype
             };
         }
     ),
-    content()(function() {
+    content()(function () {
         // TODO: rewrite
         var req = this.ctx.data.req,
             res = req.res;
 
         return [
             {
-                tag: 'input',
-                attrs: {
-                    name: '_csrf',
-                    value: res.locals._csrf,
-                    type: 'hidden'
+                tag : 'input',
+                attrs : {
+                    name : '_csrf',
+                    value : res.locals._csrf,
+                    type : 'hidden'
                 }
             },
             applyNext()

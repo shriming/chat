@@ -1,12 +1,12 @@
 block('controller')
     .elem('auth')
     .mod('action', 'login')
-    .def()(function() {
+    .def()(function () {
         var data = this.ctx.data;
 
         return applyCtx({
-            block: 'login',
-            data: data
+            block : 'login',
+            data : data
         });
     }
 );

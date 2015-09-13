@@ -1,16 +1,16 @@
 block('head')(
-    def()(function() {
+    def()(function () {
         return applyCtx([
             {
-                block: 'head',
-                content: [
+                block : 'head',
+                content : [
                     {
-                        block: 'logo',
-                        content: 'site logo'
+                        block : 'logo',
+                        content : 'site logo'
                     },
                     {
-                        block: 'user',
-                        data: this.ctx.data
+                        block : 'user',
+                        data : this.ctx.data
                     }
                 ]
             }

@@ -28,10 +28,13 @@ module.exports.connections = {
      * Installed by default.                                                    *
      *                                                                          *
      ***************************************************************************/
-    localDiskDb: {
-        adapter: 'sails-disk'
+    localDiskDb : {
+        adapter : 'sails-disk'
     },
-
+    mongo : {
+        adapter : 'sails-mongo',
+        url : process.env.MONGOLAB_URI
+    },
     /***************************************************************************
      *                                                                          *
      * MySQL is the world's most popular relational database.                   *
@@ -40,12 +43,12 @@ module.exports.connections = {
      * Run: npm install sails-mysql                                             *
      *                                                                          *
      ***************************************************************************/
-    someMysqlServer: {
-        adapter: 'sails-mysql',
-        host: 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
-        user: 'YOUR_MYSQL_USER',
-        password: 'YOUR_MYSQL_PASSWORD',
-        database: 'YOUR_MYSQL_DB'
+    someMysqlServer : {
+        adapter : 'sails-mysql',
+        host : 'YOUR_MYSQL_SERVER_HOSTNAME_OR_IP_ADDRESS',
+        user : 'YOUR_MYSQL_USER',
+        password : 'YOUR_MYSQL_PASSWORD',
+        database : 'YOUR_MYSQL_DB'
     },
 
     /***************************************************************************
@@ -57,14 +60,13 @@ module.exports.connections = {
      *                                                                          *
      *                                                                          *
      ***************************************************************************/
-    somePostgresqlServer: {
-        adapter: 'sails-postgresql',
-        host: 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
-        user: 'YOUR_POSTGRES_USER',
-        password: 'YOUR_POSTGRES_PASSWORD',
-        database: 'YOUR_POSTGRES_DB'
+    somePostgresqlServer : {
+        adapter : 'sails-postgresql',
+        host : 'YOUR_POSTGRES_SERVER_HOSTNAME_OR_IP_ADDRESS',
+        user : 'YOUR_POSTGRES_USER',
+        password : 'YOUR_POSTGRES_PASSWORD',
+        database : 'YOUR_POSTGRES_DB'
     }
-
 
     /***************************************************************************
      *                                                                          *

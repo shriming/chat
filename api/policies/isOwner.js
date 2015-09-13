@@ -5,11 +5,11 @@
  * @param {Function} ok callback when user is owner
  * @returns {*}
  */
-module.exports = function(req, res, ok) {
+module.exports = function (req, res, ok) {
 
-    if (req.session.auth) {
+    if(req.session.auth) {
 
-        if (req.session.User.id === req.param('id')) {
+        if(req.session.User.id === req.param('id')) {
             return ok();
         } else {
             return res.forbidden();
