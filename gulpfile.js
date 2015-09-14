@@ -174,4 +174,6 @@ gulp.task('browser-sync', function () {
  * */
 gulp.task('browser-reload', browserSync.reload);
 
-gulp.task('default', ['enb', 'start-dev', 'browser-sync', 'watch']);
+gulp.task('default', function () {
+    runSequence('enb-no-cache', 'start-dev', ['browser-sync', 'watch']);
+});
