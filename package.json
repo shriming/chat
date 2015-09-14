@@ -61,7 +61,7 @@
     "run-sequence": "^1.1.2"
   },
   "scripts": {
-    "test": "npm run init && make test",
+    "test": "",
     "start": "npm run init && sails lift",
     "debug": "node debug app.js",
     "init": "npm run deps && npm run make-views",
