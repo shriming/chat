@@ -1,7 +1,6 @@
 language: node_js
 
 node_js:
-  - "0.10"
   - "0.12"
 
 # whitelisted branches
@@ -12,5 +11,5 @@ branches:
     - beta
 
 scripts: {
-    "test": "make test"
+    "test": ""
 }
