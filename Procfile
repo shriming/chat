@@ -1,1 +1,1 @@
-web: npm start --prod
+web: YENV=production gulp start-pro --prod

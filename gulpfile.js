@@ -11,7 +11,7 @@ var gulp = require('gulp'),
  * Basic task that init nodemon with proper options and run some tasks before application is restarted.
  * See {@link https://github.com/JacksonGariety/gulp-nodemon gulp-nodemon) for more details.
  * */
-gulp.task('start', function () {
+gulp.task('start-dev', function () {
     nodemon({
         script : 'app.js',
         watch : [
@@ -35,7 +35,7 @@ gulp.task('start', function () {
             changedFiles.forEach(function (file) {
                 if(/^frontend/.test(file)) {
                     if(['.bemtree', '.bemhtml'].indexOf(path.extname(file)) > -1) {
-                        tasks.push('enb');
+                        tasks.push('enb-cached');
                     }
                 }
             });
@@ -66,6 +66,20 @@ gulp.task('start', function () {
             }
         });
 });
+
+/*
+* Build frontend, copy files, start app
+* */
+gulp.task('start-pro', function () {
+    runSequence('enb-no-cache', 'copy-files', 'run-app');
+});
+
+/*
+* Start app
+* */
+gulp.task('run-app', shell.task([
+    'node app.js --prod'
+]));
 
 /*
  * Default task that runs before nodemon restarts.
@@ -110,14 +124,21 @@ gulp.task('watch', function () {
         '!frontend/static/**/*',
         '!frontend/*.bundles/**/*'
     ], function () {
-        runSequence('enb', 'copy-files');
+        runSequence('enb-cached', 'copy-files');
     });
 });
 
 /*
  * Rebuild frontend using enb compiler
  * */
-gulp.task('enb', shell.task([
+gulp.task('enb-no-cache', shell.task([
+    './node_modules/.bin/enb make -d frontend --no-cache'
+]));
+
+/*
+ * Rebuild frontend using enb compiler
+ * */
+gulp.task('enb-cached', shell.task([
     './node_modules/.bin/enb make -d frontend'
 ]));
 
@@ -153,4 +174,4 @@ gulp.task('browser-sync', function () {
  * */
 gulp.task('browser-reload', browserSync.reload);
 
-gulp.task('default', ['enb', 'start', 'browser-sync', 'watch']);
+gulp.task('default', ['enb', 'start-dev', 'browser-sync', 'watch']);

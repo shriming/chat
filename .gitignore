@@ -25,6 +25,7 @@ uploads
 
 frontend/.enb/tmp/
 frontend/libs/
+frontend/static/images/
 frontend/static/js/_merged.js
 frontend/static/css/_merged.css
 frontend/*bundles*/merged/
