@@ -64,8 +64,8 @@ module.exports.passport = {
         protocol : 'oauth2',
         strategy : require('passport-slack').Strategy,
         options : {
-            clientID : '10604590981.10617859857',
-            clientSecret : 'a21b9ff557d37e73154ae5f36bb30291',
+            clientID : process.env.SLACK_CLIENT,
+            clientSecret : process.env.SLACK_SECRET,
             scope : 'identify,client'
         }
     },

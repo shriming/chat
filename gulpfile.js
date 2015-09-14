@@ -40,7 +40,7 @@ gulp.task('start-dev', function () {
                 }
             });
 
-            return tasks
+            return tasks;
         },
         env : { 'NODE_ENV' : 'development' }
     })
