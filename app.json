@@ -11,9 +11,6 @@
     },
     "YENV":{
       "required":true
-    },
-    "MONGOLAB_URI":{
-      "required":true
     }
   },
   "addons":[
