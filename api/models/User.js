@@ -26,9 +26,5 @@ module.exports = {
         has_files : { type : 'boolean' },
         createdAt : { type : 'datetime' },
         updatedAt : { type : 'datetime' }
-    },
-
-    beforeCreate : function (values, next) {
     }
-
 };

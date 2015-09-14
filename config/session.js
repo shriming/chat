@@ -66,9 +66,7 @@ module.exports.session = {
      ***************************************************************************/
 
     adapter : 'mongo',
-    host : 'localhost',
-    port : 27017,
-    db : 'sails',
+    url : process.env.MONGOLAB_URI,
     collection : 'sessions',
     /***************************************************************************
      *                                                                          *
