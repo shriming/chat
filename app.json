@@ -1,0 +1,22 @@
+{
+  "name":"chat",
+  "description":"",
+  "scripts":{},
+  "env":{
+    "SLACK_CLIENT":{
+      "required":true
+    },
+    "SLACK_SECRET":{
+      "required":true
+    },
+    "YENV":{
+      "required":true
+    },
+    "MONGOLAB_URI":{
+      "required":true
+    }
+  },
+  "addons":[
+    "mongolab"
+  ]
+}
