@@ -1,15 +1,15 @@
 language: node_js
-
 node_js:
-  - "0.12"
-
-# whitelisted branches
+- '0.12'
 branches:
   only:
-    - master
-    - stable
-    - beta
-
-scripts: {
-    "test": ""
-}
+  - master
+  - stable
+  - beta
+deploy:
+  provider: heroku
+  api_key:
+    secure: WYfyx56/Ep8Itxilnpk8MPSokCLO3z7aN7MMhlhbCoS6u0a4p3zNAkpkFC0BJ50Nqt1aONhgQ0LAdIyckzE9SnaEUvJl7xM0fKLf+F9lQnjyKlo6katKKjGwjp/IH8YY1NTrRAvHPvN/hQQg56xJNEtUCtSEk4pWhRAmBXByAefUMYwrBCT7OsEYyVjEJvrvS/FbzNk6Oxg/45058g0qJocR3SDHgCh6SlDv1jV1kMKcglY1sfZt+rjCvPdZMt5Nyf0Ru/JQ8+GuoNM7tE4O0bMha3lPru+QCsgRpUsVfwUN0gE526dcfF/i3fRNzQ+42MvP7c1mZ8zT+ZpB2pA6B9akZpHFf5BNJQTF0wWcObRoAbUpH4vcJ8o/drPNEnGrUxzqNnL5GKFHJv7RRPci8D647OI3geVBsFFyrEql1hS6Tj0qlblC39ym5VNLIf9MraTQ3KH7F9EQXAhPvTRcucDL4ugbpE6j4b47I4l/2seH4WfKEKMQWh+2uzx0swto4SuZrnzyO2EJxWTnIVaUu3czwwFdsU+m66i2MQXC35wW5faIDTxDBeTcbbDJobF5NyOuW40Y115DWoPf2Aj2EbNQiAEMYpxBJ9uJ7RYjtDx2Dd3zNvArvir+Cd21POga1HOe3Jup+UnJoLvaQbhcGTN+ilLtD35J+hlv21iu4sM=
+  app: shriming
+  on:
+    repo: shriming/chat
