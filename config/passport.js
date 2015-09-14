@@ -66,7 +66,8 @@ module.exports.passport = {
         options : {
             clientID : process.env.SLACK_CLIENT,
             clientSecret : process.env.SLACK_SECRET,
-            scope : 'identify,client'
+            callbackURL : process.env.SLACK_REDIRECT,
+            scope : process.env.SLACK_SCOPE
         }
     },
 

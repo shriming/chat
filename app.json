@@ -9,6 +9,12 @@
     "SLACK_SECRET":{
       "required":true
     },
+    "SLACK_REDIRECT":{
+      "required":true
+    },
+    "SLACK_SCOPE":{
+      "required":true
+    },
     "YENV":{
       "required":true
     }
