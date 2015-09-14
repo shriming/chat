@@ -1,14 +1,15 @@
 {
-    "author": "alexbaumgertner@yandex.ru",
-    "name": "sails-bem-project-stub",
-    "email": "alexbaumgertner@yandex.ru",
-    "version": "1.0.0",
-    "ignore": [
-        "views/.enb/tmp",
-        "node_modules",
-        "frontend/libs"
-    ],
-    "dependencies": {
-        "bem-components": "^2.2.1"
-    }
+  "author": "alexbaumgertner@yandex.ru",
+  "name": "sails-bem-project-stub",
+  "email": "alexbaumgertner@yandex.ru",
+  "version": "1.0.0",
+  "ignore": [
+    "views/.enb/tmp",
+    "node_modules",
+    "frontend/libs"
+  ],
+  "dependencies": {
+    "bem-components": "^2.2.1",
+    "bem-core": "~2.7.0"
+  }
 }
