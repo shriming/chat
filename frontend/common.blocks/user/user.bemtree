@@ -1,7 +1,7 @@
 block('user')(
     def()(function () {
-        var user = this.ctx.data.req.session.User || {},
-            content = [];
+        var user = this.ctx.data.req.session.User || {};
+        var content = [];
 
         if(user.email) {
             content.push({

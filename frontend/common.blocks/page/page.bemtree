@@ -1,7 +1,7 @@
 match(this.ctx.data)
     .def()(function () {
-    var data = this.ctx.data,
-        options = data.req.options;
+    var data = this.ctx.data;
+    var options = data.req.options;
 
     return applyCtx({
         block : 'page',
@@ -52,11 +52,14 @@ match(this.ctx.data)
                         content : 'FEED block here!'
                     },
                     {
-                        content : "FOOTER!"
+                        content : 'FOOTER is fuck!!!'
                     }
                 ]
             },
-            { elem : 'js', url : '/static/js/_merged.js' }
+            { elem : 'js', url : '/static/js/_merged.js' },
+            { elem : 'js',
+              url : 'http://localhost:3000/browser-sync/browser-sync-client.2.9.3.js',
+            }
         ]
     });
 });

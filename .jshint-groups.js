@@ -102,8 +102,8 @@ module.exports = {
             },
             includes : ['**/.bem/**/*.js'],
             excludes : [
-                '.bem/cache/**',
-                'libs/**',
+                'frontend/.bem/cache/**',
+                'frontend/libs/**',
                 'node_modules/**'
             ]
         }

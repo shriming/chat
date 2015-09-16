@@ -11,8 +11,8 @@ block('form')(
     ),
     content()(function () {
         // TODO: rewrite
-        var req = this.ctx.data.req,
-            res = req.res;
+        var req = this.ctx.data.req;
+        var res = req.res;
 
         return [
             {

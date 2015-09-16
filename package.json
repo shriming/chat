@@ -53,13 +53,16 @@
     "ym": "^0.1.0"
   },
   "devDependencies": {
+    "csscomb": "^3.1.8",
     "faker": "^2.1.2",
     "git-hooks": "^1.0.0",
     "grunt": "^0.4.5",
+    "gulp-jshint": "^1.11.2",
     "jscs": "^1.11.2",
     "jscs-bem": "^0.2.0",
     "jshint": "2.6.0",
-    "jshint-groups": "0.7.0"
+    "jshint-groups": "^0.8.0",
+    "jshint-stylish": "^2.0.1"
   },
   "scripts": {
     "test": "",
@@ -72,7 +75,8 @@
     "views-compile": "./node_modules/.bin/enb make -d frontend --no-cache",
     "copy-views": "npm run copy-css && npm run copy-js",
     "copy-css": "cp frontend/desktop.bundles/merged/_merged.css frontend/static/css/",
-    "copy-js": "cp frontend/desktop.bundles/merged/_merged.js frontend/static/js/"
+    "copy-js": "cp frontend/desktop.bundles/merged/_merged.js frontend/static/js/",
+    "lint": "jshint-groups && jscs . && csscomb -vl ."
   },
   "main": "app.js",
   "repository": {

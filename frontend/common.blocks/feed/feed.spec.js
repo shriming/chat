@@ -4,7 +4,9 @@ modules.define(
     function (provide, Feed, BEMDOM) {
 
         describe('feed', function () {
-            var feed, feedDomElem, feedParentDomElem;
+            var feed;
+            var feedDomElem;
+            var feedParentDomElem;
 
             beforeEach(function () {
                 feedParentDomElem = $(BEMHTML.apply({ tag : 'div' })).appendTo('body');

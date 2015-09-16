@@ -23,9 +23,9 @@ var validator = require('validator');
  * @param {Function} next
  */
 exports.register = function (req, res, next) {
-    var email = req.param('email'),
-        username = req.param('username'),
-        password = req.param('password');
+    var email = req.param('email');
+    var username = req.param('username');
+    var password = req.param('password');
 
     if(!email) {
         req.flash('error', 'Error.Passport.Email.Missing');
@@ -90,8 +90,8 @@ exports.register = function (req, res, next) {
  * @param {Function} next
  */
 exports.connect = function (req, res, next) {
-    var user = req.user,
-        password = req.param('password');
+    var user = req.user;
+    var password = req.param('password');
 
     Passport.findOne({
         protocol : 'local',
@@ -128,8 +128,8 @@ exports.connect = function (req, res, next) {
  * @param {Function} next
  */
 exports.login = function (req, identifier, password, next) {
-    var isEmail = validator.isEmail(identifier),
-        query = {};
+    var isEmail = validator.isEmail(identifier);
+    var query = {};
 
     if(isEmail) {
         query.email = identifier;
