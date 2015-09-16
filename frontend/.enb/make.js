@@ -192,6 +192,7 @@ function getLevels(config) {
         { path : 'libs/bem-components/desktop.blocks', check : false },
         { path : 'libs/bem-components/design/common.blocks', check : false },
         { path : 'libs/bem-components/design/desktop.blocks', check : false },
+        'libs.blocks',
         'common.blocks',
         'desktop.blocks'
     ]

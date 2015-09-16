@@ -1,6 +1,8 @@
 block('image')(
     // image in local dir
-    match(function () { return this.ctx.url && this.ctx.url.split('/')[0].indexOf('http') < 0; })(
+    match(function () {
+        return this.ctx.url && this.ctx.url.split('/')[0].indexOf('http') < 0;
+    })(
         attrs()(function () {
             return this.extend(applyNext(),
                 {
