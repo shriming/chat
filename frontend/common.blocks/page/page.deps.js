@@ -1,6 +1,7 @@
 (
 {
     shouldDeps : [
+        { block : 'api' },
         { block : 'controller' },
         { block : 'clearfix' },
         { block : 'head' },

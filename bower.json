@@ -10,6 +10,7 @@
   ],
   "dependencies": {
     "bem-components": "^2.2.1",
-    "bem-core": "~2.7.0"
+    "bem-core": "~2.7.0",
+    "sails.io.js": "~0.11.6"
   }
 }

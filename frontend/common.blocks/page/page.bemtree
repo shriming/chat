@@ -5,6 +5,7 @@ match(this.ctx.data)
 
     return applyCtx({
         block : 'page',
+        mix : [{ block : 'libs' }],
         head : [{ elem : 'css', url : '/static/css/_merged.css' }],
         title : data.title,
         content : [
@@ -38,19 +39,24 @@ match(this.ctx.data)
                 ]
             },
             {
-                block : 'controller',
-                elem : options.controller,
-                mods : { action : options.action },
-                data : data
-            },
-            {
-                block : 'footer',
+                block : 'content',
                 content : [
+                    {
+                        block : 'controller',
+                        elem : options.controller,
+                        mods : { action : options.action },
+                        data : data
+                    },
                     {
                         block : 'feed',
                         js : true,
                         content : 'FEED block here!'
-                    },
+                    }
+                ]
+            },
+            {
+                block : 'footer',
+                content : [
                     {
                         content : 'FOOTER is fuck!!!'
                     }
