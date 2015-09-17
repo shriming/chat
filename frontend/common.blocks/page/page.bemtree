@@ -48,9 +48,22 @@ match(this.ctx.data)
                         data : data
                     },
                     {
-                        block : 'feed',
-                        js : true,
-                        content : 'FEED block here!'
+                        block: 'main',
+                        content: [
+                            {
+                                block : 'feed',
+                                js : true,
+                                content : [
+                                    {
+                                        elem: 'content',
+                                        content: 'FEED block here!'
+                                    }
+                                ]
+                            },
+                            {
+                                block: 'input'
+                            }
+                        ]
                     }
                 ]
             },
@@ -58,13 +71,13 @@ match(this.ctx.data)
                 block : 'footer',
                 content : [
                     {
-                        content : 'FOOTER is fuck!!!'
+                        content : 'FOOTER'
                     }
                 ]
             },
             { elem : 'js', url : '/static/js/_merged.js' },
             { elem : 'js',
-              url : 'http://localhost:3000/browser-sync/browser-sync-client.2.9.3.js',
+              url : 'http://localhost:3000/browser-sync/browser-sync-client.2.9.3.js'
             }
         ]
     });
