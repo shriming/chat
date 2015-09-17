@@ -1,0 +1,29 @@
+.scrollbox{
+	position: relative;
+	background: #eee;
+	overflow: hidden;
+}
+.scrollbox .scrollbox__tape{
+	box-sizing: border-box;
+	height: inherit;
+}
+.scrollbox .scrollbox__bar{
+	opacity: 0;
+	transition: opacity.2s ease;
+	border-radius: 2px;
+	box-sizing: border-box;
+	position: absolute;
+	right: 0;
+	width: 3px;
+	background: rgba(0,0,0,.1);
+	top:0;
+	bottom: 0;
+	margin: 3px;
+}
+.scrollbox .scrollbox__bar span{
+	position: absolute;
+	border-radius: 2px;
+	display: block;
+	width: 100%;
+	background: rgba(0,0,0,.5);
+}
