@@ -3,6 +3,7 @@
     "preset": "bem",
     "disallowMultipleVarDecl": true,
     "requireMultipleVarDecl" : null,
+    "requireSemicolons": true,
 
     "excludeFiles": [
         "frontend/.bem/cache/**",

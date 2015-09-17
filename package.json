@@ -65,7 +65,7 @@
     "jshint-stylish": "^2.0.1"
   },
   "scripts": {
-    "test": "",
+    "test": "npm run lint",
     "postinstall": "./node_modules/bower/bin/bower install",
     "start": "npm run deps",
     "debug": "node debug app.js",

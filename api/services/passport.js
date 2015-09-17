@@ -1,3 +1,5 @@
+/*global Passport,User,sails,_ */
+
 var path = require('path');
 var url = require('url');
 var passport = require('passport');
@@ -128,7 +130,7 @@ passport.connect = function (req, query, profile, next) {
 
                     query.user = user.id;
 
-                    Passport.create(query, function (err, passport) {
+                    Passport.create(query, function (err) {
                         // If a passport wasn't created, bail out
                         if(err) {
                             return next(err);
@@ -163,7 +165,7 @@ passport.connect = function (req, query, profile, next) {
             if(!passport) {
                 query.user = req.user.id;
 
-                Passport.create(query, function (err, passport) {
+                Passport.create(query, function (err) {
                     // If a passport wasn't created, bail out
                     if(err) {
                         return next(err);
@@ -359,7 +361,7 @@ passport.disconnect = function (req, res, next) {
             return next(err);
         }
 
-        Passport.destroy(passport.id, function (error) {
+        Passport.destroy(passport.id, function (err) {
             if(err) {
                 return next(err);
             }

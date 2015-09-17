@@ -11,7 +11,7 @@ modules.define(
                 }
             },
             renderHtml : function () {
-                return '5'
+                return '5';
             }
         }));
     }

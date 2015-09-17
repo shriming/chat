@@ -9,10 +9,9 @@
 
 module.exports = function unauthorized() {
 
-    // Get access to `req`, `res`, & `sails`
+    // Get access to `req`, `res`
     var req = this.req;
     var res = this.res;
-    var sails = req._sails;
 
     // Set status code
     res.status(401);

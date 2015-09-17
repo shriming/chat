@@ -1,3 +1,5 @@
+/*global Product,sails */
+
 /**
  * ProductController
  *
@@ -21,7 +23,7 @@ module.exports = {
                         image : 'image',
                         price : 'price'
                     }
-                ]
+                ];
             }
 
             res.render({ data : { products : products } });
@@ -101,7 +103,7 @@ module.exports = {
 
                 console.log('productData.image: ', productData.image);
 
-                Product.update(req.param('id'), productData, function (err, product) {
+                Product.update(req.param('id'), productData, function (err) {
                     if(err) {
                         res.redirect('/product/' + req.param('id') + '/edit');
                     }
@@ -119,12 +121,12 @@ module.exports = {
     'delete' : function (req, res, next) {
         var productId = req.param('id');
 
-        Product.findOne({ id : productId }, function (err, product) {
+        Product.delete({ id : productId }, function (err) {
+            if(err) {
+                next(err);
+            }
 
-            Product.delete({ id : productId }, function (err) {
-                next();
-            });
-
+            next();
         });
     }
 };

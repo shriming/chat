@@ -27,13 +27,13 @@ module.exports = {
             },
             includes : ['*.blocks/**/*.js'],
             excludes : [
-                '**/*.i18n/*.js',
-                '**/*.bem/*.js',
-                '**/_*.js',
-                '**/*.bh.js',
-                '**/*.spec.js',
-                '**/*.deps.js',
-                '**/*.bemjson.js'
+                'frontend/**/*.i18n/*.js',
+                'frontend/**/*.bem/*.js',
+                'frontend/**/_*.js',
+                'frontend/**/*.bh.js',
+                'frontend/**/*.spec.js',
+                'frontend/**/*.deps.js',
+                'frontend/**/*.bemjson.js'
             ]
         },
 
@@ -51,7 +51,7 @@ module.exports = {
                     'afterEach'
                 ]
             },
-            includes : ['*.blocks/**/*.spec.js']
+            includes : ['frontend/*.blocks/**/*.spec.js']
         },
 
         bemhtml : {
@@ -76,7 +76,7 @@ module.exports = {
                     'tag'
                 ]
             },
-            includes : ['*.blocks/**/*.bemhtml']
+            includes : ['frontend/*.blocks/**/*.bemhtml']
         },
 
         bhjs : {
@@ -84,8 +84,8 @@ module.exports = {
                 node : true
             },
             includes : [
-                '*.blocks/**/*.bh.js',
-                'design/*.blocks/**/*.bh.js'
+                'frontend/*.blocks/**/*.bh.js',
+                'frontend/design/*.blocks/**/*.bh.js'
             ]
         },
 
@@ -98,9 +98,13 @@ module.exports = {
 
         nodejs : {
             options : {
-                node : true
+                node : true,
             },
-            includes : ['**/.bem/**/*.js'],
+            includes : [
+                'frontend/**/.bem/**/*.js',
+                'api/**/*.js',
+                'config/**/*.js'
+            ],
             excludes : [
                 'frontend/.bem/cache/**',
                 'frontend/libs/**',

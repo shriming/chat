@@ -1,3 +1,5 @@
+/*global User,Passport */
+
 var validator = require('validator');
 
 /**
@@ -62,7 +64,7 @@ exports.register = function (req, res, next) {
             protocol : 'local',
             password : password,
             user : user.id
-        }, function (err, passport) {
+        }, function (err) {
             if(err) {
                 if(err.code === 'E_VALIDATION') {
                     req.flash('error', 'Error.Passport.Password.Invalid');
@@ -106,7 +108,7 @@ exports.connect = function (req, res, next) {
                 protocol : 'local',
                 password : password,
                 user : user.id
-            }, function (err, passport) {
+            }, function (err) {
                 next(err, user);
             });
         } else {

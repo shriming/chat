@@ -1,3 +1,5 @@
+/*global User */
+
 /**
  * UserController
  *
@@ -15,7 +17,7 @@ module.exports = {
             }
 
             if(!user) {
-                res.notFound()
+                res.notFound();
             } else {
                 res.render({ data : { user : user } });
             }
@@ -37,11 +39,9 @@ module.exports = {
         var data = req.params.all();
 
         // TODO: refactor
-        data.isAdmin = (
-                           req.session.User.isAdmin) && (
-                       data.isAdmin === 'yes');
+        data.isAdmin = (req.session.User.isAdmin) && (data.isAdmin === 'yes');
 
-        User.update(req.param('id'), data, function (err, user) {
+        User.update(req.param('id'), data, function (err) {
             if(err) {
                 next(err);
             }

@@ -1,7 +1,7 @@
 modules.define(
     'spec',
-    ['feed', 'i-bem__dom'],
-    function (provide, Feed, BEMDOM) {
+    ['feed', 'i-bem__dom', 'jquery', 'BEMHTML'],
+    function (provide, Feed, BEMDOM, $, BEMHTML) {
 
         describe('feed', function () {
             var feed;

@@ -3,4 +3,4 @@
     mustDeps : [
         { block : 'variables' }
     ]
-})
+});
