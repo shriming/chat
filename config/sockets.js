@@ -21,7 +21,7 @@ module.exports.sockets = {
     afterDisconnect : function (session, socket) {
 
         // By default: do nothing.
-    }
+    },
 
     /***************************************************************************
      *                                                                          *
