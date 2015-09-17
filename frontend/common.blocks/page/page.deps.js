@@ -6,6 +6,7 @@
         { block : 'clearfix' },
         { block : 'head' },
         { block : 'menu' },
+        { block : 'input' },
         { block : 'feed' },
         { block : 'content' },
         { block : 'footer' },
