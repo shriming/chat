@@ -17,9 +17,11 @@ modules.define('scrollbox', ['i-bem__dom'], function(provide, BEMDOM) {
 					    outer.parentNode.removeChild(outer);
 					    return widthNoScroll - widthWithScroll;
 					}
+
 					_ScrollbarWidth = getScrollbarWidth();
 					this._onScroll.apply(this.elem('tape')[0]);
 					this.elem('tape').on('scroll', this._onScroll);
+
 					window.addEventListener('resize', function(t){ return function(){
 						t._onScroll.apply(t.elem('tape')[0]);
 					}}(this));
@@ -38,14 +40,11 @@ modules.define('scrollbox', ['i-bem__dom'], function(provide, BEMDOM) {
 			scrollHeight = this.offsetHeight / this.scrollHeight * scrollbox.offsetHeight;
 			scrollTop = this.scrollTop / (this.scrollHeight - this.offsetHeight) * (scrollbox.offsetHeight - scrollHeight);
 
-
 			btn.style.top = scrollTop+'px';
 			btn.style.height = scrollHeight+'px';
 		}
-    },
-    {
-
-    }
-));
-
+	},{
+		
+	}
+	));
 });
