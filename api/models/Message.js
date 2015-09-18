@@ -11,7 +11,7 @@ module.exports = {
     schema : true,
 
     attributes : {
-        id : { type : 'integer', autoIncrement: true, unique : true, primaryKey : true },
+        id : { type : 'integer', autoIncrement : true, unique : true, primaryKey : true },
         text : { type : 'string' },
         author : { type : 'string' },
         createdAt : { type : 'datetime' },

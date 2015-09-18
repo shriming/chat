@@ -43,16 +43,6 @@ gulp.task('run-app', shell.task([
     'node app.js --prod'
 ]));
 
-gulp.task('js-lint', shell.task([
-    'jshint-groups && jscs .'
-]));
-
-gulp.task('css-lint', shell.task([
-    'csscomb -vl .'
-]));
-
-gulp.task('lint', ['js-lint', 'css-lint']);
-
 gulp.task('copy-images', function () {
     gulp.src([
         'frontend/**/*.{png,jpg,gif}',

@@ -78,7 +78,7 @@
     "copy-views": "npm run copy-css && npm run copy-js",
     "copy-css": "cp frontend/desktop.bundles/merged/_merged.css frontend/static/css/",
     "copy-js": "cp frontend/desktop.bundles/merged/_merged.js frontend/static/js/",
-    "lint": "jshint-groups && jscs . && csscomb -vl ."
+    "lint": "jshint-groups && jscs ."
   },
   "main": "app.js",
   "repository": {
