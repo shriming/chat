@@ -3,4 +3,4 @@
         { block : 'socket-io' }
     ],
     shouldDeps : []
-})
+});

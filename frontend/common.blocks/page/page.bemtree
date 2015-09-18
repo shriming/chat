@@ -48,20 +48,20 @@ match(this.ctx.data)
                         data : data
                     },
                     {
-                        block: 'main',
-                        content: [
+                        block : 'main',
+                        content : [
                             {
                                 block : 'feed',
                                 js : true,
                                 content : [
                                     {
-                                        elem: 'content',
-                                        content: 'FEED block here!'
+                                        elem : 'content',
+                                        content : 'FEED block here!'
                                     }
                                 ]
                             },
                             {
-                                block: 'input'
+                                block : 'input'
                             }
                         ]
                     }

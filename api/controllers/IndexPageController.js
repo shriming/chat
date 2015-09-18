@@ -1,4 +1,4 @@
-/*global Passport */
+/*global Passport,sails */
 
 /**
  * IndexPageController

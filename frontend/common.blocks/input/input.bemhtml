@@ -6,14 +6,14 @@ block('input')(
             return [
                 {
                     block : 'textarea',
-                    mods : { theme : 'islands', size : 'm', focused : true, name: 'msg' },
+                    mods : { theme : 'islands', size : 'm', focused : true, name : 'msg' },
                     placeholder : 'Ваш текст должен быть здесь'
                 },
                 {
                     tag : 'input',
                     attrs : { type : 'submit' }
                 }
-            ]
+            ];
         }
     )
 );

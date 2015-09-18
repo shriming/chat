@@ -17,7 +17,6 @@ gulp.task('start-dev', function (cb) {
     return nodemon({
         script : 'app.js',
         watch : ['./config', './api'],
-        tasks : ['js-lint'],
         env : { 'NODE_ENV' : 'development' }
     })
     .on('start', function onStart() {
@@ -95,13 +94,13 @@ gulp.task('watch', function () {
     gulp.watch(['frontend/**/*.{css,stylus}',
                 '!frontend/static/**/*',
                 '!frontend/*.bundles/**/*'], function () {
-        runSequence('css-lint', 'enb-no-cache', 'copy-css', 'browser-reload');
+        runSequence('enb-no-cache', 'copy-css', 'browser-reload');
     });
 
     gulp.watch(['frontend/**/*.js',
                 '!frontend/static/**/*',
                 '!frontend/*.bundles/**/*'], function () {
-        runSequence('js-lint', 'enb-no-cache', 'copy-js', 'browser-reload');
+        runSequence('enb-no-cache', 'copy-js', 'browser-reload');
     });
 });
 
@@ -136,5 +135,5 @@ gulp.task('browser-reload', function () {
 });
 
 gulp.task('default', function () {
-    runSequence('lint', 'enb-no-cache', 'copy-files', 'browser-sync', 'watch');
+    runSequence('enb-no-cache', 'copy-files', 'browser-sync', 'watch');
 });

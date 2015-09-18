@@ -18,7 +18,7 @@
         "**/*.i18n/**",
         "libs/**",
         "frontend/static/**",
-        "node_modules/**"
+        "node_modules/**",
         "frontend/*.docs/**",
         "frontend/*.examples/**",
         "frontend/*.specs/**",

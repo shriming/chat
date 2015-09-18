@@ -6,10 +6,10 @@
  */
 
 module.exports = {
-    _config: {
-        actions: true,
-        shortcuts: true,
-        rest: true
+    _config : {
+        actions : true,
+        shortcuts : true,
+        rest : true
     }
 };
 

@@ -30,7 +30,7 @@ gulp.task('start-dev', function (cb) {
             './frontend/*.bundles/**/*.js',
             './frontend/static/**/*.json'
         ],
-        delay: '100ms',
+        delay : '100ms',
         /*
          * If you need to run some gulp tasks before nodemon restart your app,
          * you can add tasks as follows.
@@ -48,7 +48,7 @@ gulp.task('start-dev', function (cb) {
 //
 //            return tasks
 //        },
-        ext : "js,json,bemtree,bemhtml",
+        ext : 'js,json,bemtree,bemhtml',
         env : { 'NODE_ENV' : 'development' }
     })
         .on('start', function onStart() {
