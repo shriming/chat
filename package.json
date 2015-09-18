@@ -51,6 +51,7 @@
     "validator": "^3.22.1",
     "vow": "^0.4.5",
     "yargs": "^3.25.0",
+    "nodemon": "^1.5.1",
     "ym": "^0.1.0"
   },
   "devDependencies": {
@@ -63,8 +64,7 @@
     "jscs-bem": "^0.2.0",
     "jshint": "2.6.0",
     "jshint-groups": "^0.8.0",
-    "jshint-stylish": "^2.0.1",
-    "nodemon": "^1.5.1"
+    "jshint-stylish": "^2.0.1"
   },
   "scripts": {
     "test": "",
