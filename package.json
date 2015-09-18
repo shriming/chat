@@ -67,7 +67,7 @@
     "nodemon": "^1.5.1"
   },
   "scripts": {
-    "test": "npm run lint",
+    "test": "",
     "postinstall": "./node_modules/bower/bin/bower install",
     "start": "npm run deps",
     "debug": "node debug app.js",
