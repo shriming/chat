@@ -1,0 +1,6 @@
+block('dialog').elem('history')(
+    content()(function () {
+            return "Dialog HISTORY!!!"
+        }
+    )
+);

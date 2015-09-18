@@ -90,7 +90,7 @@ gulp.task('watch', function () {
         runSequence('enb-no-cache', 'copy-js', 'nodemon-restart');
     });
 
-    gulp.watch(['frontend/**/*.{css,stylus}',
+    gulp.watch(['frontend/**/*.{css,styl}',
                 '!frontend/static/**/*',
                 '!frontend/*.bundles/**/*'], function () {
         runSequence('enb-no-cache', 'copy-css', 'browser-reload');
