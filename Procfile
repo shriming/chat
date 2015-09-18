@@ -1,1 +1,1 @@
-web: npm run make-views && node app.js
+web: node app.js

@@ -196,8 +196,7 @@ function getLevels(config) {
         'libs.blocks',
         'common.blocks',
         'chat.blocks',
-        'desktop.blocks',
-        'design.blocks'
+        'desktop.blocks'
     ]
         .map(function (level) {
             return config.resolvePath(level);
