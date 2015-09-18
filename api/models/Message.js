@@ -5,7 +5,9 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
-    // User model
+/*global sails*/
+
+// User model
 module.exports = {
     // Enforce model schema in the case of schemaless databases
     schema : true,
@@ -16,6 +18,9 @@ module.exports = {
         author : { type : 'string' },
         createdAt : { type : 'datetime' },
         updatedAt : { type : 'datetime' }
+    },
+    afterCreate : function (newlyInsertedRecord) {
+        sails.sockets.blast('newMessage', newlyInsertedRecord);
     }
 };
 

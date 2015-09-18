@@ -11,24 +11,13 @@ modules.define(
                         io.socket.get('/message', function () {
                             console.log('/message/find/1 response123: ', arguments);
                         });
-                        io.socket.on('newUserConnected', function (msg) {
-                            console.log('newUserConnected msg: ', msg);
-                            BEMDOM.update(_this.findElem('content'),
+                        io.socket.on('newMessage', function (msgObj) {
+                            console.log('newMessage msgObj: ', msgObj);
+                            BEMDOM.append(_this.domElem,
                                 BEMHTML.apply([
                                     {
-                                        block : 'response',
-                                        content : msg
-                                    }
-                                ])
-                            );
-                        });
-                        io.socket.on('newUserLoggedIn', function (name) {
-                            console.log('newUserLoggedIn name: ', name);
-                            BEMDOM.append(_this.findElem('content'),
-                                BEMHTML.apply([
-                                    {
-                                        block : 'response',
-                                        content : name + ' joined to a chat.'
+                                        block : 'message',
+                                        content : msgObj.text
                                     }
                                 ])
                             );

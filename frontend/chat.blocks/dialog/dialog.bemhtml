@@ -1,0 +1,17 @@
+block('dialog')(
+    content()(
+        function () {
+            return [
+                {
+                    elem : 'header'
+                },
+                {
+                    elem : 'history'
+                },
+                {
+                    elem : 'console'
+                }
+            ]
+        }
+    )
+);

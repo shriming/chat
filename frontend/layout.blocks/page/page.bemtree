@@ -33,18 +33,7 @@ match(this.ctx.data)
                         ]
                     },
                     {
-                        block : 'dialog',
-                        content : [
-                            {
-                                elem : 'header'
-                            },
-                            {
-                                elem : 'history'
-                            },
-                            {
-                                elem : 'console'
-                            }
-                        ]
+                        block : 'dialog'
                     },
                     {
                         block : 'sidebar',
