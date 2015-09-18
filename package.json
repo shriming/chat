@@ -26,7 +26,6 @@
     "gm": "^1.17.0",
     "gulp": "^3.9.0",
     "gulp-flatten": "^0.2.0",
-    "gulp-nodemon": "^2.0.4",
     "gulp-replace-path": "^0.4.0",
     "gulp-shell": "^0.4.3",
     "html": "0.0.7",
@@ -64,7 +63,8 @@
     "jscs-bem": "^0.2.0",
     "jshint": "2.6.0",
     "jshint-groups": "^0.8.0",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "nodemon": "^1.5.1"
   },
   "scripts": {
     "test": "npm run lint",

@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var shell = require('gulp-shell');
 var path = require('path');
-var nodemon = require('gulp-nodemon');
+var nodemon = require('nodemon');
 var replace = require('gulp-replace-path');
 var flatten = require('gulp-flatten');
 var runSequence = require('run-sequence');
@@ -11,27 +11,20 @@ gulp.task('beforeNodemonRestart', function () {
     console.log('Nodemon is going to restart');
 });
 
-gulp.task('start-dev', function (cb) {
+gulp.task('start-dev', function () {
     var called = false;
 
-    return nodemon({
+    nodemon({
         script : 'app.js',
         watch : ['./config', './api'],
         env : { 'NODE_ENV' : 'development' }
-    })
-    .on('start', function onStart() {
-        if(!called) {
-          cb();
-        }
-
-        called = true;
     })
     .on('restart', function (changedFiles) {
         setTimeout(function reload() {
             browserSync.reload({
                 stream : false
             });
-        }, 500);
+        }, 5000);
     });
 });
 
@@ -42,6 +35,10 @@ gulp.task('start-pro', function () {
 gulp.task('run-app', shell.task([
     'node app.js --prod'
 ]));
+
+gulp.task('nodemon-restart', function () {
+    nodemon.emit('restart');
+});
 
 gulp.task('copy-images', function () {
     gulp.src([
@@ -81,6 +78,18 @@ gulp.task('watch', function () {
         runSequence('copy-images', 'browser-reload');
     });
 
+    gulp.watch(['frontend/**/*.bemhtml',
+                '!frontend/static/**/*',
+                '!frontend/*.bundles/**/*'], function () {
+        runSequence('enb-no-cache', 'copy-js', 'nodemon-restart');
+    });
+
+    gulp.watch(['frontend/**/*.bemtree',
+                '!frontend/static/**/*',
+                '!frontend/*.bundles/**/*'], function () {
+        runSequence('enb-no-cache', 'copy-js', 'nodemon-restart');
+    });
+
     gulp.watch(['frontend/**/*.{css,stylus}',
                 '!frontend/static/**/*',
                 '!frontend/*.bundles/**/*'], function () {
@@ -102,10 +111,9 @@ gulp.task('enb-cached', shell.task([
     './node_modules/.bin/enb make -d frontend'
 ]));
 
-gulp.task('browser-sync', ['start-dev'], function () {
+gulp.task('browser-sync', function () {
     var options = {
             notify : true,
-            browser : ['google chrome'],
             ghostMode : false,
             injectChanges : true,
             logLevel : 'debug',
@@ -125,5 +133,5 @@ gulp.task('browser-reload', function () {
 });
 
 gulp.task('default', function () {
-    runSequence('enb-no-cache', 'copy-files', 'browser-sync', 'watch');
+    runSequence('enb-no-cache', 'copy-files', 'start-dev', 'browser-sync', 'watch');
 });
