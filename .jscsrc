@@ -15,6 +15,11 @@
         "beforeOpeningCurlyBrace": true
     },
 
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+
     "excludeFiles": [
         "frontend/.bem/cache/**",
         "frontend/.enb/**",
