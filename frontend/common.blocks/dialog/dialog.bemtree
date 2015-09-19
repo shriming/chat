@@ -12,7 +12,7 @@ block('dialog').def()(function () {
             },
             {
                 elem : 'console',
-                data: data
+                data : data
             }
         ]
     });

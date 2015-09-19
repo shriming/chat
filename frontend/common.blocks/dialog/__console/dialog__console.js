@@ -1,7 +1,7 @@
 modules.define(
     'dialog__console',
-    ['i-bem__dom', 'socket-io', 'keyboard__codes'],
-    function (provide, BEMDOM, io, keyCodes) {
+    ['i-bem__dom', 'socket-io', 'keyboard__codes', 'jquery'],
+    function (provide, BEMDOM, io, keyCodes, $) {
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
@@ -20,13 +20,18 @@ modules.define(
                 }
             },
             _sendMessage : function (message) {
+                var _this = this;
                 console.log('message : ', message);
-                io.socket.post('/slack/chat.postMessage', {
-                    text : message,
-                    channel : 'C0AHSF11V',
-                    username : this.params.username
-                }, function (data, jwres) {
-                    console.log('postMessage args: ', arguments);
+                $.get('/csrfToken').success(function (data) {
+                    var csrfToken = data._csrf;
+                    io.socket.post('/slack/chat.postMessage', {
+                        text : message,
+                        channel : 'C0AHSF11V',
+                        username : _this.params.username,
+                        _csrf : csrfToken
+                    }, function (data, jwres) {
+                        console.log('postMessage args: ', arguments);
+                    });
                 });
             }
         }));

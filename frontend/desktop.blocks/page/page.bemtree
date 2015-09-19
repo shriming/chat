@@ -1,7 +1,7 @@
 match(this.ctx.data)
     .def()(function () {
     var data = this.ctx.data;
-    var options = data.req ? data.req.options : {};
+    var options = data.req? data.req.options : {};
 
     return applyCtx({
         block : 'page',
@@ -34,12 +34,11 @@ match(this.ctx.data)
                     },
                     {
                         block : 'dialog',
-                        data: data.username
+                        data : data.username
                     },
                     {
                         block : 'sidebar',
 
-                        content : 'VIDEO HERE!'
                         mods : { right : true },
                         content : [
                             {
