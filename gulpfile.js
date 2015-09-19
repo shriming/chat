@@ -19,13 +19,13 @@ gulp.task('start-dev', function () {
         watch : ['./config', './api'],
         env : { 'NODE_ENV' : 'development' }
     })
-    .on('restart', function (changedFiles) {
-        setTimeout(function reload() {
-            browserSync.reload({
-                stream : false
-            });
-        }, 5000);
-    });
+        .on('restart', function (changedFiles) {
+            setTimeout(function reload() {
+                browserSync.reload({
+                    stream : false
+                });
+            }, 5000);
+        });
 });
 
 gulp.task('start-pro', function () {
@@ -79,26 +79,26 @@ gulp.task('watch', function () {
     });
 
     gulp.watch(['frontend/**/*.bemhtml',
-                '!frontend/static/**/*',
-                '!frontend/*.bundles/**/*'], function () {
+        '!frontend/static/**/*',
+        '!frontend/*.bundles/**/*'], function () {
         runSequence('enb-no-cache', 'copy-js', 'nodemon-restart');
     });
 
     gulp.watch(['frontend/**/*.bemtree',
-                '!frontend/static/**/*',
-                '!frontend/*.bundles/**/*'], function () {
+        '!frontend/static/**/*',
+        '!frontend/*.bundles/**/*'], function () {
         runSequence('enb-no-cache', 'copy-js', 'nodemon-restart');
     });
 
     gulp.watch(['frontend/**/*.{css,styl}',
-                '!frontend/static/**/*',
-                '!frontend/*.bundles/**/*'], function () {
-        runSequence('enb-no-cache', 'copy-css', 'browser-reload');
+        '!frontend/static/**/*',
+        '!frontend/*.bundles/**/*'], function () {
+        runSequence('stylint', 'enb-no-cache', 'copy-css', 'browser-reload');
     });
 
     gulp.watch(['frontend/**/*.js',
-                '!frontend/static/**/*',
-                '!frontend/*.bundles/**/*'], function () {
+        '!frontend/static/**/*',
+        '!frontend/*.bundles/**/*'], function () {
         runSequence('enb-no-cache', 'copy-js', 'browser-reload');
     });
 });
@@ -111,16 +111,23 @@ gulp.task('enb-cached', shell.task([
     './node_modules/.bin/enb make -d frontend'
 ]));
 
+gulp.task('stylint', function () {
+    gulp.src(['frontend/**/*.styl',
+        '!frontend/static/**/*',
+        '!frontend/*.bundles/**/*'])
+        .pipe(stylint({ config : '.stylintrc' }));
+});
+
 gulp.task('browser-sync', function () {
     var options = {
-            notify : true,
-            ghostMode : false,
-            injectChanges : true,
-            logLevel : 'debug',
-            minify : false,
-            codeSync : true,
-            port : 8090
-        };
+        notify : true,
+        ghostMode : false,
+        injectChanges : true,
+        logLevel : 'debug',
+        minify : false,
+        codeSync : true,
+        port : 8090
+    };
 
     browserSync.init(options, function (err, inj) {
         if(err) {
