@@ -1,6 +1,4 @@
 {
-    "plugins": ["jscs-bem"],
-    "preset": "bem",
     "disallowMultipleVarDecl": true,
     "requireMultipleVarDecl" : null,
     "requireSemicolons": true,
