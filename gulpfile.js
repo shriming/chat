@@ -118,7 +118,8 @@ gulp.task('browser-sync', function () {
             injectChanges : true,
             logLevel : 'debug',
             minify : false,
-            codeSync : true
+            codeSync : true,
+            port : 8090
         };
 
     browserSync.init(options, function (err, inj) {

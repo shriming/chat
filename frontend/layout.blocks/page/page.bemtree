@@ -41,7 +41,8 @@ match(this.ctx.data)
                     }
                 ]
             },
-            { elem : 'js', url : '/static/js/_merged.js' }
+            { elem : 'js', url : '/static/js/_merged.js' },
+            { elem : 'js', url : 'http://localhost:8090/browser-sync/browser-sync-client.2.9.3.js'}
         ]
     });
 });
