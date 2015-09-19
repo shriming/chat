@@ -72,10 +72,7 @@
     "jshint-stylish": "^2.0.1"
   },
   "scripts": {
-<<<<<<< HEAD
     "specs": "enb make specs -d frontend",
-=======
->>>>>>> style: настроили общий линт для gulp и для travis
     "test": "gulp lint",
     "postinstall": "./node_modules/bower/bin/bower install",
     "start": "npm run deps",

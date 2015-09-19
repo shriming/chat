@@ -12,13 +12,13 @@ module.exports = {
     /**
      * `IndexPageController.index()`
      */
-    index : function (req, res) {
+    index : function(req, res){
         if(req.session.User) {
             slack.init(req);
 
             Passport.findOne({
                 identifier : req.session.User.id
-            }, function (err, passport) {
+            }, function(err, passport){
                 if(err) {
                     res.send(err);
                 }

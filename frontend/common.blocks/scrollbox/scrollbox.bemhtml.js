@@ -1,6 +1,6 @@
 block('scrollbox')(
   js()(true),
-  content()(function() {
+  content()(function(){
     return [
       {
         elem : 'tape',

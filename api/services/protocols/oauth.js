@@ -19,7 +19,7 @@
  * @param {Object}   profile
  * @param {Function} next
  */
-module.exports = function (req, token, tokenSecret, profile, next) {
+module.exports = function(req, token, tokenSecret, profile, next){
     var query = {
         identifier : profile.id,
         protocol : 'oauth',

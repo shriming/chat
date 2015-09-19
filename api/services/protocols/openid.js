@@ -17,7 +17,7 @@
  * @param {Object}   profile
  * @param {Function} next
  */
-module.exports = function (req, identifier, profile, next) {
+module.exports = function(req, identifier, profile, next){
     var query = {
         identifier : identifier,
         protocol : 'openid'

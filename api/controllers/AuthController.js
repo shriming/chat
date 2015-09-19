@@ -33,12 +33,12 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    login : function (req, res) {
+    login : function(req, res){
         var strategies = sails.config.passport;
         var providers = {};
 
         // Get a list of available providers for using in your templates.
-        Object.keys(strategies).forEach(function (key) {
+        Object.keys(strategies).forEach(function(key){
             if(key === 'local') {
                 return;
             }
@@ -74,7 +74,7 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    logout : function (req, res) {
+    logout : function(req, res){
         req.logout();
         // TODO: Maybe it's not necessary
         req.session.User = res.locals.currentUser = null;
@@ -97,7 +97,7 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    register : function (req, res) {
+    register : function(req, res){
         res.render({ data : { errors : req.flash('error') } });
     },
 
@@ -107,7 +107,7 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    provider : function (req, res) {
+    provider : function(req, res){
         passport.endpoint(req, res);
     },
 
@@ -127,8 +127,8 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    callback : function (req, res) {
-        function tryAgain(err) {
+    callback : function(req, res){
+        function tryAgain(err){
 
             // Only certain error messages are returned via req.flash('error', someError)
             // because we shouldn't expose internal authorization errors to the user.
@@ -159,12 +159,12 @@ var AuthController = {
             }
         }
 
-        passport.callback(req, res, function (err, user) {
+        passport.callback(req, res, function(err, user){
             if(err) {
                 return tryAgain(err);
             }
 
-            req.login(user, function (err) {
+            req.login(user, function(err){
                 if(err) {
                     return tryAgain(err);
                 }
@@ -180,7 +180,7 @@ var AuthController = {
      * @param {Object} req
      * @param {Object} res
      */
-    disconnect : function (req, res) {
+    disconnect : function(req, res){
         passport.disconnect(req, res);
     }
 };

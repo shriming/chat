@@ -6,11 +6,11 @@
 modules.define(
     'socket-io',
     ['loader_type_js', 'socket-io__config'],
-    function (provide, loader, cfg) {
+    function(provide, loader, cfg){
 
         /* global io */
 
-        function doProvide(preserveGlobal) {
+        function doProvide(preserveGlobal){
             /**
              * @exports
              * @type Function

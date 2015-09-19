@@ -1,7 +1,7 @@
 block('controller')
     .elem('product')
     .mod('action', 'show')
-    .def()(function () {
+    .def()(function(){
     return applyCtx({
         block : 'product-card',
         mods : { type : 'show' },

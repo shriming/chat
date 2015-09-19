@@ -24,7 +24,7 @@ var validator = require('validator');
  * @param {Object}   res
  * @param {Function} next
  */
-exports.register = function (req, res, next) {
+exports.register = function(req, res, next){
     var email = req.param('email');
     var username = req.param('username');
     var password = req.param('password');
@@ -47,7 +47,7 @@ exports.register = function (req, res, next) {
     User.create({
         username : username,
         email : email
-    }, function (err, user) {
+    }, function(err, user){
         if(err) {
             if(err.code === 'E_VALIDATION') {
                 if(err.invalidAttributes.email) {
@@ -64,13 +64,13 @@ exports.register = function (req, res, next) {
             protocol : 'local',
             password : password,
             user : user.id
-        }, function (err) {
+        }, function(err){
             if(err) {
                 if(err.code === 'E_VALIDATION') {
                     req.flash('error', 'Error.Passport.Password.Invalid');
                 }
 
-                return user.destroy(function (destroyErr) {
+                return user.destroy(function(destroyErr){
                     next(destroyErr || err);
                 });
             }
@@ -91,14 +91,14 @@ exports.register = function (req, res, next) {
  * @param {Object}   res
  * @param {Function} next
  */
-exports.connect = function (req, res, next) {
+exports.connect = function(req, res, next){
     var user = req.user;
     var password = req.param('password');
 
     Passport.findOne({
         protocol : 'local',
         user : user.id
-    }, function (err, passport) {
+    }, function(err, passport){
         if(err) {
             return next(err);
         }
@@ -108,7 +108,7 @@ exports.connect = function (req, res, next) {
                 protocol : 'local',
                 password : password,
                 user : user.id
-            }, function (err) {
+            }, function(err){
                 next(err, user);
             });
         } else {
@@ -129,7 +129,7 @@ exports.connect = function (req, res, next) {
  * @param {string}   password
  * @param {Function} next
  */
-exports.login = function (req, identifier, password, next) {
+exports.login = function(req, identifier, password, next){
     var isEmail = validator.isEmail(identifier);
     var query = {};
 
@@ -139,7 +139,7 @@ exports.login = function (req, identifier, password, next) {
         query.username = identifier;
     }
 
-    User.findOne(query, function (err, user) {
+    User.findOne(query, function(err, user){
         if(err) {
             return next(err);
         }
@@ -157,9 +157,9 @@ exports.login = function (req, identifier, password, next) {
         Passport.findOne({
             protocol : 'local',
             user : user.id
-        }, function (err, passport) {
+        }, function(err, passport){
             if(passport) {
-                passport.validatePassword(password, function (err, res) {
+                passport.validatePassword(password, function(err, res){
                     if(err) {
                         return next(err);
                     }

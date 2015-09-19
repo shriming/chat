@@ -9,9 +9,9 @@
 
 module.exports = {
 
-    show : function (req, res, next) {
+    show : function(req, res, next){
 
-        User.findOne(req.param('id'), function (err, user) {
+        User.findOne(req.param('id'), function(err, user){
             if(err) {
                 next(err);
             }
@@ -24,8 +24,8 @@ module.exports = {
         });
     },
 
-    edit : function (req, res, next) {
-        User.findOne(req.param('id'), function (err, user) {
+    edit : function(req, res, next){
+        User.findOne(req.param('id'), function(err, user){
             if(err) {
                 next(err);
             }
@@ -34,14 +34,14 @@ module.exports = {
         });
     },
 
-    update : function (req, res, next) {
+    update : function(req, res, next){
 
         var data = req.params.all();
 
         // TODO: refactor
         data.isAdmin = (req.session.User.isAdmin) && (data.isAdmin === 'yes');
 
-        User.update(req.param('id'), data, function (err) {
+        User.update(req.param('id'), data, function(err){
             if(err) {
                 next(err);
             }

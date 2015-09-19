@@ -4,12 +4,12 @@ var Slack = require('slack-node');
 
 var slackApi = {
 
-    init : function (req) {
+    init : function(req){
         var _this = this;
 
         Passport.findOne({
             identifier : req.session.User.id
-        }, function (err, passport) {
+        }, function(err, passport){
             if(err) {
                 console.log(err);
             }
