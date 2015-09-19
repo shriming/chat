@@ -3,13 +3,13 @@ block('scrollbox')(
   content()(function() {
     return [
       {
-        elem: 'tape',
-        content: this.ctx.content
-      },{
-      	elem: 'bar',
-      	content: {
-      		tag: 'span'
-      	}
+        elem : 'tape',
+        content : this.ctx.content
+      }, {
+        elem : 'bar',
+        content : {
+        tag : 'span'
+        }
       }
     ];
   })

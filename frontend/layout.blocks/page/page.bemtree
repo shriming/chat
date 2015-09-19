@@ -37,6 +37,8 @@ match(this.ctx.data)
                     },
                     {
                         block : 'sidebar',
+
+                        content : 'VIDEO HERE!'
                         mods : { right : true },
                         content : [
                             {

@@ -60,6 +60,7 @@
     "git-hooks": "^1.0.0",
     "grunt": "^0.4.5",
     "gulp-jshint": "^1.11.2",
+    "gulp-stylint": "^2.0.0",
     "jscs": "^1.11.2",
     "jscs-bem": "^0.2.0",
     "jshint": "2.6.0",
@@ -67,7 +68,7 @@
     "jshint-stylish": "^2.0.1"
   },
   "scripts": {
-    "test": "",
+    "test": "gulp lint",
     "postinstall": "./node_modules/bower/bin/bower install",
     "start": "npm run deps",
     "debug": "node debug app.js",
@@ -77,8 +78,7 @@
     "views-compile": "./node_modules/.bin/enb make -d frontend --no-cache",
     "copy-views": "npm run copy-css && npm run copy-js",
     "copy-css": "cp frontend/desktop.bundles/merged/_merged.css frontend/static/css/",
-    "copy-js": "cp frontend/desktop.bundles/merged/_merged.js frontend/static/js/",
-    "lint": "jshint-groups && jscs ."
+    "copy-js": "cp frontend/desktop.bundles/merged/_merged.js frontend/static/js/"
   },
   "main": "app.js",
   "repository": {
