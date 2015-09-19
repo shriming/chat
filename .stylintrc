@@ -6,7 +6,7 @@
     "commaSpace": "always",
     "commentSpace": "always",
     "cssLiteral" : false,
-    "depthLimit": 4,
+    "depthLimit": false,
     "duplicates": true,
     "efficient": false,
     "extendPref": false,
@@ -22,5 +22,5 @@
     "sortOrder": false,
     "stackedProperties": "never",
     "valid": true,
-    "zeroUnits": "never",
+    "zeroUnits": "never"
 }

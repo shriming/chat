@@ -6,6 +6,7 @@ var replace = require('gulp-replace-path');
 var flatten = require('gulp-flatten');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
+var stylint = require('gulp-stylint');
 
 gulp.task('beforeNodemonRestart', function () {
     console.log('Nodemon is going to restart');
