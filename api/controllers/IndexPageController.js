@@ -1,4 +1,4 @@
-/*global Passport,sails */
+/*global Passport,sails,slack */
 
 /**
  * IndexPageController
@@ -14,13 +14,15 @@ module.exports = {
      */
     index : function (req, res) {
         if(req.session.User) {
+            slack.init(req);
+
             Passport.findOne({
                 identifier : req.session.User.id
             }, function (err, passport) {
                 if(err) {
                     res.send(err);
                 }
-                sails.sockets.blast('newUserLoggedIn', req.session.User.name);
+
                 res.render({
                     data : {
                         title : 'Welcome to indexPage',
@@ -30,6 +32,7 @@ module.exports = {
             });
         } else {
             sails.sockets.blast('newUserConnected', 'New anonymous user connected to application.');
+
             res.render({
                 data : {
                     title : 'Welcome to indexPage',
