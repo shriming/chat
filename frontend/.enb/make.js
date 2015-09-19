@@ -45,6 +45,23 @@ if(!fs.existsSync('frontend/desktop.bundles/merged')) {
 }
 
 module.exports = function (config) {
+
+    config.includeConfig('enb-bem-specs');
+
+    config.module('enb-bem-specs').createConfigurator('specs').configure({
+        destPath : 'desktop.specs',
+        levels : ['common.blocks', 'desktop.blocks'],
+        sourceLevels : getLevels(config)
+        // depsTech : tech.deps
+    });
+
+    console.log({
+        destPath : 'desktop.specs',
+        levels : ['common.blocks', 'desktop.blocks'],
+        sourceLevels : getLevels(config),
+        // depsTech : tech.deps
+    })
+
     config.nodes('*.bundles/*', function (nodeConfig) {
 
         var addTechs = [
