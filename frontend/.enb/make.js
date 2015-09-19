@@ -48,7 +48,6 @@ module.exports = function (config) {
     config.nodes('*.bundles/*', function (nodeConfig) {
 
         var addTechs = [
-
                 // essential (begin)
                 // config levels
                 [tech.levels, { levels : getLevels(config) }],
@@ -112,8 +111,8 @@ module.exports = function (config) {
                 }
                 ],
                 [tech.prependYm, { source : '?.pre.js' }]
-            ],
-            addTargets = ['?.bemtree.js', '?.bemhtml.js', '_?.css', '_?.js'];
+            ];
+        var addTargets = ['?.bemtree.js', '?.bemhtml.js', '_?.css', '_?.js'];
 
         // TODO: add touch.pad & touch.phone bundles
         if(nodeConfig.getPath() === 'desktop.bundles/merged') {
@@ -193,7 +192,10 @@ function getLevels(config) {
         { path : 'libs/bem-components/desktop.blocks', check : false },
         { path : 'libs/bem-components/design/common.blocks', check : false },
         { path : 'libs/bem-components/design/desktop.blocks', check : false },
+        'layout.blocks',
+        'libs.blocks',
         'common.blocks',
+        'chat.blocks',
         'desktop.blocks'
     ]
         .map(function (level) {

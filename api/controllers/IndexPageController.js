@@ -1,3 +1,5 @@
+/*global Passport,sails */
+
 /**
  * IndexPageController
  *
@@ -18,6 +20,7 @@ module.exports = {
                 if(err) {
                     res.send(err);
                 }
+                sails.sockets.blast('newUserLoggedIn', req.session.User.name);
                 res.render({
                     data : {
                         title : 'Welcome to indexPage',
@@ -26,6 +29,7 @@ module.exports = {
                 });
             });
         } else {
+            sails.sockets.blast('newUserConnected', 'New anonymous user connected to application.');
             res.render({
                 data : {
                     title : 'Welcome to indexPage',

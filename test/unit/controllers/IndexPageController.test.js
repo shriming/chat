@@ -1,3 +1,4 @@
+// jscs:disable
 require("sails-test-helper");
 
 describe("IndexPageController", function() {

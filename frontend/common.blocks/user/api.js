@@ -23,9 +23,9 @@ modules.define('api', ['jquery', 'inherit', 'events__channels', 'vow', 'objects'
                 },
 
                 _ajax : function (url, data, method) {
-                    var _this = this,
-                        defer = vow.defer(),
-                        promise = defer.promise();
+                    var _this = this;
+                    var defer = vow.defer();
+                    var promise = defer.promise();
 
                     $.ajax({
                         dataType : 'jsonp',

@@ -1,3 +1,5 @@
+/*global sails */
+
 /**
  * FileController
  *
@@ -5,9 +7,9 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
-var fs = require('fs'),
-    gm = require('gm').subClass({ imageMagick : true }),
-    path = require('path');
+var fs = require('fs');
+var gm = require('gm').subClass({ imageMagick : true });
+var path = require('path');
 
 module.exports = {
 
@@ -31,21 +33,21 @@ module.exports = {
         }
 
         // Get image's path
-        var uploadDir = sails.config.fileUpload.uploadDir,
-            filePath = path.resolve(uploadDir, req.param('id'));
+        var uploadDir = sails.config.fileUpload.uploadDir;
+        var filePath = path.resolve(uploadDir, req.param('id'));
 
         if(!fs.existsSync(filePath)) {
             return next();
         }
 
-        var filePathWithSize,
+        var filePathWithSize;
 
         // Get required image size
-            height = req.query.h || null,
-            width = req.query.w || null,
+        var height = req.query.h || null;
+        var width = req.query.w || null;
 
         // h_0000_w_0000_
-            sizeNamePart = (
+        var sizeNamePart = (
                                height? (
                            'h_' + height + '_') : '') + (
                                width? 'w_' + width + '_' : '');
@@ -69,8 +71,8 @@ module.exports = {
     },
 
     getStatic : function (req, res, next) {
-        var file = req.param('file'),
-            directory = req.param('directory');
+        var file = req.param('file');
+        var directory = req.param('directory');
 
         // TODO: fix this:
         if(file === 'undefined') {

@@ -1,10 +1,13 @@
 {
     "plugins": ["jscs-bem"],
     "preset": "bem",
+    "disallowMultipleVarDecl": true,
+    "requireMultipleVarDecl" : null,
+    "requireSemicolons": true,
 
     "excludeFiles": [
-        ".bem/cache/**",
-        ".enb/tmp/**",
+        "frontend/.bem/cache/**",
+        "frontend/.enb/**",
         ".git/**",
         "*.docs/**",
         "*.examples/**",
@@ -14,7 +17,21 @@
         "*.pages/**",
         "**/*.i18n/**",
         "libs/**",
-        "node_modules/**"
+        "frontend/static/**",
+        "node_modules/**",
+        "frontend/*.docs/**",
+        "frontend/*.examples/**",
+        "frontend/*.specs/**",
+        "frontend/*.tmpl-specs/**",
+        "frontend/*.tests/**",
+        "frontend/*.pages/**",
+        "frontend/**/*.i18n/**",
+        "frontend/libs/**",
+        "frontend/static/**",
+        "frontend/*.bundles/**",
+        "node_modules/**",
+        "config",
+        "seeds.disable"
     ],
     "fileExtensions": [".js", ".bemtree", ".bemhtml"]
 }

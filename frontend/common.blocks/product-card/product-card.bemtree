@@ -1,8 +1,0 @@
-block('product-card')
-    .def()(function () {
-    return applyCtx({
-        block : 'product-card',
-        mods : this.ctx.mods,
-        data : this.ctx.data
-    });
-});

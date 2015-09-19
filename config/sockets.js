@@ -18,10 +18,10 @@ module.exports.sockets = {
      * disconnects                                                              *
      *                                                                          *
      ***************************************************************************/
-    afterDisconnect : function (session, socket) {
+    // afterDisconnect : function (session, socket) {
 
-        // By default: do nothing.
-    }
+    //     // By default: do nothing.
+    // },
 
     /***************************************************************************
      *                                                                          *
@@ -32,12 +32,13 @@ module.exports.sockets = {
      * flashsockets by adding 'flashsocket' to this list:                       *
      *                                                                          *
      ***************************************************************************/
-    // transports: [
-    //   'websocket',
-    //   'htmlfile',
-    //   'xhr-polling',
-    //   'jsonp-polling'
-    // ],
+    transports : [
+        'websocket',
+        'polling',
+        'htmlfile',
+        'xhr-polling',
+        'jsonp-polling'
+    ],
 
     /***************************************************************************
      *                                                                          *
@@ -46,7 +47,7 @@ module.exports.sockets = {
      *                                                                          *
      ***************************************************************************/
 
-    // adapter: 'memory',
+    adapter : 'memory',
 
     /***************************************************************************
      *                                                                          *
@@ -128,7 +129,7 @@ module.exports.sockets = {
      *                                                                          *
      ***************************************************************************/
 
-    // authorization: false,
+    //     authorization: true,
 
     /***************************************************************************
      *                                                                          *
@@ -165,6 +166,6 @@ module.exports.sockets = {
      *                                                                          *
      ***************************************************************************/
 
-    // origins: '*:*',
+    origins : '*:*',
 
 };

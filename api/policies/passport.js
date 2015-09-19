@@ -1,3 +1,5 @@
+/*global passport */
+
 /**
  * Passport Middleware
  *

@@ -1,6 +1,7 @@
 .user {
     position: absolute;
-    float:    right;
-    top:      0px;
-    right:    10px;
+    top: 0;
+    right: 10px;
+
+    float: right;
 }

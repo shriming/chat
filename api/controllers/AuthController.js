@@ -1,3 +1,5 @@
+/*global sails,passport */
+
 /**
  * Authentication Controller
  *
@@ -5,6 +7,7 @@
  * should look. It currently includes the minimum amount of functionality for
  * the basics of Passport.js to work.
  */
+
 var AuthController = {
     /**
      * Render the login page
@@ -31,7 +34,8 @@ var AuthController = {
      * @param {Object} res
      */
     login : function (req, res) {
-        var strategies = sails.config.passport, providers = {};
+        var strategies = sails.config.passport;
+        var providers = {};
 
         // Get a list of available providers for using in your templates.
         Object.keys(strategies).forEach(function (key) {

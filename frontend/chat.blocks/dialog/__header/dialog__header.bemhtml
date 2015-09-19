@@ -1,0 +1,6 @@
+block('dialog').elem('header')(
+    content()(function () {
+            return 'Dialog header!!!';
+        }
+    )
+);

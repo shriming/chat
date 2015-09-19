@@ -1,3 +1,5 @@
+/*global passport */
+
 /**
  * OAuth 2.0 Authentication Protocol
  *

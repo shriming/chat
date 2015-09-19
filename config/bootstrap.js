@@ -1,3 +1,5 @@
+/*global sails */
+
 /**
  * Bootstrap
  * (sails.config.bootstrap)
