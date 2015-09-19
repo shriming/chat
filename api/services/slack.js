@@ -1,5 +1,3 @@
-/* global Passport,_ */
-
 var Slack = require('slack-node');
 
 var slackApi = {

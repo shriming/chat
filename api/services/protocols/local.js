@@ -1,5 +1,3 @@
-/*global User,Passport */
-
 var validator = require('validator');
 
 /**

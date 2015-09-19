@@ -1,9 +1,9 @@
-modules.define('scrollbox', ['i-bem__dom'], function(provide, BEMDOM) {
+modules.define('scrollbox', ['i-bem__dom'], function(provide, BEMDOM){
     provide(BEMDOM.decl(this.name, {
         onSetMod : {
             js : {
-                inited : function() {
-                    function getScrollbarWidth() {
+                inited : function(){
+                    function getScrollbarWidth(){
                        var outer = document.createElement('div');
 
                        outer.style.visibility = 'hidden';

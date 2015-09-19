@@ -1,5 +1,3 @@
-/*global User */
-
 /**
  * UserController
  *

@@ -1,3 +1,5 @@
+// jshint ignore: start
+
 var bcrypt = require('bcryptjs');
 
 /**

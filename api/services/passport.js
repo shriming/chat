@@ -1,4 +1,4 @@
-/*global Passport,User,sails,_ */
+// jshint ignore: start
 
 var path = require('path');
 var url = require('url');

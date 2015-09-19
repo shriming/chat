@@ -8,11 +8,6 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 var stylint = require('gulp-stylint');
 
-
-gulp.task('beforeNodemonRestart', function(){
-    console.log('Nodemon is going to restart');
-});
-
 gulp.task('start-dev', function(){
     var called = false;
 
@@ -83,27 +78,28 @@ gulp.task('watch', function(){
 
     gulp.watch(['frontend/**/*.bemhtml',
         '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function () {
+        '!frontend/*.bundles/**/*'], function(){
         runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
     });
 
     gulp.watch(['frontend/**/*.bemtree',
         '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function () {
+        '!frontend/*.bundles/**/*'], function(){
         runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
     });
 
     gulp.watch(['frontend/**/*.styl',
         '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function () {
+        '!frontend/*.bundles/**/*'], function(){
         runSequence('stylint', 'enb-no-cache', 'copy-css', 'browser-reload');
     });
 
     gulp.watch(['frontend/**/*.js',
         '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function () {
+        '!frontend/*.bundles/**/*'], function(){
         runSequence('jslint', 'enb-no-cache', 'copy-js', 'browser-reload');
      });
+});
 
 
 gulp.task('enb-no-cache', shell.task([
@@ -114,7 +110,7 @@ gulp.task('enb-cached', shell.task([
     './node_modules/.bin/enb make -d frontend'
 ]));
 
-gulp.task('stylint', function () {
+gulp.task('stylint', function(){
     gulp.src(['frontend/**/*.styl',
         '!frontend/static/**/*',
         '!frontend/*.bundles/**/*'])

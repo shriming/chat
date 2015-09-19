@@ -1,5 +1,3 @@
-/*global Passport,sails,slack */
-
 /**
  * IndexPageController
  *

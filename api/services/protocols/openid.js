@@ -1,5 +1,3 @@
-/*global passport */
-
 /**
  * OpenID Authentication Protocol
  *
