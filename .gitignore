@@ -31,6 +31,7 @@ frontend/static/css/_merged.css
 frontend/*bundles*/merged/
 frontend/*.bundles/*/*.*
 frontend/*.bundles/*/*.*.*
+frontend/*.specs/
 !frontend/*bundles*/*/*.bemdecl.js
 !frontend/*bundles*/.bem/*
 

@@ -5,7 +5,7 @@
  */
 var tech = {
         // essential
-        levels : require('enb-bem/techs/levels'),
+        levels : require('enb-bem-techs').levels,
         fileProvider : require('enb/techs/file-provider'),
         fileCopy : require('enb/techs/file-copy'),
         bemdeclFromBemjson : require('enb-bem/techs/bemdecl-from-bemjson'),
@@ -45,6 +45,16 @@ if(!fs.existsSync('frontend/desktop.bundles/merged')) {
 }
 
 module.exports = function (config) {
+
+    config.includeConfig('enb-bem-specs');
+
+    config.module('enb-bem-specs').createConfigurator('specs').configure({
+        destPath : 'desktop.specs',
+        levels : ['common.blocks', 'desktop.blocks'],
+        sourceLevels : getSpecLevels(config),
+        jsSuffixes : ['vanilla.js', 'browser.js', 'js']
+    });
+
     config.nodes('*.bundles/*', function (nodeConfig) {
 
         var addTechs = [
@@ -180,7 +190,19 @@ module.exports = function (config) {
 };
 
 /**
- * Resolve absolute path to libs levels
+ * Get all requiered levels for specs target
+ * @param {Object} config
+ * @returns {Array} Levels
+ */
+function getSpecLevels(config) {
+    return [].concat(
+        { path : 'libs/bem-pr/spec.blocks', check : false },
+        getLevels(config)
+    );
+}
+
+/**
+ * Get all requiered levels
  * @param {Object} config
  * @returns {Array} Levels
  */
@@ -192,13 +214,10 @@ function getLevels(config) {
         { path : 'libs/bem-components/desktop.blocks', check : false },
         { path : 'libs/bem-components/design/common.blocks', check : false },
         { path : 'libs/bem-components/design/desktop.blocks', check : false },
-        'libs.blocks',
-        'common.blocks',
-        'desktop.blocks'
-    ]
-        .map(function (level) {
-            return config.resolvePath(level);
-        });
+        { path : 'libs.blocks', check : true },
+        { path : 'common.blocks', check : true },
+        { path : 'desktop.blocks', check : true }
+    ];
 }
 
 /**
