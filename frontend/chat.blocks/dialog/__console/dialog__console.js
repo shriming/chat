@@ -21,10 +21,11 @@ modules.define(
             },
             _sendMessage : function (message) {
                 console.log('message : ', message);
-                io.socket.post('/message/create', {
-                    text : message
+                io.socket.post('/slack/chat.postMessage', {
+                    text : message,
+                    channel : 'C0AHSF11V'
                 }, function (data, jwres) {
-                    console.log('args: ', arguments);
+                    console.log('postMessage args: ', arguments);
                 });
             }
         }));
