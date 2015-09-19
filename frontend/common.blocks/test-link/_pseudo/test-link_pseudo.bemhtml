@@ -1,3 +1,0 @@
-block('test-link').mod('pseudo', true)(
-    tag().match(function() { return !this.ctx.url; })('span')
-);
