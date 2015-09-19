@@ -9,8 +9,14 @@
     "frontend/libs"
   ],
   "dependencies": {
-    "bem-components": "^2.2.1",
-    "bem-core": "~2.7.0",
+    "bem-components": "^2.3.0",
+    "bem-core": "~2.8.0",
     "sails.io.js": "~0.11.6"
+  },
+  "devDependencies": {
+    "bem-pr": "~0.10.0"
+  },
+  "resolutions": {
+    "bem-core": "~2.8.0"
   }
 }
