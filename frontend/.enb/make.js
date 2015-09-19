@@ -192,10 +192,8 @@ function getLevels(config) {
         { path : 'libs/bem-components/desktop.blocks', check : false },
         { path : 'libs/bem-components/design/common.blocks', check : false },
         { path : 'libs/bem-components/design/desktop.blocks', check : false },
-        //'layout.blocks',
         'libs.blocks',
         'common.blocks',
-        //'chat.blocks',
         'desktop.blocks'
     ]
         .map(function (level) {
