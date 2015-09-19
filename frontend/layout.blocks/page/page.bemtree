@@ -33,7 +33,8 @@ match(this.ctx.data)
                         ]
                     },
                     {
-                        block : 'dialog'
+                        block : 'dialog',
+                        data: data.username
                     },
                     {
                         block : 'sidebar',

@@ -23,7 +23,8 @@ modules.define(
                 console.log('message : ', message);
                 io.socket.post('/slack/chat.postMessage', {
                     text : message,
-                    channel : 'C0AHSF11V'
+                    channel : 'C0AHSF11V',
+                    username : this.params.username
                 }, function (data, jwres) {
                     console.log('postMessage args: ', arguments);
                 });
