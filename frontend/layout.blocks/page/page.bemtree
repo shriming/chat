@@ -37,12 +37,12 @@ match(this.ctx.data)
                     },
                     {
                         block : 'sidebar',
-                        content : "VIDEO HERE!"
+                        content : 'VIDEO HERE!'
                     }
                 ]
             },
             { elem : 'js', url : '/static/js/_merged.js' },
-            { elem : 'js', url : 'http://localhost:8090/browser-sync/browser-sync-client.2.9.3.js'}
+            { elem : 'js', url : 'http://localhost:8090/browser-sync/browser-sync-client.2.9.3.js' }
         ]
     });
 });
