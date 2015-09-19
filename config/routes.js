@@ -53,14 +53,9 @@ module.exports.routes = {
     'get /auth/:provider/callback' : 'AuthController.callback',
     'get /auth/:provider/:action' : 'AuthController.callback',
 
-    // Product
-    'get /products/' : 'ProductController.index',
-    'get /product/new' : 'ProductController.new',
-    'post /product/create' : 'ProductController.create',
-    'get /product/:id' : 'ProductController.show',
-    'get /product/:id/edit' : 'ProductController.edit',
-    'post /product/:id/update' : 'ProductController.update',
-    'post /product/:id/delete' : 'ProductController.delete',
+    // Slack
+    'get  /slack/:method' : 'SlackController.api',
+    'post /slack/:method' : 'SlackController.api',
 
     // Users
     'get /user/:id' : 'UserController.show',
