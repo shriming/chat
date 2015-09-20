@@ -8,7 +8,7 @@ block('scrollbox')(
       }, {
         elem : 'bar',
         content : {
-        tag : 'span'
+            tag : 'span'
         }
       }
     ];
