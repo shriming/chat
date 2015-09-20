@@ -40,7 +40,7 @@ gulp.task('nodemon-restart', function () {
 
 gulp.task('copy-images', function () {
     gulp.src([
-        'frontend/**/*.{png,jpg,gif}',
+        'frontend/**/*.{png,jpg,gif,svg}',
         '!frontend/static/*',
         '!frontend/*.bundles/*'
     ])
@@ -69,7 +69,7 @@ gulp.task('copy-files', ['copy-js', 'copy-css', 'copy-images']);
 
 gulp.task('watch', function () {
     gulp.watch([
-        'frontend/**/*.{png,jpg,gif, svg}',
+        'frontend/**/*.{png,jpg,gif,svg}',
         '!frontend/static/**/*',
         '!frontend/*.bundles/**/*'
     ], function () {
