@@ -1,0 +1,18 @@
+block('header')(
+    content()(function () {
+        return applyCtx([
+                {
+                    block : 'logo',
+                    mods : { white : true },
+                },
+                {
+                    elem : 'title',
+                    content : 'Яндекс - Shriming'
+                },
+                {
+                    elem : 'user',
+                    content : 'this.ctx.data'
+                }
+            ]);
+    })
+);
