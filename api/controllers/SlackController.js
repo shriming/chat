@@ -11,15 +11,19 @@ module.exports = {
     /**
      * `SlackController.api()`
      */
-    api : function (req, res) {
+    api : function(req, res) {
         var options = (req.method === 'POST')? req.body : req.query;
 
-        slack.api(req.params.method, options, function (error, response) {
-            var data = { error : error, data : response };
+        if(slack.api) {
+            slack.api(req.params.method, options, function(error, response) {
+                var data = { error : error, data : response };
 
-            sails.sockets.blast(req.params.method, data);
-            res.json(data);
-        });
+                sails.sockets.blast(req.params.method, data);
+                res.json(data);
+            });
+        } else {
+            console.log('error');
+        }
     }
 };
 

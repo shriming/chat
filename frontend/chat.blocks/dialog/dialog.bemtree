@@ -1,0 +1,19 @@
+block('dialog').def()(function () {
+    var data = this.ctx.data;
+
+    return applyCtx({
+        block : this.block,
+        content : [
+            {
+                elem : 'header'
+            },
+            {
+                elem : 'history'
+            },
+            {
+                elem : 'console',
+                data : data
+            }
+        ]
+    });
+});

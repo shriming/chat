@@ -26,7 +26,8 @@ module.exports = {
                 res.render({
                     data : {
                         title : 'Welcome to indexPage',
-                        indexPage : JSON.stringify(passport, null, 2)
+                        indexPage : JSON.stringify(passport, null, 2),
+                        username : req.session.User.name
                     }
                 });
             });
