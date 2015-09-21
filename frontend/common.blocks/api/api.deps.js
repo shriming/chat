@@ -1,14 +1,10 @@
 (
 {
-    shouldDeps : [],
     mustDeps : [
-        { block : 'socket' },
-        { block : 'vow' },
-        { block : 'querystring' },
-        {
-            block : 'events',
-            elems : ['channels']
-        }
-    ]
+        { block : 'socket-io' },
+        { block : 'jquery' },
+        { block : 'vow' }
+    ],
+    shouldDeps : []
 }
 );

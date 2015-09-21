@@ -1,5 +1,4 @@
-(
-{
+({
     mustDeps : [
         {
             block : 'textarea',
