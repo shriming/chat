@@ -1,5 +1,5 @@
 block('dialog').elem('console')(
-    def()(function () {
+    def()(function(){
         var data = this.ctx.data;
 
         return applyCtx({

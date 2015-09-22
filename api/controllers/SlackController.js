@@ -9,11 +9,11 @@ module.exports = {
     /**
      * `SlackController.api()`
      */
-    api : function(req, res) {
+    api : function(req, res){
         var options = (req.method === 'POST')? req.body : req.query;
 
         if(slack.api) {
-            slack.api(req.params.method, options, function(error, response) {
+            slack.api(req.params.method, options, function(error, response){
                 var data = { error : error, data : response };
 
                 sails.sockets.blast(req.params.method, data);

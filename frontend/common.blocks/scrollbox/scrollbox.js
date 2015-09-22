@@ -27,7 +27,7 @@ modules.define('scrollbox', ['i-bem__dom'], function(provide, BEMDOM){
                     this.elem('tape').on('scroll', this._onScroll);
 
                     window.addEventListener('resize', (
-                        function(t) {
+                        function(t){
                             return function(){
                                 t._onScroll.apply(t.elem('tape')[0]);
                             };
