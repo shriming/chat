@@ -146,5 +146,5 @@ gulp.task('browser-reload', function(){
 });
 
 gulp.task('default', function(){
-    runSequence('enb-no-cache', 'copy-files', 'start-dev', 'browser-sync', 'watch');
+    runSequence('lint', 'enb-no-cache', 'copy-files', 'start-dev', 'browser-sync', 'watch');
 });
