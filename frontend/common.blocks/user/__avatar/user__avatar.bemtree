@@ -1,6 +1,6 @@
 block('user')(
     elem('avatar')(
-        def()(function () {
+        def()(function(){
             var user = this.ctx.data || {};
             return applyCtx({
                 block : 'image',

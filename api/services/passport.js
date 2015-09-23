@@ -1,4 +1,4 @@
-/*global Passport,User,sails,_ */
+// jshint ignore: start
 
 var path = require('path');
 var url = require('url');
@@ -64,7 +64,7 @@ passport.protocols = require('./protocols');
  * @param {Object}   profile
  * @param {Function} next
  */
-passport.connect = function (req, query, profile, next) {
+passport.connect = function(req, query, profile, next){
     var user = {};
     var provider;
     // Get the authentication provider from the query.
@@ -105,7 +105,7 @@ passport.connect = function (req, query, profile, next) {
     Passport.findOne({
         provider : provider,
         identifier : query.identifier.toString()
-    }, function (err, passport) {
+    }, function(err, passport){
         if(err) {
             return next(err);
         }
@@ -115,7 +115,7 @@ passport.connect = function (req, query, profile, next) {
             //           authentication provider.
             // Action:   Create a new user and assign them a passport.
             if(!passport) {
-                User.create(user, function (err, user) {
+                User.create(user, function(err, user){
                     if(err) {
                         if(err.code === 'E_VALIDATION') {
                             if(err.invalidAttributes.email) {
@@ -130,7 +130,7 @@ passport.connect = function (req, query, profile, next) {
 
                     query.user = user.id;
 
-                    Passport.create(query, function (err) {
+                    Passport.create(query, function(err){
                         // If a passport wasn't created, bail out
                         if(err) {
                             return next(err);
@@ -149,7 +149,7 @@ passport.connect = function (req, query, profile, next) {
                 }
 
                 // Save any updates to the Passport before moving on
-                passport.save(function (err, passport) {
+                passport.save(function(err, passport){
                     if(err) {
                         return next(err);
                     }
@@ -165,7 +165,7 @@ passport.connect = function (req, query, profile, next) {
             if(!passport) {
                 query.user = req.user.id;
 
-                Passport.create(query, function (err) {
+                Passport.create(query, function(err){
                     // If a passport wasn't created, bail out
                     if(err) {
                         return next(err);
@@ -191,7 +191,7 @@ passport.connect = function (req, query, profile, next) {
  * @param  {Object} req
  * @param  {Object} res
  */
-passport.endpoint = function (req, res) {
+passport.endpoint = function(req, res){
     var strategies = sails.config.passport;
     var provider = req.param('provider');
     var options = {};
@@ -223,7 +223,7 @@ passport.endpoint = function (req, res) {
  * @param {Object}   res
  * @param {Function} next
  */
-passport.callback = function (req, res, next) {
+passport.callback = function(req, res, next){
     var provider = req.param('provider', 'local');
     var action = req.param('action');
 
@@ -279,11 +279,11 @@ passport.callback = function (req, res, next) {
  * http://passportjs.org/guide/providers/
  *
  */
-passport.loadStrategies = function () {
+passport.loadStrategies = function(){
     var self = this;
     var strategies = sails.config.passport;
 
-    Object.keys(strategies).forEach(function (key) {
+    Object.keys(strategies).forEach(function(key){
         var options = { passReqToCallback : true };
         var Strategy;
         var protocol;
@@ -349,19 +349,19 @@ passport.loadStrategies = function () {
  * @param  {Object} req
  * @param  {Object} res
  */
-passport.disconnect = function (req, res, next) {
+passport.disconnect = function(req, res, next){
     var user = req.user;
     var provider = req.param('provider');
 
     Passport.findOne({
         provider : provider,
         user : user.id
-    }, function (err, passport) {
+    }, function(err, passport){
         if(err) {
             return next(err);
         }
 
-        Passport.destroy(passport.id, function (err) {
+        Passport.destroy(passport.id, function(err){
             if(err) {
                 return next(err);
             }
@@ -371,11 +371,11 @@ passport.disconnect = function (req, res, next) {
     });
 };
 
-passport.serializeUser(function (user, next) {
+passport.serializeUser(function(user, next){
     next(null, user.id);
 });
 
-passport.deserializeUser(function (id, next) {
+passport.deserializeUser(function(id, next){
     User.findOne(id, next);
 });
 

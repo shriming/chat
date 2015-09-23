@@ -7,7 +7,7 @@
  * ```
  */
 
-module.exports = function unauthorized() {
+module.exports = function unauthorized(){
 
     // Get access to `req`, `res`
     var req = this.req;

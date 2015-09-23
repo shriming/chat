@@ -1,7 +1,7 @@
 block('controller')
     .elem('indexpage')
     .mod('action', 'index')
-    .def()(function () {
+    .def()(function(){
         return applyCtx({
             content : this.ctx.data.indexPage
         });

@@ -1,5 +1,5 @@
 block('header')(
-    content()(function () {
+    content()(function(){
         return {
                 block : 'inner',
                 content : [

@@ -1,21 +1,21 @@
 modules.define(
     'dialog__history',
     ['i-bem__dom', 'BEMHTML', 'socket-io', 'jquery'],
-    function(provide, BEMDOM, BEMHTML, io, $) {
+    function(provide, BEMDOM, BEMHTML, io, $){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
-                    'inited' : function() {
+                    'inited' : function(){
                         console.log('feed inited io: ', io);
                         var _this = this;
                         var socketSlack;
 
                         /* Тестирование Client-side. Не трогайте :) */
-                        $.get('/csrfToken').success(function(data) {
+                        $.get('/csrfToken').success(function(data){
                             var csrfToken = data._csrf;
-                            io.socket.post('/slack/rtm.start', { _csrf : csrfToken }, function(data, jwres) {
+                            io.socket.post('/slack/rtm.start', { _csrf : csrfToken }, function(data, jwres){
                                 socketSlack = io(data.url);
-                                socketSlack.on('hello', function(response) {
+                                socketSlack.on('hello', function(response){
                                     console.log('newMessage response: ', response);
                                     var data = response.data;
 
@@ -31,7 +31,7 @@ modules.define(
                             });
                         });
 
-                        io.socket.on('chat.postMessage', function(response) {
+                        io.socket.on('chat.postMessage', function(response){
                             console.log('newMessage response: ', response);
                             var data = response.data;
 
@@ -45,7 +45,7 @@ modules.define(
                             );
                         });
 
-                        io.socket.on('users.list', function(res) {
+                        io.socket.on('users.list', function(res){
                             if(res.error) {
                                 console.warn(res.error);
 
@@ -57,7 +57,7 @@ modules.define(
                     }
                 }
             },
-            renderHtml : function() {
+            renderHtml : function(){
                 return '5';
             }
         }));

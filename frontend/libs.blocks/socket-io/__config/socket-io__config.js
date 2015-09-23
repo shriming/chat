@@ -3,7 +3,7 @@
  * @description Configuration for socket.io
  */
 
-modules.define('socket-io__config', function (provide) {
+modules.define('socket-io__config', function(provide){
 
     provide(/** @exports */{
         /**

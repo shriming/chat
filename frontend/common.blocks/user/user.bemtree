@@ -1,5 +1,5 @@
 block('user')(
-    def()(function () {
+    def()(function(){
         var user = this.ctx.data.req.session.User || {};
         var content = [];
 

@@ -10,7 +10,7 @@ module.exports = {
     /**
      * `ChatController.send()`
      */
-    send : function (req, res) {
+    send : function(req, res){
         return res.json({
             msg : req.param.msg,
             todo : 'send() is not implemented yet!'
@@ -20,7 +20,7 @@ module.exports = {
     /**
      * `ChatController.join()`
      */
-    join : function (req, res) {
+    join : function(req, res){
         return res.json({
             todo : 'join() is not implemented yet!'
         });

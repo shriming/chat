@@ -1,4 +1,4 @@
-block('dialog').def()(function () {
+block('dialog').def()(function(){
     var data = this.ctx.data;
 
     return applyCtx({

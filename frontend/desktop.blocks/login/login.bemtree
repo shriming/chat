@@ -1,8 +1,8 @@
 block('login')
-    .def()(function () {
+    .def()(function(){
         var data = this.ctx.data;
 
-        var providers = Object.keys(data.providers).map(function (provider) {
+        var providers = Object.keys(data.providers).map(function(provider){
             provider = data.providers[provider];
 
             return {
