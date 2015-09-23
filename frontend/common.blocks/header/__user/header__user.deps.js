@@ -1,0 +1,6 @@
+(
+{
+    shouldDeps : [
+        { block : 'user' }
+    ]
+});

@@ -63,13 +63,13 @@ module.exports = function serverError(data, options){
                 // • If the view was missing, ignore the error but provide a verbose log.
                 if(err.code === 'E_VIEW_FAILED') {
                     sails.log.verbose('res.serverError() :: Could not locate view' +
-                        ' for error page (sending JSON instead).  Details: ',
-                    err);
+                                      ' for error page (sending JSON instead).  Details: ',
+                        err);
                 } else {
                     // Otherwise, if this was a more serious error, log to the console with the details.
                     sails.log.warn('res.serverError() :: When attempting to render error page view,' +
-                        ' an error occured (sending JSON instead).  Details: ',
-                    err);
+                                   ' an error occured (sending JSON instead).  Details: ',
+                        err);
                 }
                 return res.jsonx(data);
             }

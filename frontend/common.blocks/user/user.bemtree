@@ -1,6 +1,6 @@
 block('user')(
     def()(function(){
-        var user = this.ctx.data.req.session.User || {};
+        var user = this.ctx.data || {};
         var content = [];
 
         if(user.email) {
@@ -17,6 +17,7 @@ block('user')(
                     tag : 'span',
                     content : {
                         block : 'link',
+                        mods : { theme : 'shriming' },
                         url : '/logout/',
                         content : 'logout'
                     }
@@ -27,6 +28,7 @@ block('user')(
                 elem : 'logout',
                 content : {
                     block : 'link',
+                    mods : { theme : 'shriming' },
                     url : '/login/',
                     content : 'login'
                 }

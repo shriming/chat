@@ -1,0 +1,27 @@
+block('header')(
+    def()(function(){
+        var data = this.ctx.data;
+        return applyCtx({
+            block : 'header',
+            content : [
+                {
+                    block : 'logo',
+                    mods : { white : true }
+                },
+                {
+                    elem : 'title',
+                    content : 'Яндекс — Shriming'
+                },
+                {
+                    elem : 'user',
+                    content : [
+                        {
+                            block : 'user',
+                            data : data
+                        }
+                    ]
+                }
+            ]
+        });
+    })
+);

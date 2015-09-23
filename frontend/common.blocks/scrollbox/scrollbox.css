@@ -1,31 +1,31 @@
 .scrollbox {
-	position: relative;
-	overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .scrollbox .scrollbox__tape {
-	height: inherit;
-	box-sizing: border-box;
+    height:     inherit;
+    box-sizing: border-box;
 }
 
 .scrollbox .scrollbox__bar {
-	position: absolute;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	width: 3px;
-	margin: 3px;
-	box-sizing: border-box;
-	border-radius: 2px;
-	background: rgba(0, 0, 0, .1);
-	opacity: 0;
-	transition: opacity.2s ease;
+    position:      absolute;
+    right:         0;
+    top:           0;
+    bottom:        0;
+    width:         3px;
+    margin:        3px;
+    box-sizing:    border-box;
+    border-radius: 2px;
+    background:    rgba(0, 0, 0, .1);
+    opacity:       0;
+    transition:    opacity .2s ease;
 }
 
 .scrollbox .scrollbox__bar span {
-	position: absolute;
-	width: 100%;
-	display: block;
-	border-radius: 2px;
-	background: rgba(0, 0, 0, .5);
+    position:      absolute;
+    width:         100%;
+    display:       block;
+    border-radius: 2px;
+    background:    rgba(0, 0, 0, .5);
 }

@@ -1,0 +1,9 @@
+(
+{
+    mustDeps : [],
+    shouldDeps : [
+        {
+            elems : ['logout']
+        },
+    ]
+});

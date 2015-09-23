@@ -141,7 +141,7 @@ passport.connect = function(req, query, profile, next){
                 });
             } else {
                 /* Scenario: An existing user is trying to log in using an already
-                           connected passport.
+                 connected passport.
                  Action:   Get the user associated with the passport.*/
                 // If the tokens have changed since the last session, update them
                 if(query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {

@@ -1,3 +1,5 @@
+/*global Passport,sails,slack */
+
 /**
  * IndexPageController
  *
@@ -16,16 +18,15 @@ module.exports = {
 
             Passport.findOne({
                 identifier : req.session.User.id
-            }, function(err, passport){
+            }, function(err){
                 if(err) {
                     res.send(err);
                 }
 
                 res.render({
                     data : {
-                        title : 'Welcome to indexPage',
-                        indexPage : JSON.stringify(passport, null, 2),
-                        username : req.session.User.name
+                        title : 'Shriming Chat',
+                        user : req.session.User
                     }
                 });
             });
@@ -34,8 +35,8 @@ module.exports = {
 
             res.render({
                 data : {
-                    title : 'Welcome to indexPage',
-                    indexPage : 'No User!'
+                    title : 'Shriming Chat',
+                    user : {}
                 }
             });
         }
