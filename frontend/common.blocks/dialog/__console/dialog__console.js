@@ -23,7 +23,7 @@ modules.define(
                 var _this = this;
                 console.log('message : ', message);
 
-                api.post('chat.postMessage',{
+                api.post('chat.postMessage', {
                     text : message,
                     channel : 'C0AHSF11V',
                     username : _this.params.username
