@@ -1,8 +1,8 @@
 {
-  "author": "alexbaumgertner@yandex.ru",
-  "name": "sails-bem-project-stub",
-  "email": "alexbaumgertner@yandex.ru",
-  "version": "1.0.0",
+  "author": "shriming-team",
+  "name": "shriming-chat",
+  "email": "shriming@shri2015.ru",
+  "version": "0.1",
   "ignore": [
     "views/.enb/tmp",
     "node_modules",

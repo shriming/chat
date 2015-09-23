@@ -1,11 +1,11 @@
 {
-  "name": "sails-bem-project-stub",
-  "author": "alexbaumgertner@yandex.ru",
+  "name": "shriming-chat",
+  "author": "shriming@shri2015.ru",
   "license": "MIT",
   "private": true,
-  "version": "1.0.0",
-  "description": "a typical Sails application",
-  "keywords": [],
+  "version": "0.1",
+  "description": "Multi-user & multi-channel chat using webRTC and socket.io",
+  "keywords": ["shri", "chat", "webRTC"],
   "dependencies": {
     "bcryptjs": "^2.1.0",
     "bem-environ": "^1.4.0",
