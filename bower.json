@@ -2,7 +2,7 @@
   "author": "shriming-team",
   "name": "shriming-chat",
   "email": "shriming@shri2015.ru",
-  "version": "0.1",
+  "version": "0.1.0",
   "ignore": [
     "views/.enb/tmp",
     "node_modules",

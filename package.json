@@ -3,7 +3,7 @@
   "author": "shriming@shri2015.ru",
   "license": "MIT",
   "private": true,
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Multi-user & multi-channel chat using webRTC and socket.io",
   "keywords": ["shri", "chat", "webRTC"],
   "dependencies": {
