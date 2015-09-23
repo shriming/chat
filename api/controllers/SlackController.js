@@ -1,5 +1,3 @@
-/* global sails, slack*/
-
 /**
  * SlackController
  *
@@ -12,7 +10,8 @@ module.exports = {
      * `SlackController.api()`
      */
     api : function(req, res){
-        var options = (req.method === 'POST')? req.body : req.query;
+        var options = (
+                      req.method === 'POST')? req.body : req.query;
 
         if(slack.api) {
             slack.api(req.params.method, options, function(error, response){

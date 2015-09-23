@@ -1,8 +1,8 @@
 modules.define('api', ['jquery', 'inherit', 'events__channels', 'vow', 'objects', 'querystring'],
-    function (provide, $, inherit, channels, vow, Objects, querystring) {
+    function(provide, $, inherit, channels, vow, Objects, querystring){
         provide(
             inherit({
-                __constructor : function (params) {
+                __constructor : function(params){
                     this._params = {};
                     if(Object.prototype.toString.call(params).indexOf('Object') !== -1) {
                         Objects.extend(this._params, params);
@@ -10,19 +10,19 @@ modules.define('api', ['jquery', 'inherit', 'events__channels', 'vow', 'objects'
                     this._events = channels(this.name);
                 },
 
-                on : function (eventName, handler) {
+                on : function(eventName, handler){
                     this._events.on(eventName, handler);
                 },
 
-                get : function (url, data) {
+                get : function(url, data){
                     this._ajax(url, data, 'get');
                 },
 
-                post : function (url, data) {
+                post : function(url, data){
                     this._ajax(url, data, 'post');
                 },
 
-                _ajax : function (url, data, method) {
+                _ajax : function(url, data, method){
                     var _this = this;
                     var defer = vow.defer();
                     var promise = defer.promise();
@@ -32,20 +32,20 @@ modules.define('api', ['jquery', 'inherit', 'events__channels', 'vow', 'objects'
                         url : url,
                         data : data,
                         method : method,
-                        beforeSend : function () {
+                        beforeSend : function(){
                             _this._events.emit('loading');
                         }
                     })
-                        .done(function (data) {
+                        .done(function(data){
                             if(data.error) {
                                 return defer.reject(data.error);
                             }
                             defer.resolve(data);
                         })
-                        .fail(function (reason) {
+                        .fail(function(reason){
                             defer.reject(reason);
                         })
-                        .always(function () {
+                        .always(function(){
                             _this._events.emit('complete');
                         });
 

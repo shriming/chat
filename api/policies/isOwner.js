@@ -5,7 +5,7 @@
  * @param {Function} ok callback when user is owner
  * @returns {*}
  */
-module.exports = function (req, res, ok) {
+module.exports = function(req, res, ok){
 
     if(req.session.auth) {
 

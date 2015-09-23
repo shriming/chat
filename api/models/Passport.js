@@ -1,3 +1,5 @@
+// jshint ignore: start
+
 var bcrypt = require('bcryptjs');
 
 /**
@@ -6,9 +8,9 @@ var bcrypt = require('bcryptjs');
  * @param {Object}   password
  * @param {Function} next
  */
-function hashPassword(passport, next) {
+function hashPassword(passport, next){
     if(passport.password) {
-        bcrypt.hash(passport.password, 10, function (err, hash) {
+        bcrypt.hash(passport.password, 10, function(err, hash){
             passport.password = hash;
             next(err, passport);
         });
@@ -77,7 +79,7 @@ var Passport = {
          * @param {string}   password The password to validate
          * @param {Function} next
          */
-        validatePassword : function (password, next) {
+        validatePassword : function(password, next){
             bcrypt.compare(password, this.password, next);
         }
 
@@ -89,7 +91,7 @@ var Passport = {
      * @param {Object}   passport The soon-to-be-created Passport
      * @param {Function} next
      */
-    beforeCreate : function (passport, next) {
+    beforeCreate : function(passport, next){
         hashPassword(passport, next);
     },
 
@@ -99,7 +101,7 @@ var Passport = {
      * @param {Object}   passport Values to be updated
      * @param {Function} next
      */
-    beforeUpdate : function (passport, next) {
+    beforeUpdate : function(passport, next){
         hashPassword(passport, next);
     }
 };

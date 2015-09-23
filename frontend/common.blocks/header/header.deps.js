@@ -1,4 +1,5 @@
-({
+(
+{
     shouldDeps : [
         {
             elems : ['title', 'user']

@@ -19,7 +19,7 @@ module.exports = {
         createdAt : { type : 'datetime' },
         updatedAt : { type : 'datetime' }
     },
-    afterCreate : function (newlyInsertedRecord) {
+    afterCreate : function(newlyInsertedRecord){
         sails.sockets.blast('newMessage', newlyInsertedRecord);
     }
 };

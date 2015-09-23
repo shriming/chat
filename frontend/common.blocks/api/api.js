@@ -3,7 +3,7 @@
  * @module
  */
 modules.define('api', ['socket-io', 'jquery', 'vow'],
-    function(provide, io, $, vow) {
+    function(provide, io, $, vow){
         var api = {
             /**
              * GET-запрос
@@ -12,7 +12,7 @@ modules.define('api', ['socket-io', 'jquery', 'vow'],
              * @param {Object} params - передаваемые данные
              * @return {Promise}
              */
-            get : function(action, params) {
+            get : function(action, params){
                 return connect(action, params, 'get');
             },
             /**
@@ -22,22 +22,22 @@ modules.define('api', ['socket-io', 'jquery', 'vow'],
              * @param {Object} params - передаваемые данные
              * @return {Promise}
              */
-            post : function(action, params) {
+            post : function(action, params){
                 return connect(action, params, 'post');
             }
         };
 
-        function connect(action, params, method) {
+        function connect(action, params, method){
             params = params || {};
             method = method || 'get';
 
-            var promise = new vow.Promise(function(resolve, reject) {
+            var promise = new vow.Promise(function(resolve, reject){
                 $.get('/csrfToken')
-                    .done(function(data) {
+                    .done(function(data){
                         var url = '/slack/' + action;
                         $.extend(params, { _csrf : data._csrf });
 
-                        io.socket[method](url, params, function(resData, jwres) {
+                        io.socket[method](url, params, function(resData, jwres){
                             if(!resData || resData.error || jwres.statusCode !== 200) {
                                 reject(resData.error || 'Ошибка подключения к API');
 
@@ -47,7 +47,7 @@ modules.define('api', ['socket-io', 'jquery', 'vow'],
                             resolve(resData.data);
                         });
                     })
-                    .fail(function(err) {
+                    .fail(function(err){
                         reject(err);
                     });
             });

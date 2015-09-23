@@ -1,4 +1,5 @@
-({
+(
+{
     shouldDeps : [],
     mustDeps : [
         { block : 'socket' },

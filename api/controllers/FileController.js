@@ -1,5 +1,3 @@
-/*global sails */
-
 /**
  * FileController
  *
@@ -16,7 +14,7 @@ module.exports = {
     /**
      * `FileController.upload()`
      */
-    upload : function (req, res) {
+    upload : function(req, res){
         return res.json({
             todo : 'upload() is not implemented yet!'
         });
@@ -25,7 +23,7 @@ module.exports = {
     /**
      * `FileController.download()`
      */
-    download : function (req, res, next) {
+    download : function(req, res, next){
 
         // TODO: fix this:
         if(req.param('id') === 'undefined') {
@@ -58,7 +56,7 @@ module.exports = {
         if(!fs.existsSync(filePathWithSize)) {
             gm(filePath)
                 .resize(width, height)
-                .write(filePathWithSize, function (err) {
+                .write(filePathWithSize, function(err){
                     if(err) {
                         next(err);
                     }
@@ -70,7 +68,7 @@ module.exports = {
         }
     },
 
-    getStatic : function (req, res, next) {
+    getStatic : function(req, res, next){
         var file = req.param('file');
         var directory = req.param('directory');
 

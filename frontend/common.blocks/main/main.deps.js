@@ -1,4 +1,5 @@
-({
+(
+{
     shouldDeps : [
         { block : 'sidebar', mods : ['left', 'right'] },
         { block : 'list', elems : ['title', 'item'] },

@@ -1,5 +1,5 @@
 block('dialog').elem('header')(
-    content()(function () {
+    content()(function(){
             return 'Dialog header!!!';
         }
     )

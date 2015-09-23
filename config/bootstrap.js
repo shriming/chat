@@ -1,5 +1,3 @@
-/*global sails */
-
 /**
  * Bootstrap
  * (sails.config.bootstrap)
@@ -13,7 +11,7 @@
 
 var fs = require('fs');
 
-module.exports.bootstrap = function (cb) {
+module.exports.bootstrap = function(cb){
 
     // https://github.com/sahanDissanayake/sails-passport
     sails.services.passport.loadStrategies();

@@ -16,7 +16,8 @@ module.exports = {
         sub : true,
         supernew : true,
         undef : true,
-        unused : true
+        unused : true,
+        predef: ['Passport', 'passport', 'User' , 'sails', '_', 'slack']
     },
 
     groups : {

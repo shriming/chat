@@ -1,5 +1,5 @@
 block('header')(
-    def()(function () {
+    def()(function(){
         var data = this.ctx.data;
         return applyCtx({
             block : 'header',
@@ -10,7 +10,7 @@ block('header')(
                 },
                 {
                     elem : 'title',
-                    content : 'Яндекс - Shriming'
+                    content : 'Яндекс — Shriming'
                 },
                 {
                     elem : 'user',

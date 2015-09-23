@@ -1,7 +1,7 @@
 match(this.ctx.data)
-    .def()(function (){
+    .def()(function(){
         var data = this.ctx.data;
-        var options = data.req?data.req.options : {};
+        var options = data.req? data.req.options : {};
 
         return applyCtx({
             block : 'page',

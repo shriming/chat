@@ -1,9 +1,22 @@
 {
-    "plugins": ["jscs-bem"],
-    "preset": "bem",
     "disallowMultipleVarDecl": true,
     "requireMultipleVarDecl" : null,
     "requireSemicolons": true,
+
+    "disallowSpacesInFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+
+    "disallowSpacesInFunctionDeclaration": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
+
+    "disallowSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true
+    },
 
     "excludeFiles": [
         "frontend/.bem/cache/**",
