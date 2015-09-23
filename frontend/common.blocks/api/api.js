@@ -1,32 +1,60 @@
-modules.define('api', ['socket', 'inherit', 'events__channels', 'vow', 'objects', 'querystring'],
-    function (provide, io, inherit, channels, vow, Objects, querystring) {
-        provide(
-            inherit({
-                __constructor : function (params) {
-                    this._params = {};
-                    if(Object.prototype.toString.call(params).indexOf('Object') !== -1) {
-                        Objects.extend(this._params, params);
-                    }
-                    this._events = channels(this.name);
-                },
-                on : function (eventName, handler) {
-                    this._events.on(eventName, handler);
-                },
-                /**
-                 *
-                 * @param params {Object}
-                 * @param {string} params.airport - 'DME' or 'SVO'
-                 * @param {string} employee.mode - 'dep' or 'arr'
-                 * @returns {Promise}
-                 */
-                get : function (params) {
+/**
+ * Запросы к Slack API
+ * @module
+ */
+modules.define('api', ['socket-io', 'jquery', 'vow'],
+    function(provide, io, $, vow) {
+        var api = {
+            /**
+             * GET-запрос
+             *
+             * @param {String} action - код API метода
+             * @param {Object} params - передаваемые данные
+             * @return {Promise}
+             */
+            get : function(action, params) {
+                return connect(action, params, 'get');
+            },
+            /**
+             * POST-запрос
+             *
+             * @param {String} action - код API метода
+             * @param {Object} params - передаваемые данные
+             * @return {Promise}
+             */
+            post : function(action, params) {
+                return connect(action, params, 'post');
+            }
+        };
 
-                    return vow.cast();
-                },
-                getParams : function () {
-                    return this._params;
-                }
-            })
-        );
+        function connect(action, params, method) {
+            params = params || {};
+            method = method || 'get';
+
+            var promise = new vow.Promise(function(resolve, reject) {
+                $.get('/csrfToken')
+                    .done(function(data) {
+                        var url = '/slack/' + action;
+                        $.extend(params, { _csrf : data._csrf });
+
+                        io.socket[method](url, params, function(resData, jwres) {
+                            if(!resData || resData.error || jwres.statusCode !== 200) {
+                                reject(resData.error || 'Ошибка подключения к API');
+
+                                return;
+                            }
+
+                            resolve(resData.data);
+                        });
+                    })
+                    .fail(function(err) {
+                        reject(err);
+                    });
+            });
+
+            return promise;
+        }
+
+        provide(api);
     }
 );

@@ -1,9 +1,12 @@
 block('header')(
-    content()(function () {
-        return applyCtx([
+    def()(function () {
+        var data = this.ctx.data;
+        return applyCtx({
+            block : 'header',
+            content : [
                 {
                     block : 'logo',
-                    mods : { white : true },
+                    mods : { white : true }
                 },
                 {
                     elem : 'title',
@@ -11,8 +14,14 @@ block('header')(
                 },
                 {
                     elem : 'user',
-                    content : 'this.ctx.data'
+                    content : [
+                        {
+                            block : 'user',
+                            data : data
+                        }
+                    ]
                 }
-            ]);
+            ]
+        });
     })
 );

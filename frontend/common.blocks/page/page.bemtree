@@ -10,7 +10,8 @@ match(this.ctx.data)
             title : data.title,
             content : [
                 {
-                    block : 'header'
+                    block : 'header',
+                    data : data.user
                 },
                 {
                     block : 'main',
@@ -34,7 +35,8 @@ match(this.ctx.data)
                             ]
                         },
                         {
-                            block : 'dialog'
+                            block : 'dialog',
+                            data : data.user
                         },
                         {
                             block : 'sidebar',
