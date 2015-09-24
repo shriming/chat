@@ -1,5 +1,14 @@
 module.exports = {
+
+    port: process.env.PORT || 1337,
+
+    environment: process.env.NODE_ENV || 'development',
+
     passport: {
+        local: {
+            strategy: require('passport-local').Strategy
+        },
+
         slack: {
             name: 'Slack',
             protocol: 'oauth2',
@@ -12,6 +21,11 @@ module.exports = {
                 scope: 'identify,client'
             }
         }
+    },
+
+    models: {
+        connection: 'mongo',
+        migrate: 'alter'
     },
 
     connections: {
