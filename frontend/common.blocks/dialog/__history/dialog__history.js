@@ -35,14 +35,14 @@ modules.define(
                             console.log('newMessage response: ', response);
                             var data = response.data;
 
-                            BEMDOM.append(_this.domElem,
-                                BEMHTML.apply([
-                                    {
+                            if(data && !data.error) {
+                                BEMDOM.append(_this.domElem,
+                                    BEMHTML.apply({
                                         block : 'message',
                                         content : data.message.username + ': ' + data.message.text
-                                    }
-                                ])
-                            );
+                                    })
+                                );
+                            }
                         });
 
                         io.socket.on('users.list', function(res){
