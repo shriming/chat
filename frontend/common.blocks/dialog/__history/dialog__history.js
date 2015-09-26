@@ -6,7 +6,6 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        console.log('feed inited io: ', io);
                         var _this = this;
                         var socketSlack;
 
@@ -44,21 +43,8 @@ modules.define(
                                 );
                             }
                         });
-
-                        io.socket.on('users.list', function(res){
-                            if(res.error) {
-                                console.warn(res.error);
-
-                                return;
-                            }
-
-                            console.info(res.data);
-                        });
                     }
                 }
-            },
-            renderHtml : function(){
-                return '5';
             }
         }));
     }

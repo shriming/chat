@@ -1,4 +1,4 @@
 block('dialog').elem('history')(
-    mix()('i-bem'),
-    js()(true)
+    js()(true),
+    mix()('i-bem')
 );
