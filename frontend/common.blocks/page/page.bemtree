@@ -22,15 +22,27 @@ match(this.ctx.data)
                             content : [
                                 {
                                     block : 'list',
-                                    mods : { 'type' : 'channels' }
+                                    mods : { 'type' : 'channels' },
+                                    content: [
+                                        { elem : 'title', content : 'Каналы' },
+                                        { elem : 'container' }
+                                    ]
                                 },
                                 {
                                     block : 'list',
-                                    mods : { 'type' : 'users' }
+                                    mods : { 'type' : 'users' },
+                                    content: [
+                                        { elem : 'title', content : 'Пользователи' },
+                                        { elem : 'container' }
+                                    ]
                                 },
                                 {
                                     block : 'list',
-                                    mods : { 'type' : 'groups' }
+                                    mods : { 'type' : 'groups' },
+                                    content: [
+                                        { elem : 'title', content : 'Приватные групы' },
+                                        { elem : 'container' }
+                                    ]
                                 }
                             ]
                         },

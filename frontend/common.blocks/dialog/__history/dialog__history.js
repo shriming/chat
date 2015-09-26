@@ -44,16 +44,6 @@ modules.define(
                                 ])
                             );
                         });
-
-                        io.socket.on('users.list', function(res){
-                            if(res.error) {
-                                console.warn(res.error);
-
-                                return;
-                            }
-
-                            console.info(res.data);
-                        });
                     }
                 }
             },
