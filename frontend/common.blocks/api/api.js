@@ -39,6 +39,7 @@ modules.define('api', ['socket-io', 'jquery', 'vow'],
 
                         io.socket[method](url, params, function(resData, jwres){
                             if(!resData || resData.error || jwres.statusCode !== 200) {
+
                                 reject(resData.error || 'Ошибка подключения к API');
 
                                 return;

@@ -29,6 +29,8 @@ modules.define(
                     username : _this.params.username
                 }).then(function(data){
                     console('postMessage res data: ', data);
+                }, function(error){
+                    console('postMessage error: ', error);
                 });
             }
         }));

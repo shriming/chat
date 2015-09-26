@@ -56,9 +56,6 @@ modules.define(
                         });
                     }
                 }
-            },
-            renderHtml : function(){
-                return '5';
             }
         }));
     }
