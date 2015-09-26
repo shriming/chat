@@ -1,4 +1,4 @@
-/*global Passport,sails,slack */
+/*global sails */
 
 /**
  * IndexPageController
@@ -13,32 +13,18 @@ module.exports = {
      * `IndexPageController.index()`
      */
     index : function(req, res){
-        if(req.session.User) {
-            slack.init(req);
 
-            Passport.findOne({
-                identifier : req.session.User.id
-            }, function(err){
-                if(err) {
-                    res.send(err);
-                }
+        res.render({
+            data : {
+                title : 'Shriming Chat',
+                user : req.session.User || {}
+            }
+        });
 
-                res.render({
-                    data : {
-                        title : 'Shriming Chat',
-                        user : req.session.User
-                    }
-                });
-            });
-        } else {
-            sails.sockets.blast('newUserConnected', 'New anonymous user connected to application.');
-
-            res.render({
-                data : {
-                    title : 'Shriming Chat',
-                    user : {}
-                }
-            });
-        }
+        sails.sockets.blast('newUserConnected',
+            (
+                req.session.User? req.session.User.name : 'New anonymous user'
+            ) + ' connected to application.'
+        );
     }
 };

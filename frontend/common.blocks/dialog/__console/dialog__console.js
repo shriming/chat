@@ -44,6 +44,8 @@ modules.define(
                     as_user: true
                 }).then(function(data){
                     console('postMessage res data: ', data);
+                }, function(error){
+                    console('postMessage error: ', error);
                 });
             }
         }));

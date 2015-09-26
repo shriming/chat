@@ -40,7 +40,7 @@ gulp.task('nodemon-restart', function(){
 
 gulp.task('copy-images', function(){
     gulp.src([
-        'frontend/**/*.{png,jpg,gif,svg}',
+        'frontend/**/*.{png,jpg,gif,svg,ico}',
         '!frontend/static/*',
         '!frontend/*.bundles/*'
     ])
@@ -52,7 +52,7 @@ gulp.task('copy-css', function(){
     gulp.src([
         'frontend/desktop.bundles/merged/_merged.css'
     ])
-        .pipe(replace(/(url\([',"]?(.*[\/]{1})?(\w*\.(png|jpg|gif))[',"]?\))/g, 'url("../images/$3")'))
+        .pipe(replace(/(url\([',"]?(.*[\/]{1})?(\w*\.(png|jpg|gif|svg))[',"]?\))/g, 'url("../images/$3")'))
         .pipe(flatten())
         .pipe(gulp.dest('frontend/static/css'));
 });
@@ -69,7 +69,7 @@ gulp.task('copy-files', ['copy-js', 'copy-css', 'copy-images']);
 
 gulp.task('watch', function(){
     gulp.watch([
-        'frontend/**/*.{png,jpg,gif,svg}',
+        'frontend/**/*.{png,jpg,gif,svg,ico}',
         '!frontend/static/**/*',
         '!frontend/*.bundles/**/*'
     ], function(){

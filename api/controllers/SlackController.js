@@ -10,18 +10,24 @@ module.exports = {
      * `SlackController.api()`
      */
     api : function(req, res){
-        var options = (
-                      req.method === 'POST')? req.body : req.query;
+        var options = req.method === 'POST'? req.body : req.query;
+        var data = {};
+
+        function respond(data){
+            sails.sockets.blast(req.params.method, data);
+            res.json(data);
+        }
 
         if(slack.api) {
             slack.api(req.params.method, options, function(error, response){
-                var data = { error : error, data : response };
-
-                sails.sockets.blast(req.params.method, data);
-                res.json(data);
+                data = { error : error, data : response };
+                respond(data);
             });
         } else {
-            console.log('error');
+            data.error = 'Slack service was\'t properly inited. Can\'t perform request.';
+            console.log('Slack controller error: ', data.error);
+            respond(data);
         }
+
     }
 };
