@@ -13,16 +13,21 @@ module.exports = {
         var options = req.method === 'POST'? req.body : req.query;
         var data = {};
 
+        function respond(data){
+            sails.sockets.blast(req.params.method, data);
+            res.json(data);
+        }
+
         if(slack.api) {
             slack.api(req.params.method, options, function(error, response){
                 data = { error : error, data : response };
+                respond(data);
             });
         } else {
             data.error = 'Slack service was\'t properly inited. Can\'t perform request.';
             console.log('Slack controller error: ', data.error);
+            respond(data);
         }
 
-        sails.sockets.blast(req.params.method, data);
-        res.json(data);
     }
 };
