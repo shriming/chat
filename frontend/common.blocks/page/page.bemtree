@@ -6,7 +6,10 @@ match(this.ctx.data)
         return applyCtx({
             block : 'page',
             mix : [{ block : 'libs' }],
-            head : [{ elem : 'css', url : '/static/css/_merged.css' }],
+            head : [
+                { elem : 'css', url : '/static/css/_merged.css' },
+                { elem : 'favicon', url : '/static/images/favicon.ico' }
+            ],
             title : data.title,
             content : [
                 {
