@@ -6,7 +6,6 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        console.log('feed inited io: ', io);
                         var _this = this;
                         var socketSlack;
 

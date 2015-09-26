@@ -8,7 +8,7 @@
         { block : 'clearfix' },
         { block : 'header' },
         { block : 'main' },
-        { block : 'list', elems : ['title', 'container', 'item'] },
+        { block : 'list' },
         { block : 'dialog', elems : ['header', 'history', 'console'] },
         { block : 'link' }
     ],

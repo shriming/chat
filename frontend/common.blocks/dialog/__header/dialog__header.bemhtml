@@ -1,6 +1,8 @@
 block('dialog').elem('header')(
+    js()(true),
+    mix()('i-bem'),
     content()(function(){
-            return 'Dialog header!!!';
+            return 'Добро пожаловать в Shrimig!';
         }
     )
 );
