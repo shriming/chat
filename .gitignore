@@ -1,5 +1,3 @@
-config/local.js
-
 node_modules
 
 .tmp
@@ -35,7 +33,7 @@ frontend/*.specs/
 !frontend/*bundles*/*/*.bemdecl.js
 !frontend/*bundles*/.bem/*
 
-########################
 # local config
-########################
 config/local.js
+config/locals.js
+
