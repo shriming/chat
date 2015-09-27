@@ -1,0 +1,17 @@
+block('avatar')(
+    def()(function(){
+        var user = this.ctx.data || {};
+
+        return applyCtx({
+            block: 'avatar',
+            mods: {size: 's'},
+            content: {
+                block: 'image',
+                mix: {block: 'avatar', elem: 'image'},
+                title: user.name,
+                alt: user.name,
+                url: user.image_48
+            }
+        });
+    })
+);
