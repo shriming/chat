@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
     "authors": [
         "Anikeychik Dmitry",
         "Berezhnoy Sergey",
@@ -21,7 +20,8 @@
     "dependencies": {
         "bem-components": "^2.3.0",
         "bem-core": "~2.8.0",
-        "sails.io.js": "~0.11.6"
+        "sails.io.js": "~0.11.6",
+        "eventemitter2": "~0.4.14"
     },
     "devDependencies": {
         "bem-pr": "~0.12.0"
@@ -29,27 +29,4 @@
     "resolutions": {
         "bem-core": "~2.8.0"
     }
-=======
-  "author": "alexbaumgertner@yandex.ru",
-  "name": "sails-bem-project-stub",
-  "email": "alexbaumgertner@yandex.ru",
-  "version": "1.0.0",
-  "ignore": [
-    "views/.enb/tmp",
-    "node_modules",
-    "frontend/libs"
-  ],
-  "dependencies": {
-    "bem-components": "^2.3.0",
-    "bem-core": "~2.8.0",
-    "sails.io.js": "~0.11.6",
-    "eventemitter2": "~0.4.14"
-  },
-  "devDependencies": {
-    "bem-pr": "~0.12.0"
-  },
-  "resolutions": {
-    "bem-core": "~2.8.0"
-  }
->>>>>>> feat #23: Добавил client-side обёртку для Slack RTM API
 }
