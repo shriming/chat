@@ -11,7 +11,7 @@
 
  1) _Временно_: запустите процесс [MongoDB](https://www.mongodb.org/): `mongod --dbpath pathToDb` .
 
- 2) Переименуйте файл `./config/local.dist.js` в `./config/local.js` и подставьте в него свои параметры.
+ 2) Переименуйте файл `./local.dist.js` в `./local.js`, перенесите его в `./config` и подставьте в него свои параметры.
     Данные для авторизации можно получить на странице [Slack API](https://api.slack.com/applications) в разделе "OAuth Information".
 
 ```javascript
