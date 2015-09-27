@@ -99,7 +99,7 @@
         "debug": "node debug app.js",
         "init": "npm run deps && npm run make-views",
         "deps": "npm i && ./node_modules/.bin/bower i",
-        "make-views": "npm run views-compile && npm run copy-views",
+        "make-views": "npm run views-compile && gulp copy-files",
         "views-compile": "./node_modules/.bin/enb make -d frontend --no-cache",
         "copy-views": "npm run copy-css && npm run copy-js",
         "copy-css": "cp frontend/desktop.bundles/merged/_merged.css frontend/static/css/",
