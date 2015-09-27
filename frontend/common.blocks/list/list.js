@@ -1,7 +1,7 @@
 modules.define(
     'list',
-    [ 'i-bem__dom', 'BEMHTML', 'jquery', 'api', 'i-chat-api', 'eventemitter2' ],
-    function(provide, BEMDOM, BEMHTML, $, api, chatAPI){
+    [ 'i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI){
         var LISTS = {
             users: 'members',
             channels: 'channels',

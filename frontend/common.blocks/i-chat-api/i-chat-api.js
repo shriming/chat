@@ -12,7 +12,7 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
              *
              * @param {String} token Токен, выданный при авторизации в Slack
              */
-            setToken: function(token){
+            setToken : function(token){
                 this._token = token;
 
                 if (!this.isOpen()) {
@@ -27,12 +27,12 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
              * @param {Object} params Передаваемые данные
              * @return {Promise} Promise ответа сервера
              */
-            request: webAPI.get,
+            request : webAPI.get,
 
             /**
              * Алиас к .request()
              */
-            get: webAPI.get,
+            get : webAPI.get,
 
             /**
              * Совершает POST-запрос к серверу Slack
@@ -43,7 +43,7 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
              * @param {Object} params Передаваемые данные
              * @return {Promise} Promise ответа сервера
              */
-            post: webAPI.post,
+            post : webAPI.post,
 
             /**
              * Аксессор к полю isOpen
@@ -51,7 +51,7 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
              * @param isOpen
              * @returns {bool} Статус соединения (открыто/закрыто)
              */
-            isOpen: function(isOpen){
+            isOpen : function(isOpen){
                 if (arguments.length) {
                     return this._isOpen = isOpen;
                 }
@@ -59,47 +59,47 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
                 return this._isOpen;
             },
 
-            _RTM_START_URL: 'https://slack.com/api/rtm.start',
+            _RTM_START_URL : 'https://slack.com/api/rtm.start',
 
-            _init: helper.once(function(){
+            _init : helper.once(function(){
                 this._setHandlers();
                 this._getSocketURL();
             }),
 
-            _setHandlers: function(){
+            _setHandlers : function(){
                 var events = this._internalEvents;
                 for (var event in events) if (events.hasOwnProperty(event)) {
                     this.on(event, events[ event ]);
                 }
             },
 
-            _internalEvents: {
+            _internalEvents : {
                 // TODO: Решить с командой правильную обработку потери соединения
-                '_connection.open': function(){
+                '_connection.open' : function(){
                 },
-                '_connection.close': function(response){
+                '_connection.close' : function(response){
                     console.error('Socket.close');
                 },
-                '_connection.abort': function(response){
+                '_connection.abort' : function(response){
                     console.error('Socket.abort');
                 },
-                '_connection.error': function(error){
+                '_connection.error' : function(error){
                     console.log('Socket.connection.error');
                 }
             },
 
-            _isOpen: false,
+            _isOpen : false,
 
-            _getSocketURL: function(){
-                var self = this;
-                self.isOpen(true);
+            _getSocketURL : function(){
+                var _this = this;
+                _this.isOpen(true);
 
                 return new vow.Promise(function(resolve, reject){
                     $.ajax({
-                        method: "POST",
-                        url: self._RTM_START_URL,
-                        data: {
-                            token: self._token
+                        method : "POST",
+                        url : _this._RTM_START_URL,
+                        data : {
+                            token : _this._token
                         }
                     })
                         .done(function(result){
@@ -111,7 +111,7 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
                                 reject('URL для создания socket-cоединения не найден!');
                             }
 
-                            self._initSocket(result.url);
+                            _this._initSocket(result.url);
                             resolve(result);
 
                         })
@@ -121,40 +121,40 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
                 });
             },
 
-            _initSocket: function(url){
-                var self = this;
+            _initSocket : function(url){
+                var _this = this;
                 this._socket = new WebSocket(url);
 
                 this._socket.onopen = function(){
-                    self.emit('_connection.open');
+                    _this.emit('_connection.open');
                 };
 
                 this._socket.onclose = function(event){
                     var response = {
-                        code: event.code,
-                        reason: event.reason
+                        code : event.code,
+                        reason : event.reason
                     };
 
                     if (event.wasClean) {
-                        self.emit('_connection.close', response);
+                        _this.emit('_connection.close', response);
                     } else {
-                        self.emit('_connection.abort', response);
+                        _this.emit('_connection.abort', response);
                     }
                 };
 
                 this._socket.onmessage = function(event){
                     var response = JSON.parse(event.data);
-                    self.emit(response.type, response);
+                    _this.emit(response.type, response);
                 };
 
                 this._socket.onerror = function(error){
-                    self.emit('_connection.error', error.message);
+                    _this.emit('_connection.error', error.message);
                 };
             }
         };
 
         var chatAPI = $.extend({}, chatAPIPrototype, new EventEmitter2({
-            wildcard: true
+            wildcard : true
         }));
 
         provide(/** @exports */chatAPI);
