@@ -1,0 +1,14 @@
+block('page')(
+    content()(function(){
+        var content = applyNext();
+
+        if(process.env.NODE_ENV === 'development') {
+            content.push({
+                elem : 'js',
+                url : 'http://localhost:8090/browser-sync/browser-sync-client.2.9.3.js'
+            });
+        }
+
+        return content;
+    })
+);
