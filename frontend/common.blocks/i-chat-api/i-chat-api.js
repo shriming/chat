@@ -3,7 +3,7 @@
  * @description Обеспечивает общение клиентской части чата и Slack RTM
  */
 
-modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helper__function' ],
+modules.define('i-chat-api', ['api', 'jquery', 'vow', 'eventemitter2', 'i-helper__function'],
     function(provide, webAPI, $, vow, EventEmitter2, helper){
 
         var chatAPIPrototype = {
@@ -69,7 +69,7 @@ modules.define('i-chat-api', [ 'api', 'jquery', 'vow', 'eventemitter2', 'i-helpe
             _setHandlers : function(){
                 var events = this._internalEvents;
                 for (var event in events) if (events.hasOwnProperty(event)) {
-                    this.on(event, events[ event ]);
+                    this.on(event, events[event]);
                 }
             },
 
