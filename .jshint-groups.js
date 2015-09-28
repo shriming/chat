@@ -74,7 +74,8 @@ module.exports = {
                     'mix',
                     'mod',
                     'mode',
-                    'tag'
+                    'tag',
+                    'process'
                 ]
             },
             includes : ['frontend/*.blocks/**/*.bemhtml']
@@ -102,7 +103,6 @@ module.exports = {
                 node : true,
             },
             includes : [
-                'frontend/**/.bem/**/*.js',
                 'api/**/*.js',
                 'config/**/*.js'
             ],
