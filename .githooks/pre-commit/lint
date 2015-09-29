@@ -23,6 +23,12 @@ git checkout -- .
 
 git_cached_js_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -e '\.js$' --color=never | xargs echo)
 if [ "$git_cached_js_files" ]; then
-    $NPM_BIN/jshint-groups $git_cached_js_files || exit 1
-    $NPM_BIN/jscs $git_cached_js_files || exit 1
+    $NPM_BIN/jshint-groups $git_cached_js_files || exit $?
+    $NPM_BIN/jscs $git_cached_js_files || exit $?
+fi
+
+git_cached_styl_files=$(git diff --cached --name-only --diff-filter=ACMR | grep -e '\.styl$' --color=never | xargs echo)
+if [ "$git_cached_styl_files" ]; then
+    $NPM_BIN/stylint --config .stylintrc $git_cached_styl_files
+    exit $?
 fi
