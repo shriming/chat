@@ -3,6 +3,7 @@
         { elems : ['title', 'container', 'item'] }
     ],
     shouldDeps : [
-        { block : 'api' }
+        { block : 'api' },
+        { block : 'i-chat-api'}
     ]
 });

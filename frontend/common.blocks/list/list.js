@@ -1,11 +1,11 @@
 modules.define(
     'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'api'],
-    function(provide, BEMDOM, BEMHTML, $, api){
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI){
         var LISTS = {
-            users: 'members',
-            channels: 'channels',
-            groups: 'groups'
+            users : 'members',
+            channels : 'channels',
+            groups : 'groups'
         };
 
         provide(BEMDOM.decl('list', {
@@ -15,6 +15,16 @@ modules.define(
                         var type = this.getMod('type');
 
                         this._getListData(type);
+
+                        if (!chatAPI.isOpen()) {
+                            // Нужен на время тестирования
+                            var TOKEN = "xoxp-11352820727-11352369638-11388775793-8454f5e6e0";
+                            chatAPI.setToken(TOKEN);
+                        }
+
+                        chatAPI.on('*', function(message){
+                            console.log(message);
+                        });
                     }
                 }
             },
@@ -33,7 +43,7 @@ modules.define(
             _getListData : function(type){
                 var container = this.elem('container');
 
-                api.get(type + '.list', {}).then(function(data){
+                chatAPI.get(type + '.list', {}).then(function(data){
                     var items = data[LISTS[type]];
 
                     items.forEach(function(item){
@@ -41,11 +51,11 @@ modules.define(
                             BEMHTML.apply({
                                 block : 'list',
                                 elem : 'item',
-                                mods : { type : type },
+                                mods : {type : type},
                                 content : item.name,
                                 js : {
-                                    id: item.id,
-                                    name: item.name
+                                    id : item.id,
+                                    name : item.name
                                 }
                             })
                         );

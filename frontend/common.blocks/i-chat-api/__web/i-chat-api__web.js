@@ -2,7 +2,7 @@
  * Запросы к Slack API
  * @module
  */
-modules.define('api', ['socket-io', 'jquery', 'vow'],
+modules.define('i-chat-api__web', ['socket-io', 'jquery', 'vow'],
     function(provide, io, $, vow){
         var api = {
             /**
