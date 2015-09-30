@@ -75,15 +75,15 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
 
             _internalEvents : {
                 // TODO: Решить с командой правильную обработку потери соединения
-                '_connection.open' : function(){
+                '_connection-open' : function(){
                 },
-                '_connection.close' : function(response){
+                '_connection-close' : function(response){
                     console.error('Socket.close');
                 },
-                '_connection.abort' : function(response){
+                '_connection-abort' : function(response){
                     console.error('Socket.abort');
                 },
-                '_connection.error' : function(error){
+                '_connection-error' : function(error){
                     console.log('Socket.connection.error');
                 }
             },
@@ -108,7 +108,7 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                             }
 
                             if (!result.url) {
-                                reject('URL для создания socket-cоединения не найден!');
+                                reject('URL для создания socket-соединения не найден!');
                             }
 
                             _this._initSocket(result.url);
@@ -126,7 +126,7 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                 this._socket = new WebSocket(url);
 
                 this._socket.onopen = function(){
-                    _this.emit('_connection.open');
+                    _this.emit('_connection-open');
                 };
 
                 this._socket.onclose = function(event){
@@ -136,9 +136,9 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                     };
 
                     if (event.wasClean) {
-                        _this.emit('_connection.close', response);
+                        _this.emit('_connection-close', response);
                     } else {
-                        _this.emit('_connection.abort', response);
+                        _this.emit('_connection-abort', response);
                     }
                 };
 
@@ -148,7 +148,7 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                 };
 
                 this._socket.onerror = function(error){
-                    _this.emit('_connection.error', error.message);
+                    _this.emit('_connection-error', error.message);
                 };
             }
         };
