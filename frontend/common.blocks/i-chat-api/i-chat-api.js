@@ -3,7 +3,7 @@
  * @description Обеспечивает общение клиентской части чата и Slack RTM
  */
 
-modules.define('i-chat-api', ['api', 'jquery', 'vow', 'eventemitter2', 'i-helper__function'],
+modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2', 'i-helper__function'],
     function(provide, webAPI, $, vow, EventEmitter2, helper){
 
         var chatAPIPrototype = {
@@ -48,8 +48,8 @@ modules.define('i-chat-api', ['api', 'jquery', 'vow', 'eventemitter2', 'i-helper
             /**
              * Аксессор к полю isOpen
              *
-             * @param isOpen
-             * @returns {bool} Статус соединения (открыто/закрыто)
+             * @param {Boolean} [isOpen]
+             * @returns {Boolean} Статус соединения (открыто/закрыто)
              */
             isOpen : function(isOpen){
                 if (arguments.length) {

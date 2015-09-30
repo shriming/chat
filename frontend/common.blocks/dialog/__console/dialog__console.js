@@ -1,6 +1,6 @@
 modules.define(
     'dialog__console',
-    ['i-bem__dom', 'socket-io', 'keyboard__codes', 'api', 'list'],
+    ['i-bem__dom', 'socket-io', 'keyboard__codes', 'i-chat-api', 'list'],
     function(provide, BEMDOM, io, keyCodes, api, List){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
