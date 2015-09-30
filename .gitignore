@@ -37,3 +37,6 @@ frontend/*.specs/
 config/local.js
 config/locals.js
 
+# databases
+db
+

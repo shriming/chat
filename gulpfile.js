@@ -122,7 +122,7 @@ gulp.task('jslint',  shell.task([
 ]));
 
 gulp.task('mongo', shell.task([
-    'mongod'
+    'mkdir db & mongod --dbpath ./db'
 ]));
 
 gulp.task('lint', ['jslint', 'stylint']);
