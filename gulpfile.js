@@ -8,7 +8,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 var stylint = require('gulp-stylint');
 
-gulp.task('start-dev', function(){
+gulp.task('server', function(){
     var called = false;
 
     nodemon({
@@ -26,7 +26,7 @@ gulp.task('start-dev', function(){
     });
 });
 
-gulp.task('start-pro', function(){
+gulp.task('prod', function(){
     runSequence('enb-no-cache', 'copy-files', 'run-app');
 });
 
@@ -121,6 +121,10 @@ gulp.task('jslint',  shell.task([
     'jshint-groups && jscs .'
 ]));
 
+gulp.task('mongo', shell.task([
+    'mkdir db & mongod --dbpath ./db'
+]));
+
 gulp.task('lint', ['jslint', 'stylint']);
 
 gulp.task('browser-sync', function(){
@@ -145,6 +149,8 @@ gulp.task('browser-reload', function(){
     browserSync.reload();
 });
 
-gulp.task('default', function(){
-    runSequence('lint', 'enb-no-cache', 'copy-files', 'start-dev', 'browser-sync', 'watch');
+gulp.task('dev', function(){
+    runSequence('lint', 'enb-no-cache', 'copy-files', 'server', 'browser-sync', 'watch');
 });
+
+gulp.task('default', ['mongo', 'dev']);
