@@ -9,7 +9,7 @@
         { block : 'header' },
         { block : 'main' },
         { block : 'list' },
-        { block : 'dialog', elems : ['header', 'history', 'console'] },
+        { block : 'dialog' },
         { block : 'link' }
     ],
 });
