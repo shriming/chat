@@ -111,7 +111,8 @@ gulp.task('enb-cached', shell.task([
 ]));
 
 gulp.task('stylint', function(){
-    gulp.src(['frontend/**/*.styl',
+    return gulp.src(['frontend/**/*.styl',
+        '!frontend/libs/**/*',
         '!frontend/static/**/*',
         '!frontend/*.bundles/**/*'])
         .pipe(stylint({ config : '.stylintrc' }));

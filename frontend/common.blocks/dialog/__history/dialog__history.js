@@ -1,50 +1,54 @@
 modules.define(
     'dialog__history',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'jquery'],
-    function(provide, BEMDOM, BEMHTML, io, $){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'list'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, List){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
                         var _this = this;
-                        var socketSlack;
 
-                        /* Тестирование Client-side. Не трогайте :) */
-                        $.get('/csrfToken').success(function(data){
-                            var csrfToken = data._csrf;
-                            io.socket.post('/slack/rtm.start', { _csrf : csrfToken }, function(data, jwres){
-                                socketSlack = io(data.url);
-                                socketSlack.on('hello', function(response){
-                                    console.log('newMessage response: ', response);
-                                    var data = response.data;
-
-                                    BEMDOM.append(_this.domElem,
-                                        BEMHTML.apply([
-                                            {
-                                                block : 'message',
-                                                content : data.message.username + ': ' + data.message.text
-                                            }
-                                        ])
-                                    );
-                                });
-                            });
-                        });
+                        List.on('click-channels', this._onChannelSelect, this);
 
                         io.socket.on('chat.postMessage', function(response){
-                            console.log('newMessage response: ', response);
                             var data = response.data;
 
                             if(data && !data.error) {
                                 BEMDOM.append(_this.domElem,
                                     BEMHTML.apply({
                                         block : 'message',
-                                        content : data.message.username + ': ' + data.message.text
+                                        content : data.message.user + ': ' + data.message.text
                                     })
                                 );
                             }
                         });
                     }
                 }
+            },
+
+            destruct: function(){
+                List.un('click-channels');
+            },
+
+            _onChannelSelect : function(e, data){
+                var _this = this;
+                var container = this.elem('container');
+
+                chatAPI.post('channels.history', {
+                    channel : data.id
+                }).then(function(resData){
+                    var messagesList = resData.messages.reverse().map(function(message){
+                        return BEMHTML.apply({
+                            block : 'message',
+                            mix : [{ block : 'dialog', elem : 'message' }],
+                            content : message.user + ': ' + message.text
+                        });
+                    });
+
+                    BEMDOM.update(_this.domElem, messagesList);
+                }, function(error){
+                    console.log('channels.history error: ', error);
+                });
             }
         }));
     }

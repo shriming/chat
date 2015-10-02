@@ -12,8 +12,10 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
+                        var instances = this.__self.instances || (this.__self.instances = []);
                         var type = this.getMod('type');
 
+                        instances.push(this);
                         this._getListData(type);
 
                         if (!chatAPI.isOpen()) {
@@ -25,17 +27,6 @@ modules.define(
                         chatAPI.on('*', function(message){
                             console.log(message);
                         });
-                    }
-                }
-            },
-
-            onElemSetMod : {
-                'item' : {
-                    'current' : {
-                        'true' : function(elem){
-                            this.delMod(this._current, 'current');
-                            this._current = elem;
-                        }
                     }
                 }
             },
@@ -66,6 +57,10 @@ modules.define(
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
+
+                this.__self.instances.forEach(function(list){
+                    list.delMod(list.elem('item'), 'current');
+                });
 
                 this.setMod(item, 'current', true);
                 this.emit('click-' + type, this.elemParams(item));
