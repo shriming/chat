@@ -6,9 +6,10 @@ block('user')(
         if (user.email) {
             content.push({
                     block: 'avatar',
-                    mix: { block: 'user', elem: 'avatar'},
                     mods: {size: 's'},
-                    data: user
+                    mix: { block: 'user', elem: 'avatar'},
+                    user: user,
+                    content: 'outer'
                 },
                 {
                     elem: 'title',

@@ -1,0 +1,2 @@
+block('avatar').js()(true);
+
