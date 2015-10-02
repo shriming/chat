@@ -1,7 +1,7 @@
 modules.define(
     'dialog__history',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'list'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, List){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'list'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, List){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
@@ -12,12 +12,14 @@ modules.define(
 
                         io.socket.on('chat.postMessage', function(response){
                             var data = response.data;
+                            var user = Users.getUser(data.message.user);
+                            var username = user ? (user.real_name || user.name) : 'Бот какой-то';
 
                             if(data && !data.error) {
                                 BEMDOM.append(_this.domElem,
                                     BEMHTML.apply({
                                         block : 'message',
-                                        content : data.message.user + ': ' + data.message.text
+                                        content : username + ': ' + data.message.text
                                     })
                                 );
                             }
@@ -38,10 +40,13 @@ modules.define(
                     channel : data.id
                 }).then(function(resData){
                     var messagesList = resData.messages.reverse().map(function(message){
+                        var user = Users.getUser(message.user);
+                        var username = user ? (user.real_name || user.name) : 'Бот какой-то';
+
                         return BEMHTML.apply({
                             block : 'message',
                             mix : [{ block : 'dialog', elem : 'message' }],
-                            content : message.user + ': ' + message.text
+                            content : username + ': ' + message.text
                         });
                     });
 

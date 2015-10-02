@@ -1,22 +1,20 @@
 modules.define(
     'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI){
-        var LISTS = {
-            users : 'members',
-            channels : 'channels',
-            groups : 'groups'
-        };
-
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users){
         provide(BEMDOM.decl('list', {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
                         var instances = this.__self.instances || (this.__self.instances = []);
-                        var type = this.getMod('type');
-
                         instances.push(this);
-                        this._getListData(type);
+                        Users.fetch();
+
+                        if(this.getMod('type') === 'channels') {
+                            this._getChannelsData();
+                        }else{
+                            this._getUsersData();
+                        }
 
                         if (!chatAPI.isOpen()) {
                             // Нужен на время тестирования
@@ -31,22 +29,48 @@ modules.define(
                 }
             },
 
-            _getListData : function(type){
+            _getChannelsData : function(){
                 var container = this.elem('container');
 
-                chatAPI.get(type + '.list', {}).then(function(data){
-                    var items = data[LISTS[type]];
+                chatAPI.get('channels.list').then(function(data){
+                    var channels = data.channels;
 
-                    items.forEach(function(item){
+                    channels.forEach(function(channel){
                         BEMDOM.append(container,
                             BEMHTML.apply({
                                 block : 'list',
                                 elem : 'item',
-                                mods : {type : type},
-                                content : item.name,
+                                mods : { type : 'channels' },
+                                content : channel.name,
                                 js : {
-                                    id : item.id,
-                                    name : item.name
+                                    id : channel.id,
+                                    name : channel.name
+                                }
+                            })
+                        );
+                    });
+                });
+            },
+
+            _getUsersData : function(){
+                var container = this.elem('container');
+
+                chatAPI.get('im.list').then(function(data){
+                    var ims = data.ims;
+
+                    ims.forEach(function(im){
+                        var user = Users.getUser(im.user);
+                        var username = user ? (user.real_name || user.name) : 'Бот какой-то';
+
+                        BEMDOM.append(container,
+                            BEMHTML.apply({
+                                block : 'list',
+                                elem : 'item',
+                                mods : { type : 'users' },
+                                content : username,
+                                js : {
+                                    id : im.id,
+                                    name : username
                                 }
                             })
                         );
