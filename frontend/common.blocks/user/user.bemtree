@@ -4,44 +4,47 @@ block('user')(
         var content = [];
 
         if (user.email) {
-            content.push({
-                    block: 'avatar',
-                    mods: {size: 's'},
-                    mix: { block: 'user', elem: 'avatar'},
-                    user: user,
-                    content: 'outer'
+            content.push(
+                {
+                    elem : 'avatar',
+                    content : {
+                        block : 'avatar',
+                        mods : {size : 's'},
+                        user : user,
+                        content : 'outer'
+                    }
                 },
                 {
-                    elem: 'title',
-                    content: user.email
+                    elem : 'title',
+                    content : user.email
                 },
                 {
-                    block: 'current-user',
-                    elem: 'logout',
-                    tag: 'span',
-                    content: {
-                        block: 'link',
-                        mods: {theme: 'shriming'},
-                        url: '/logout/',
-                        content: 'logout'
+                    block : 'current-user',
+                    elem : 'logout',
+                    tag : 'span',
+                    content : {
+                        block : 'link',
+                        mods : {theme : 'shriming'},
+                        url : '/logout/',
+                        content : 'logout'
                     }
                 });
         } else {
             content.push({
-                block: 'current-user',
-                elem: 'logout',
-                content: {
-                    block: 'link',
-                    mods: {theme: 'shriming'},
-                    url: '/login/',
-                    content: 'login'
+                block : 'current-user',
+                elem : 'logout',
+                content : {
+                    block : 'link',
+                    mods : {theme : 'shriming'},
+                    url : '/login/',
+                    content : 'login'
                 }
             });
         }
 
         return applyCtx({
-            block: 'user',
-            content: content
+            block : 'user',
+            content : content
         });
 
     })

@@ -1,4 +1,7 @@
 ({
+    mustDeps: [
+        {block: 'avatar', mod: 'size', val: 's'}
+    ],
     shouldDeps: [
         {block: 'current-user'},
         {block: 'image'},
