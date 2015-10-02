@@ -1,7 +1,7 @@
 modules.define(
     'dialog__console',
     ['i-bem__dom', 'socket-io', 'keyboard__codes', 'i-chat-api', 'list'],
-    function(provide, BEMDOM, io, keyCodes, api, List){
+    function(provide, BEMDOM, io, keyCodes, chatAPI, List){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
@@ -37,7 +37,7 @@ modules.define(
                     return;
                 }
 
-                api.post('chat.postMessage', {
+                chatAPI.post('chat.postMessage', {
                     text : message,
                     channel : _this._channelId,
                     username : _this.params.username,
