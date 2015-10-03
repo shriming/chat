@@ -36,8 +36,8 @@ block('user')(
                 content : {
                     block : 'link',
                     mods : {theme : 'shriming'},
-                    url : '/login/',
-                    content : 'login'
+                    url : '/auth/slack',
+                    content : 'Логин через Slack'
                 }
             });
         }
