@@ -1,11 +1,17 @@
-(
-{
+({
+    mustDeps: [],
+
     shouldDeps : [
         {
-            elems : ['title', 'user']
+            block : 'header',
+            elems : 'current-user'
         },
         {
-            block : 'logo', mods : { white : true }
+            block : 'current-user'
+        },
+        {
+            block : 'logo',
+            mods : { white : true }
         }
     ]
 });

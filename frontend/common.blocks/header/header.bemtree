@@ -1,6 +1,7 @@
 block('header')(
     def()(function(){
         var data = this.ctx.data;
+
         return applyCtx({
             block : 'header',
             content : [
@@ -13,13 +14,9 @@ block('header')(
                     content : 'Яндекс — Shriming'
                 },
                 {
-                    elem : 'user',
-                    content : [
-                        {
-                            block : 'user',
-                            data : data
-                        }
-                    ]
+                    block : 'current-user',
+                    mix : { block : 'header', elem : 'current-user' },
+                    user : data
                 }
             ]
         });

@@ -1,2 +1,14 @@
-block('avatar').js()(true);
+block('avatar')(
+    js()(true),
+    content()(function(){
+        var user = this.ctx.user || {};
 
+        return applyCtx({
+            block : 'image',
+            mix : { block : 'avatar', elem : 'image' },
+            title : user.name,
+            alt : user.name,
+            url : user.image_48
+        });
+    })
+);

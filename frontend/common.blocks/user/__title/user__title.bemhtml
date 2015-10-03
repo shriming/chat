@@ -1,5 +1,0 @@
-block('user')(
-    elem('title')(
-        tag()('span')
-    )
-);

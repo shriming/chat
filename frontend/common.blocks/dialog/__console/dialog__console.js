@@ -8,7 +8,7 @@ modules.define(
                     'inited' : function(){
                         var textarea = this.findBlockInside('textarea');
 
-                        List.on('click-channels', this._onChannelSelect, this);
+                        List.on('click-channels click-users', this._onChannelSelect, this);
                         textarea.bindTo('keydown', this._onKeyDown.bind(this));
                     }
                 }

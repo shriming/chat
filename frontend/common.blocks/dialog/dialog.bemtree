@@ -5,7 +5,11 @@ block('dialog').def()(function(){
         block : this.block,
         content : [
             {
-                elem : 'header'
+                elem : 'header',
+                content : [
+                    { elem : 'title' },
+                    { elem : 'description' }
+                ]
             },
             {
                 elem : 'history',
@@ -15,6 +19,7 @@ block('dialog').def()(function(){
                 elem : 'console',
                 data : data
             }
-        ]
+        ],
+        js : true
     });
 });

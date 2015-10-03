@@ -1,0 +1,25 @@
+block('message')(
+    content()(function(){
+        return [
+            {
+                //block : 'avatar',
+                block: 'message', elem: 'avatar',
+                //user : user,
+                mod : { size: 'm'}
+                //mix: { block: 'message', elem: 'avatar' }
+            },
+            {
+                elem: 'username',
+                content: 'Maxim'
+            },
+            {
+                elem: 'time',
+                content: '12:24'
+            },
+            {
+                elem: 'content',
+                content: 'Hello!'
+            }
+        ];
+    })
+);
