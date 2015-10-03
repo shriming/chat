@@ -1,4 +1,5 @@
 block('page')(
+    js()(true),
     content()(function(){
         var content = applyNext();
 

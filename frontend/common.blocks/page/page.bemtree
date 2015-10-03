@@ -38,14 +38,6 @@ match(this.ctx.data)
                                         { elem : 'title', content : 'Пользователи' },
                                         { elem : 'container' }
                                     ]
-                                },
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'groups' },
-                                    content: [
-                                        { elem : 'title', content : 'Приватные групы' },
-                                        { elem : 'container' }
-                                    ]
                                 }
                             ]
                         },
