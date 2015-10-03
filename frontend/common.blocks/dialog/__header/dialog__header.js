@@ -6,13 +6,13 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        List.on('click-channels', this._onChannelSelect, this);
+                        List.on('click-channels click-users', this._onChannelSelect, this);
                     }
                 }
             },
 
             destruct: function(){
-                List.un('click-channels');
+                List.un('click-channels click-users');
             },
 
             _onChannelSelect : function(e, data){

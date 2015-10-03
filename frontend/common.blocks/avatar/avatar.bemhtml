@@ -5,11 +5,10 @@ block('avatar')(
 
         return applyCtx({
             block : 'image',
-            mix : {block : 'avatar', elem : 'image'},
+            mix : { block : 'avatar', elem : 'image' },
             title : user.name,
             alt : user.name,
             url : user.image_48
         });
     })
 );
-

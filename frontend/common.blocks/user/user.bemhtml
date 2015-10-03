@@ -1,0 +1,30 @@
+block('user')(
+    content()(function(){
+        var user = this.ctx.user || {};
+        var content = [];
+
+        content.push([
+            {
+                block : 'avatar',
+                mix : { block : 'user', elem : 'avatar' },
+                mods : { size : 'm' },
+                user : user
+            },
+            {
+                elem : 'container',
+                content : [
+                    {
+                        elem : 'title',
+                        content : user.realName
+                    },
+                    {
+                        elem : 'nick',
+                        content : user.name
+                    }
+                ]
+            }
+        ]);
+
+        return content;
+    })
+);

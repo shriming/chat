@@ -9,6 +9,7 @@ modules.define(
                         var _this = this;
 
                         List.on('click-channels', this._onChannelSelect, this);
+                        List.on('click-users', this._onChannelSelect, this);
 
                         io.socket.on('chat.postMessage', function(response){
                             var data = response.data;

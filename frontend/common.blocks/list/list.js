@@ -47,17 +47,28 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                     ims.forEach(function(im){
                         var user = Users.getUser(im.user);
-                        var username = user ? (user.real_name || user.name) : 'Бот какой-то';
+
+                        if(!user){ return; }
 
                         BEMDOM.append(container,
                             BEMHTML.apply({
                                 block : 'list',
                                 elem : 'item',
                                 mods : { type : 'users' },
-                                content : username,
+                                content : [
+                                    {
+                                        block : 'user',
+                                        user : {
+                                            name : user.name,
+                                            realName : user.real_name,
+                                            image_48 : user.profile.image_48
+                                        }
+                                    }
+                                ],
                                 js : {
                                     id : im.id,
-                                    name : username
+                                    name : user.name,
+                                    realName: user.real_name
                                 }
                             })
                         );
