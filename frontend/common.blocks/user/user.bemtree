@@ -3,11 +3,18 @@ block('user')(
         var user = this.ctx.data || {};
         var content = [];
 
-        if(user.email) {
-            content.push({
+        if (user.email) {
+            content.push(
+                {
                     elem : 'avatar',
-                    data : user
-                }, {
+                    content : {
+                        block : 'avatar',
+                        mods : {size : 's'},
+                        user : user,
+                        content : 'outer'
+                    }
+                },
+                {
                     elem : 'title',
                     content : user.email
                 },
@@ -17,7 +24,7 @@ block('user')(
                     tag : 'span',
                     content : {
                         block : 'link',
-                        mods : { theme : 'shriming' },
+                        mods : {theme : 'shriming'},
                         url : '/logout/',
                         content : 'logout'
                     }
@@ -28,7 +35,7 @@ block('user')(
                 elem : 'logout',
                 content : {
                     block : 'link',
-                    mods : { theme : 'shriming' },
+                    mods : {theme : 'shriming'},
                     url : '/login/',
                     content : 'login'
                 }

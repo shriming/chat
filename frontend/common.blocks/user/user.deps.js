@@ -1,16 +1,12 @@
-(
-{
-    mustDeps : [],
-    shouldDeps : [
-        {
-            block : 'current-user'
-        },
-        {
-            block : 'image'
-        }, {
-            elem : 'avatar'
-        }, {
-            elem : 'title'
-        }
+({
+    mustDeps: [
+        {block: 'avatar', mod: 'size', val: 's'}
+    ],
+    shouldDeps: [
+        {block: 'current-user'},
+        {block: 'image'},
+        {block: 'avatar'},
+        {elem: 'avatar'},
+        {elem: 'title'}
     ]
 });
