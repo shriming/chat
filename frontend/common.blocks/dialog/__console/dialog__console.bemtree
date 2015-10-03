@@ -13,7 +13,8 @@ block('dialog').elem('console')(
                     block : 'i-bem'
                 },
                 {
-                    block : 'chat-input'
+                    block : 'chat-input',
+                    js: true
                 }
             ],
             content : [
@@ -30,18 +31,28 @@ block('dialog').elem('console')(
                     placeholder : 'Введите сообщение'
                 },
                 {
-                    block : 'emoji-chooser',
+                    block : 'button',
+                    mods : {theme : 'islands', view : 'plain'},
+                    icon : {
+                        block : 'icon',
+                        content : '☺'
+                    },
                     mix : [
                         {
                             block : 'dialog',
                             elem : 'emoji'
                         },
                         {
-                            block: 'chat-input',
-                            elem: 'emoji'
+                            block : 'chat-input',
+                            elem : 'emoji'
                         }
-                    ],
-                    content: '☺'
+                    ]
+                },
+                {
+                    block : 'popup',
+                    mods : {theme : 'islands', target : 'anchor', autoclosable : true},
+                    mix : {block : 'chat-input', elem : 'popup'},
+                    content : 'popup content'
                 }
             ]
         });
