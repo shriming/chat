@@ -9,5 +9,6 @@
             mods : { theme : 'islands', size : 'm', focused : true, name : 'msg' }
         }
     ],
-    shouldDeps : []
+    shouldDeps : [
+    ]
 });

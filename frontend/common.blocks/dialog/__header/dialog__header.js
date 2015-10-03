@@ -16,7 +16,7 @@ modules.define(
             },
 
             _onChannelSelect : function(e, data){
-                this.domElem.text(data.name);
+                this.findBlockInside('title').domElem.text(data.name);
             }
         }));
     }

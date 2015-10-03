@@ -10,6 +10,7 @@
         { block : 'header' },
         { block : 'main' },
         { block : 'list' },
+        { block : 'video' },
         { block : 'dialog' },
         { block : 'link' }
     ]

@@ -1,0 +1,18 @@
+block('dialog-controls')(
+    elem('call')(
+        js()(true),
+        mix()('i-bem'),
+        content()(function(){
+                return [{
+                    block : 'button',
+                    mods : { theme : 'islands', size : 'm' },
+                    text: 'CALL'
+//                    icon : {
+//                        block : 'icon',
+//                        mods : { name : 'call' }
+//                    }
+                }];
+            }
+        )
+    )
+);

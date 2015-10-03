@@ -17,7 +17,8 @@ module.exports = {
         res.render({
             data : {
                 title : 'Shriming Chat',
-                user : req.session.User || {}
+                user : req.session.User || {},
+                socketId: sails.sockets.id(req.socket)
             }
         });
 
