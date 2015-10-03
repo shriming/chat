@@ -2,14 +2,18 @@ modules.define(
     'dialog__history',
     ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'list'],
     function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, List){
+        var EVENT_METHODS = {
+            'click-channels' : 'channels',
+            'click-users' : 'im'
+        };
+
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
                         var _this = this;
 
-                        List.on('click-channels', this._onChannelSelect, this);
-                        List.on('click-users', this._onChannelSelect, this);
+                        List.on('click-channels click-users', this._onChannelSelect, this);
 
                         io.socket.on('chat.postMessage', function(response){
                             var data = response.data;
@@ -27,12 +31,15 @@ modules.define(
                 List.un('click-channels');
             },
 
-                _onChannelSelect : function(e, data){
-                var _this = this;
-                var container = this.elem('container');
+            _onChannelSelect : function(e, data){
+                this._getData(data.id, EVENT_METHODS[e.type]);
+            },
 
-                chatAPI.post('channels.history', {
-                    channel : data.id
+            _getData : function(channelId, type){
+                var _this = this;
+
+                chatAPI.post(type + '.history', {
+                    channel : channelId
                 }).then(function(resData){
                     var messagesList = resData.messages.reverse().map(function(message){
                         return _this._generateMessage(message);

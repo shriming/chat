@@ -31,7 +31,8 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                 content : channel.name,
                                 js : {
                                     id : channel.id,
-                                    name : channel.name
+                                    name : '#' + channel.name,
+                                    realName : channel.topic.value
                                 }
                             })
                         );
@@ -67,7 +68,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                 ],
                                 js : {
                                     id : im.id,
-                                    name : user.name,
+                                    name : '@' + user.name,
                                     realName: user.real_name
                                 }
                             })
