@@ -11,13 +11,37 @@ block('dialog').elem('console')(
             mix : [
                 {
                     block : 'i-bem'
+                },
+                {
+                    block : 'chat-input'
                 }
             ],
             content : [
                 {
                     block : 'textarea',
-                    mods : { theme : 'shriming', size : 'm', focused : true, name : 'msg' },
-                    placeholder : 'Ваш текст должен быть здесь!!'
+                    //mods : { theme : 'shriming', size : 'm', focused : true, name : 'msg' },
+                    mods : {
+                        focused : true
+                    },
+                    mix : {
+                        block : 'chat-input',
+                        elem : 'input'
+                    },
+                    placeholder : 'Введите сообщение'
+                },
+                {
+                    block : 'emoji-chooser',
+                    mix : [
+                        {
+                            block : 'dialog',
+                            elem : 'emoji'
+                        },
+                        {
+                            block: 'chat-input',
+                            elem: 'emoji'
+                        }
+                    ],
+                    content: '☺'
                 }
             ]
         });
