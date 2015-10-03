@@ -1,30 +1,17 @@
-modules.define(
-    'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
+modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
     function(provide, BEMDOM, BEMHTML, $, chatAPI, Users){
-        provide(BEMDOM.decl('list', {
+        provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
                         var instances = this.__self.instances || (this.__self.instances = []);
                         instances.push(this);
-                        Users.fetch();
 
                         if(this.getMod('type') === 'channels') {
                             this._getChannelsData();
                         }else{
                             this._getUsersData();
                         }
-
-                        if (!chatAPI.isOpen()) {
-                            // Нужен на время тестирования
-                            var TOKEN = "xoxp-11352820727-11352369638-11388775793-8454f5e6e0";
-                            chatAPI.setToken(TOKEN);
-                        }
-
-                        chatAPI.on('*', function(message){
-                            console.log(message);
-                        });
                     }
                 }
             },
