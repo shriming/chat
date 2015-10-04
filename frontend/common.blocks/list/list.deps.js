@@ -1,6 +1,6 @@
 ({
     mustDeps : [
-        { elems : ['title', 'container', 'item'] }
+        { elems : ['title', 'container', 'item', 'spin'] }
     ],
     shouldDeps : [
         { block : 'avatar' },

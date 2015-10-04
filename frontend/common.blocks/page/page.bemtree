@@ -28,7 +28,12 @@ match(this.ctx.data)
                                     mods : { 'type' : 'channels' },
                                     content: [
                                         { elem : 'title', content : 'Каналы' },
-                                        { elem : 'container' }
+                                        { elem : 'container' },
+                                        {
+                                            block : 'spin',
+                                            mix : { block : 'list', elem : 'spin' },
+                                            mods : { theme : 'islands', size : 'm', visible : true }
+                                        }
                                     ]
                                 },
                                 {
@@ -36,7 +41,12 @@ match(this.ctx.data)
                                     mods : { 'type' : 'users' },
                                     content: [
                                         { elem : 'title', content : 'Пользователи' },
-                                        { elem : 'container' }
+                                        { elem : 'container' },
+                                        {
+                                            block : 'spin',
+                                            mix : { block : 'list', elem : 'spin' },
+                                            mods : { theme : 'islands', size : 'm', visible : true }
+                                        }
                                     ]
                                 }
                             ]
