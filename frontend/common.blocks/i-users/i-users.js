@@ -18,6 +18,8 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
         var Users = {
             /**
              * Загружает данные пользователей
+             *
+             * @returns {Promise}
              */
             fetch : function(){
                 var _this = this;
