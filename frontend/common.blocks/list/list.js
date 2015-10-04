@@ -52,7 +52,6 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                 chatAPI.get('im.list').then(function(data){
                     var imsList = data.ims.map(function(im){
-                        console.log('im loaded');
                         var user = Users.getUser(im.user);
 
                         if(!user){ return; }
