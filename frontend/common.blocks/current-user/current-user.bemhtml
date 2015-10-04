@@ -31,17 +31,6 @@ block('current-user')(
                     }
                 }
             );
-        } else {
-            content.push({
-                block : 'current-user',
-                elem : 'logout',
-                content : {
-                    block : 'link',
-                    mods : { theme : 'shriming' },
-                    url : '/auth/slack',
-                    content : 'Логин через Slack'
-                }
-            });
         }
 
         return content;
