@@ -8,6 +8,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         instances.push(this);
 
                         this._container = this.elem('container');
+                        this.findBlockInside('spin').setMod('visible');
 
                         if(this.getMod('type') === 'channels') {
                             this._getChannelsData();

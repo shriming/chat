@@ -11,10 +11,6 @@
         { block : 'main' },
         { block : 'list' },
         { block : 'dialog' },
-        { block : 'link' },
-        {
-            block : 'spin',
-            mods : { theme : 'islands', size : [ 'm', 'xl'] }
-        }
+        { block : 'link' }
     ]
 });

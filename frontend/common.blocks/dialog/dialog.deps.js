@@ -9,6 +9,7 @@
         { block : 'message' },
         { block : 'i-chat-api' },
         { block : 'avatar', mods: {'size': 'm'}},
-        { block : 'i-users' }
+        { block : 'i-users' },
+        { block : 'spin', mods : { theme : 'islands', size : 'xl' } }
     ]
 });
