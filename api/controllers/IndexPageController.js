@@ -16,8 +16,8 @@ module.exports = {
 
         res.render({
             data : {
-                title : 'Shriming Chat',
-                user : req.session.User || {}
+                title : 'Shriming чат',
+                user : req.session.User || null
             }
         });
 

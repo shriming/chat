@@ -1,0 +1,49 @@
+block('landing')(
+    def()(function(){
+        var LINKS = [
+            { title : 'Github.com/shriming', url : 'https://github.com/shriming/' },
+            { title : 'ШРИ Яндекс', url : 'https://academy.yandex.ru/events/shri/' },
+            { title : 'heroku.com', url : 'https://www.heroku.com/' }
+        ];
+
+        return applyCtx({
+            block : 'landing',
+            content : [
+                {
+                    elem : 'title',
+                    content : 'Чат для разработчиков'
+                },
+                {
+                    elem : 'description',
+                    content : 'У нас размещаются тысячи публичных сообществ,' +
+                    'в которых разработчики со всего мира собираются,' +
+                    'чтобы обговорить будущее программирования,' +
+                    'создавать лучшие продукты и поделиться лучшими картинками рыб.'
+                },
+                {
+                    block : 'link',
+                    mix : { block : 'landing', elem : 'login' },
+                    url : '/auth/slack',
+                    content : 'Войти с помощью Slack'
+                },
+                {
+                    block : 'image',
+                    mix : { block : 'landing', elem : 'image' },
+                    url : 'static/images/screen.png',
+                    title : 'Shriming чат'
+                },
+                {
+                    elem : 'footer',
+                    content : LINKS.map(function(link){
+                        return {
+                            block : 'link',
+                            mix : { block : 'landing', elem : 'link' },
+                            url : link.url,
+                            content : link.title
+                        };
+                    })
+                }
+            ]
+        });
+    })
+);
