@@ -4,16 +4,20 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var instances = this.__self.instances || (this.__self.instances = []);
-                        instances.push(this);
+                        var _this = this;
 
-                        this._container = this.elem('container');
-                        this.findBlockInside('spin').setMod('visible');
+                        var instances = _this.__self.instances || (_this.__self.instances = []);
+                        instances.push(_this);
 
-                        if(this.getMod('type') === 'channels') {
-                            this._getChannelsData();
+                        _this._container = _this.elem('container');
+                        _this.findBlockInside('spin').setMod('visible');
+
+                        if(_this.getMod('type') === 'channels') {
+                            _this._getChannelsData();
                         }else{
-                            this._getUsersData();
+                            Users.fetch().then(function(){
+                                _this._getUsersData();
+                            });
                         }
                     }
                 }
@@ -48,6 +52,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                 chatAPI.get('im.list').then(function(data){
                     var imsList = data.ims.map(function(im){
+                        console.log('im loaded');
                         var user = Users.getUser(im.user);
 
                         if(!user){ return; }
