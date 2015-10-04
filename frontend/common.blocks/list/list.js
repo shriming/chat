@@ -7,6 +7,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         var instances = this.__self.instances || (this.__self.instances = []);
                         instances.push(this);
 
+                        this._container = this.elem('container');
+                        this.findBlockInside('spin').setMod('visible');
+
                         if(this.getMod('type') === 'channels') {
                             this._getChannelsData();
                         }else{
@@ -17,63 +20,61 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
             },
 
             _getChannelsData : function(){
-                var container = this.elem('container');
+                var _this = this;
 
                 chatAPI.get('channels.list').then(function(data){
-                    var channels = data.channels;
-
-                    channels.forEach(function(channel){
-                        BEMDOM.append(container,
-                            BEMHTML.apply({
-                                block : 'list',
-                                elem : 'item',
-                                mods : { type : 'channels' },
-                                content : channel.name,
-                                js : {
-                                    id : channel.id,
-                                    name : '#' + channel.name,
-                                    realName : channel.topic.value
-                                }
-                            })
-                        );
+                    var channelsList = data.channels.map(function(channel){
+                        return BEMHTML.apply({
+                            block : 'list',
+                            elem : 'item',
+                            mods : { type : 'channels' },
+                            content : channel.name,
+                            js : {
+                                id : channel.id,
+                                name : '#' + channel.name,
+                                realName : channel.topic.value
+                            }
+                        });
                     });
+
+                    BEMDOM.update(_this._container, channelsList);
+                }).always(function(){
+                    _this.findBlockInside('spin').delMod('visible');
                 });
             },
 
             _getUsersData : function(){
-                var container = this.elem('container');
+                var _this = this;
 
                 chatAPI.get('im.list').then(function(data){
-                    var ims = data.ims;
-
-                    ims.forEach(function(im){
+                    var imsList = data.ims.map(function(im){
                         var user = Users.getUser(im.user);
 
                         if(!user){ return; }
 
-                        BEMDOM.append(container,
-                            BEMHTML.apply({
+                        return BEMHTML.apply({
+                            block : 'user',
+                            mix : {
                                 block : 'list',
                                 elem : 'item',
                                 mods : { type : 'users' },
-                                content : [
-                                    {
-                                        block : 'user',
-                                        user : {
-                                            name : user.name,
-                                            realName : user.real_name,
-                                            image_48 : user.profile.image_48
-                                        }
-                                    }
-                                ],
                                 js : {
                                     id : im.id,
                                     name : '@' + user.name,
                                     realName: user.real_name
                                 }
-                            })
-                        );
+                            },
+                            user : {
+                                name : user.name,
+                                realName : user.real_name,
+                                image_48 : user.profile.image_48
+                            }
+                        });
                     });
+
+                    BEMDOM.update(_this._container, imsList);
+                }).always(function(){
+                    _this.findBlockInside('spin').delMod('visible');
                 });
             },
 

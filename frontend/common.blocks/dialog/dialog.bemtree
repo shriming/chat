@@ -13,7 +13,14 @@ block('dialog').def()(function(){
             },
             {
                 elem : 'history',
-                content : { elem : 'container' }
+                content : [
+                    { elem : 'container' },
+                    {
+                        block : 'spin',
+                        mix : { block : 'dialog', elem : 'spin' },
+                        mods : { theme : 'islands', size : 'xl' }
+                    }
+                ]
             },
             {
                 elem : 'console',

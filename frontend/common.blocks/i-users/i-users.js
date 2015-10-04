@@ -5,6 +5,15 @@
 
 modules.define('i-users', ['i-chat-api', 'jquery'],
     function(provide, chatAPI, $){
+        var BOT_PROFILE = {
+            is_bot : true,
+            name : 'slackbot',
+            real_name : 'Бот',
+            profile : {
+                image_32 : 'https://i0.wp.com/slack-assets2.s3-us-west-2.amazonaws.com/8390/img/avatars/ava_0002-32.png?ssl=1',
+                image_48 : 'https://i0.wp.com/slack-assets2.s3-us-west-2.amazonaws.com/8390/img/avatars/ava_0002-48.png?ssl=1'
+            }
+        };
 
         var Users = {
             /**
@@ -27,7 +36,7 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
              * @returns {Object}
              */
             getUser : function(id){
-                return $.grep(this._users, function(user){ return user.id == id; })[0];
+                return user = $.grep(this._users, function(user){ return user.id == id; })[0] || BOT_PROFILE;
             },
 
             /**
@@ -38,7 +47,6 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
             getUsers : function(){
                 return this._users;
             }
-
         };
 
         provide(/** @exports */Users);
