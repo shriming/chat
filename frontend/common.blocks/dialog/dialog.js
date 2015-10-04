@@ -12,11 +12,11 @@ modules.define(
                 'js' : {
                     'inited' : function(){
                         var _this = this;
-                        var textarea = this.findBlockInside('textarea');
-                        this.container = this.elem('container');
+                        var textarea = _this.findBlockInside('textarea');
+                        _this.container = _this.elem('container');
 
-                        List.on('click-channels click-users', this._onChannelSelect, this);
-                        textarea.bindTo('keydown', this._onConsoleKeyDown.bind(this));
+                        List.on('click-channels click-users', _this._onChannelSelect, _this);
+                        textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
 
                         io.socket.on('chat.postMessage', function(response){
                             var data = response.data;
@@ -107,10 +107,10 @@ modules.define(
             },
 
             _getSimpleDate: function(date){
-                var hours = ("0"+date.getHours()).slice(-2);
-                var minutes = ("0"+date.getMinutes()).slice(-2);
+                var hours = ('0' + date.getHours()).slice(-2);
+                var minutes = ('0' + date.getMinutes()).slice(-2);
 
-                return hours + ':'+ minutes;
+                return hours + ':' + minutes;
             },
 
             _onConsoleKeyDown : function(e){
