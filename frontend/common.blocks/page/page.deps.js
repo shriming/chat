@@ -9,7 +9,7 @@
         { block : 'controller' },
         { block : 'clearfix' },
         { block : 'header', mods : { 'logged': true } },
-        { block : 'main' },
+        { block : 'main', mods : { 'logged': true } },
         { block : 'list' },
         { block : 'dialog' },
         { block : 'link' }
