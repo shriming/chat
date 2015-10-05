@@ -7,6 +7,6 @@
         { block : 'i-chat-api'},
         { block : 'list', elem : 'item', mods : { type : ['channels', 'users'] } },
         { block : 'user' },
-        { block : 'spin', mods : { theme : 'islands', size : 'm' } }
+        { block : 'spin', mods : { theme : 'shriming', size : 's' } }
     ]
 });
