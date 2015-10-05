@@ -4,20 +4,18 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var _this = this;
+                        var instances = this.__self.instances || (this.__self.instances = []);
+                        instances.push(this);
 
-                        var instances = _this.__self.instances || (_this.__self.instances = []);
-                        instances.push(_this);
+                        this._container = this.elem('container');
+                        this.findBlockInside('spin').setMod('visible');
 
-                        _this._container = _this.elem('container');
-                        _this.findBlockInside('spin').setMod('visible');
-
-                        if(_this.getMod('type') === 'channels') {
-                            _this._getChannelsData();
+                        if(this.getMod('type') === 'channels') {
+                            this._getChannelsData();
                         }else{
                             Users.fetch().then(function(){
-                                _this._getUsersData();
-                            });
+                                this._getUsersData();
+                            }.bind(this));
                         }
                     }
                 }
