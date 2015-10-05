@@ -6,6 +6,7 @@ block('header')(
         return applyCtx({
             block : 'header',
             mods : { logged : isLogged },
+            js: true,
             content : [
                 {
                     block : 'logo',
