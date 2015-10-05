@@ -13,7 +13,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         if(this.getMod('type') === 'channels') {
                             this._getChannelsData();
                         }else{
-                            this._getUsersData();
+                            Users.fetch().then(function(){
+                                this._getUsersData();
+                            }.bind(this));
                         }
                     }
                 }

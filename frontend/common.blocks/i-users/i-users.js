@@ -18,11 +18,13 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
         var Users = {
             /**
              * Загружает данные пользователей
+             *
+             * @returns {Promise}
              */
             fetch : function(){
                 var _this = this;
 
-                chatAPI.get('users.list').then(function(data){
+                return chatAPI.get('users.list').then(function(data){
                     if(data.members && data.members.length) {
                         _this._users = data.members;
                     }
@@ -36,7 +38,11 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
              * @returns {Object}
              */
             getUser : function(id){
-                return user = $.grep(this._users, function(user){ return user.id == id; })[0] || BOT_PROFILE;
+                if(this._users.length){
+                    return $.grep(this._users, function(user){ return user.id == id; })[0] || BOT_PROFILE;
+                }else{
+                    return null;
+                }
             },
 
             /**
