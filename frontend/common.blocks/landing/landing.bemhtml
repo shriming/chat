@@ -1,0 +1,58 @@
+block('landing')(
+    def()(function(){
+        var FOOTER_LINKS = [
+            { title : 'Github', url : 'https://github.com/shriming/chat' },
+            { title : 'ШРИ Яндекс', url : 'https://academy.yandex.ru/events/shri/' },
+            { title : 'Heroku', url : 'https://shriming.herokuapp.com/' }
+        ];
+
+        return applyCtx([
+            {
+                block : 'landing',
+                content : [
+                    {
+                        elem : 'container',
+                        content : [
+                            {
+                                elem : 'title',
+                                content : 'Чат для разработчиков'
+                            },
+                            {
+                                elem : 'description',
+                                content : 'SHRIMINT – это удобный open source чат для разработчиков, ' +
+                                'с функцией видеозвонков. Чат создан по методологии БЭМ в рамках школы ' +
+                                'разработки интерфейсов Яндекса в 2015 году. Все исходные файлы чата ' + 
+                                'можно найти на публичном репозитории <a href="//github.com/shriming/chat">github</a>'
+                            },
+                            {
+                                block : 'link',
+                                mix : { block : 'landing', elem : 'login' },
+                                url : '/auth/slack',
+                                content : 'Войти через Slack'
+                            }
+                        ]
+                    },
+                    {
+                        block : 'image',
+                        mix : { block : 'landing', elem : 'image' },
+                        url : 'static/images/screen.png',
+                        title : 'Shriming чат'
+                    }
+                ]
+            },
+            {
+                block : 'landing',
+                elem : 'footer',
+                content : FOOTER_LINKS.map(function(link){
+                    return {
+                        block : 'link',
+                        target : '_black',
+                        mix : { block : 'landing', elem : 'link' },
+                        url : link.url,
+                        content : link.title
+                    };
+                })
+            }
+        ]);
+    })
+);

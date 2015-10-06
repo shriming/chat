@@ -1,7 +1,66 @@
 match(this.ctx.data)
     .def()(function(){
         var data = this.ctx.data;
-        var options = data.req? data.req.options : {};
+        var options = data.req ? data.req.options : {};
+        var isLogged = Boolean(data.user);
+        var pageContent;
+
+        if(isLogged){
+            pageContent = [
+                {
+                    block : 'sidebar',
+                    mods : { left : true },
+                    content : [
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'channels' },
+                            content : [
+                                { elem : 'title', content : 'Каналы' },
+                                { elem : 'container' },
+                                {
+                                    block : 'spin',
+                                    mix : { block : 'list', elem : 'spin' },
+                                    mods : { theme : 'islands', size : 'm' }
+                                }
+                            ]
+                        },
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'users' },
+                            content: [
+                                { elem : 'title', content : 'Пользователи' },
+                                { elem : 'container' },
+                                {
+                                    block : 'spin',
+                                    mix : { block : 'list', elem : 'spin' },
+                                    mods : { theme : 'islands', size : 'm' }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    block : 'dialog',
+                    data : data.user
+                },
+                {
+                    block : 'sidebar',
+                    mods : { right : true },
+                    content : [
+                        {
+                            block : 'controller',
+                            elem : options.controller,
+                            mods : { action : options.action },
+                            data : data
+                        }
+                    ]
+                }
+            ];
+        }else{
+            pageContent = [
+                { block : 'landing' }
+            ];
+        }
 
         return applyCtx({
             block : 'page',
@@ -18,56 +77,8 @@ match(this.ctx.data)
                 },
                 {
                     block : 'main',
-                    content : [
-                        {
-                            block : 'sidebar',
-                            mods : { left : true },
-                            content : [
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'channels' },
-                                    content: [
-                                        { elem : 'title', content : 'Каналы' },
-                                        { elem : 'container' },
-                                        {
-                                            block : 'spin',
-                                            mix : { block : 'list', elem : 'spin' },
-                                            mods : { theme : 'islands', size : 'm' }
-                                        }
-                                    ]
-                                },
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'users' },
-                                    content: [
-                                        { elem : 'title', content : 'Пользователи' },
-                                        { elem : 'container' },
-                                        {
-                                            block : 'spin',
-                                            mix : { block : 'list', elem : 'spin' },
-                                            mods : { theme : 'islands', size : 'm' }
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            block : 'dialog',
-                            data : data.user
-                        },
-                        {
-                            block : 'sidebar',
-                            mods : { right : true },
-                            content : [
-                                {
-                                    block : 'controller',
-                                    elem : options.controller,
-                                    mods : { action : options.action },
-                                    data : data
-                                }
-                            ]
-                        }
-                    ]
+                    mods : { logged : isLogged },
+                    content : pageContent
                 },
                 { elem : 'js', url : '/static/js/_merged.js' }
             ]

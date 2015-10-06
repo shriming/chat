@@ -5,10 +5,11 @@
         { block : 'i-bem', elem : 'dom' }
     ],
     shouldDeps : [
+        { block : 'landing' },
         { block : 'controller' },
         { block : 'clearfix' },
-        { block : 'header' },
-        { block : 'main' },
+        { block : 'header', mods : { 'logged': true } },
+        { block : 'main', mods : { 'logged': true } },
         { block : 'list' },
         { block : 'dialog' },
         { block : 'link' }
