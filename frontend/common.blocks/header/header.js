@@ -35,7 +35,7 @@ modules.define('header', ['i-bem__dom', 'i-chat-api'], function(provide, BEMDOM,
             if(!title.length) {
                 return;
             }
-            var titleElement = _this.elem('title');
+            var titleElement = this.elem('title');
             if(!titleElement.length) {
                 return;
             }
