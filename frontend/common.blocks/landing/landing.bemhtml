@@ -1,9 +1,9 @@
 block('landing')(
     def()(function(){
         var FOOTER_LINKS = [
-            { title : 'Github.com/shriming', url : 'https://github.com/shriming/' },
+            { title : 'Github', url : 'https://github.com/shriming/chat' },
             { title : 'ШРИ Яндекс', url : 'https://academy.yandex.ru/events/shri/' },
-            { title : 'heroku.com', url : 'https://www.heroku.com/' }
+            { title : 'Heroku', url : 'https://shriming.herokuapp.com/' }
         ];
 
         return applyCtx([
@@ -19,16 +19,16 @@ block('landing')(
                             },
                             {
                                 elem : 'description',
-                                content : 'У нас размещаются тысячи публичных сообществ,' +
-                                'в которых разработчики со всего мира собираются,' +
-                                'чтобы обговорить будущее программирования,' +
-                                'создавать лучшие продукты и поделиться лучшими картинками рыб.'
+                                content : 'SHRIMINT – это удобный open source чат для разработчиков, ' +
+                                'с функцией видеозвонков. Чат создан по методологии БЭМ в рамках школы ' +
+                                'разработки интерфейсов Яндекса в 2015 году. Все исходные файлы чата ' + 
+                                'можно найти на публичном репозитории <a href="//github.com/shriming/chat">github</a>'
                             },
                             {
                                 block : 'link',
                                 mix : { block : 'landing', elem : 'login' },
                                 url : '/auth/slack',
-                                content : 'Войти с помощью Slack'
+                                content : 'Войти через Slack'
                             }
                         ]
                     },
@@ -46,6 +46,7 @@ block('landing')(
                 content : FOOTER_LINKS.map(function(link){
                     return {
                         block : 'link',
+                        target : '_black',
                         mix : { block : 'landing', elem : 'link' },
                         url : link.url,
                         content : link.title
