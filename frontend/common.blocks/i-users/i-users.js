@@ -3,15 +3,15 @@
  * @description Коллекция пользователей
  */
 
-modules.define('i-users', ['i-chat-api', 'jquery'],
-    function(provide, chatAPI, $){
+modules.define('i-users', ['i-chat-api'],
+    function(provide, chatAPI){
         var BOT_PROFILE = {
             is_bot : true,
             name : 'slackbot',
             real_name : 'Бот',
             profile : {
-                image_32 : 'https://i0.wp.com/slack-assets2.s3-us-west-2.amazonaws.com/8390/img/avatars/ava_0002-32.png?ssl=1',
-                image_48 : 'https://i0.wp.com/slack-assets2.s3-us-west-2.amazonaws.com/8390/img/avatars/ava_0002-48.png?ssl=1'
+                image_32 : 'static/images/bot_32.png',
+                image_48 : 'static/images/bot_48.png'
             }
         };
 
@@ -23,10 +23,13 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
              */
             fetch : function(){
                 var _this = this;
+                this._users = {};
 
                 return chatAPI.get('users.list').then(function(data){
                     if(data.members && data.members.length) {
-                        _this._users = data.members;
+                        data.members.forEach(function(member){
+                            _this._users[member.id] = member;
+                        });
                     }
                 });
             },
@@ -38,20 +41,11 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
              * @returns {Object}
              */
             getUser : function(id){
-                if(this._users.length){
-                    return $.grep(this._users, function(user){ return user.id == id; })[0] || BOT_PROFILE;
-                }else{
-                    return null;
+                if(!Object.keys(this._users).length){
+                    return {};
                 }
-            },
 
-            /**
-             * Получить список пользователей
-             *
-             * @returns {Array}
-             */
-            getUsers : function(){
-                return this._users;
+                return this._users[id] || BOT_PROFILE;
             }
         };
 
