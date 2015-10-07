@@ -18,7 +18,7 @@ block('dialog').def()(function(){
                     {
                         block : 'spin',
                         mix : { block : 'dialog', elem : 'spin' },
-                        mods : { theme : 'islands', size : 'xl' }
+                        mods : { theme : 'shriming', size : 'xl' }
                     }
                 ]
             },

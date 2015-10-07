@@ -20,7 +20,7 @@ match(this.ctx.data)
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'islands', size : 'm' }
+                                    mods : { theme : 'shriming', size : 'm' }
                                 }
                             ]
                         },
@@ -33,7 +33,7 @@ match(this.ctx.data)
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'islands', size : 'm' }
+                                    mods : { theme : 'shriming', size : 'm' }
                                 }
                             ]
                         }
