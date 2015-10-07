@@ -17,6 +17,8 @@ $sizeList($val)
     &.spin_visible
         position relative
         visibility visible
+        border-top-color $primary_color
+        border-left-color $primary_color
         animation spin_theme_shriming 1s infinite linear
         backface-visibility hidden
 
@@ -29,11 +31,7 @@ $sizeList($val)
 
 @keyframes spin_theme_shriming
     from
-        border-top-color $primary_color
-        border-left-color $primary_color
         transform rotate(0)
 
     to
-        border-top-color $primary_color
-        border-left-color $primary_color
         transform rotate(360deg)
