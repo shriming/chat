@@ -17,7 +17,18 @@ block('dialog').elem('console')(
                     js: true
                 }
             ],
-            content : [
+
+            content: [
+                {
+                    block : 'popup',
+                    mods : {
+                        theme : 'islands',
+                        target : 'anchor',
+                        autoclosable : true,
+                        visible: false
+                    },
+                    mix : {block : 'chat-input', elem : 'popup'}
+                },
                 {
                     block : 'textarea',
                     //mods : { theme : 'shriming', size : 'm', focused : true, name : 'msg' },
@@ -47,12 +58,6 @@ block('dialog').elem('console')(
                             elem : 'emoji'
                         }
                     ]
-                },
-                {
-                    block : 'popup',
-                    mods : {theme : 'islands', target : 'anchor', autoclosable : true},
-                    mix : {block : 'chat-input', elem : 'popup'},
-                    content : 'popup content'
                 }
             ]
         });
