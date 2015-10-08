@@ -6,6 +6,7 @@ block('header')(
         return applyCtx({
             block : 'header',
             mods : { logged : isLogged },
+            js: true,
             content : [
                 {
                     block : 'logo',
@@ -13,7 +14,7 @@ block('header')(
                 },
                 {
                     elem : 'title',
-                    content : 'Яндекс — Shriming'
+                    content : 'Shriming-chat'
                 },
                 {
                     block : 'current-user',

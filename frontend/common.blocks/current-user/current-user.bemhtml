@@ -17,7 +17,7 @@ block('current-user')(
                 {
                     block : 'current-user',
                     elem : 'title',
-                    content : user.email
+                    content : (user.real_name || user.name || user.email)
                 },
                 {
                     block : 'current-user',
