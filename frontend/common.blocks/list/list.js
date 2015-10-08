@@ -42,6 +42,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                     BEMDOM.update(_this._container, channelsList);
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
+                    _this.emit('click-channels', _this.elemParams('item'));
                 });
             },
 
