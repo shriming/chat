@@ -1,4 +1,4 @@
-modules.define('header', ['i-bem__dom', 'i-chat-api'], function(provide, BEMDOM, chatApi){
+modules.define('header', ['i-bem__dom', 'i-chat-api'], function(provide, BEMDOM, chatAPI){
     provide(BEMDOM.decl(this.name, {
         onSetMod : {
             js : {
@@ -15,7 +15,7 @@ modules.define('header', ['i-bem__dom', 'i-chat-api'], function(provide, BEMDOM,
          */
         _fetchTitleInfo : function(){
             var _this = this;
-            chatApi.get('team.info').then(function(chatInfo){
+            chatAPI.get('team.info').then(function(chatInfo){
                 if(!chatInfo.ok) {
                     throw new Error('Ошибка получения информации о чате');
                 }
