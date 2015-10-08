@@ -64,6 +64,7 @@ match(this.ctx.data)
 
         return applyCtx({
             block : 'page',
+            mods : { logged: isLogged },
             mix : [{ block : 'libs' }],
             head : [
                 { elem : 'css', url : '/static/css/_merged.css' },

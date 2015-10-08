@@ -4,8 +4,10 @@ modules.define('page', ['i-bem__dom', 'i-chat-api'],
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        if (!chatAPI.isOpen()) {
-                            chatAPI.init();
+                        if(this.hasMod('logged')){
+                            if(!chatAPI.isOpen()){
+                                chatAPI.init();
+                            }
                         }
                     }
                 }
