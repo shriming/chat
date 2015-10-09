@@ -14,20 +14,37 @@ block('dialog').elem('console')(
                 },
                 {
                     block : 'chat-input',
-                    js: true
+                    js : true
                 }
             ],
 
-            content: [
+            content : [
                 {
                     block : 'popup',
                     mods : {
                         theme : 'islands',
                         target : 'anchor',
+                        directions : ['top-right'],
                         autoclosable : true,
-                        visible: false
+                        visible : false
                     },
-                    mix : {block : 'chat-input', elem : 'popup'}
+                    mix : { block : 'chat-input', elem : 'popup' },
+                    content : {
+                        block : 'menu',
+                        mods : { theme : 'islands', size : 'm' },
+                        content : [
+                            {
+                                block : 'menu-item',
+                                val : 1,
+                                content : 'Море'
+                            },
+                            {
+                                block : 'menu-item',
+                                val : 2,
+                                content : 'Горы'
+                            }
+                        ]
+                    }
                 },
                 {
                     block : 'textarea',
@@ -43,7 +60,7 @@ block('dialog').elem('console')(
                 },
                 {
                     block : 'button',
-                    mods : {theme : 'islands', view : 'plain'},
+                    mods : { theme : 'islands', view : 'plain' },
                     icon : {
                         block : 'icon',
                         content : '☺'

@@ -23,6 +23,13 @@
         {
             block: 'chat-input',
             elem: 'emoji'
+        },
+        {
+            block: 'menu',
+            mods : { theme : 'islands', size : 'm' },
+        },
+        {
+            block : 'menu-item'
         }
     ],
     shouldDeps : []
