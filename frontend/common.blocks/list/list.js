@@ -39,7 +39,16 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         });
                     });
 
+                    var generalChannelIndex = data.channels.map(function(channel){
+                        return channel.is_general;
+                    }).indexOf(true);
+
+                    var hashChannelIndex = data.channels.map(function(channel){
+                        return channel.name;
+                    }).indexOf(location.hash.slice(1));
+
                     BEMDOM.update(_this._container, channelsList);
+                    _this._container.children()[hashChannelIndex != -1 ? hashChannelIndex : generalChannelIndex].click();
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
@@ -83,6 +92,10 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
+
+                if(type=='channels'){
+                    location.hash = e.target.innerText;
+                }
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');
