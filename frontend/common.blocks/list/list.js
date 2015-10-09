@@ -39,16 +39,16 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         });
                     });
 
-                    var general = data.channels.map(function(ch){
-                        return ch.is_general;
+                    var generalChannelIndex = data.channels.map(function(channel){
+                        return channel.is_general;
                     }).indexOf(true);
 
-                    var select = data.channels.map(function(ch){
-                        return ch.name;
+                    var hashChannelIndex = data.channels.map(function(channel){
+                        return channel.name;
                     }).indexOf(location.hash.slice(1));
 
                     BEMDOM.update(_this._container, channelsList);
-                    _this._container.children()[~select?select:general].click();
+                    _this._container.children()[hashChannelIndex != -1 ? hashChannelIndex : generalChannelIndex].click();
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
@@ -93,7 +93,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
 
-                if(type=='channels')location.hash = e.target.innerText;
+                if(type=='channels'){
+                    location.hash = e.target.innerText;
+                }
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');
