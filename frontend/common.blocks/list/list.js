@@ -39,10 +39,18 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         });
                     });
 
+                    var general = data.channels.map(function(ch){
+                        return ch.is_general;
+                    }).indexOf(true);
+
+                    var select = data.channels.map(function(ch){
+                        return ch.name;
+                    }).indexOf(location.hash.slice(1));
+
                     BEMDOM.update(_this._container, channelsList);
+                    _this._container.children()[~select?select:general].click();
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
-                    _this.emit('click-channels', _this.elemParams('item'));
                 });
             },
 
@@ -84,6 +92,8 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
+
+                if(type=='channels')location.hash = e.target.innerText;
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');
