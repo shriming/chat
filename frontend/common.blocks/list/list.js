@@ -65,6 +65,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                         return BEMHTML.apply({
                             block : 'user',
+                            js : {
+                                id : user.id
+                            },
                             mix : {
                                 block : 'list',
                                 elem : 'item',
@@ -86,6 +89,14 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                     BEMDOM.update(_this._container, imsList);
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
+                });
+
+                chatAPI.on('presence_change', function(data){
+                    _this.findBlocksInside('user').forEach(function(user){
+                        if(user.params.id == data.user){
+                            user.setMod('presence', data.presence);
+                        }
+                    });
                 });
             },
 

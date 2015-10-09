@@ -6,6 +6,6 @@
         { block: 'image' },
         { block: 'avatar' },
         { block: 'avatar', mod: 'size', val: 's' },
-        { block : 'user', elems: ['avatar', 'title', 'nick', 'status', 'container'], mod: 'online' }
+        { block: 'user', elems: ['avatar', 'title', 'nick', 'status', 'container'], mods: { presence: ['active', 'away'] } }
     ]
 });
