@@ -1,10 +1,87 @@
 match(this.ctx.data)
     .def()(function(){
         var data = this.ctx.data;
-        var options = data.req? data.req.options : {};
+        var options = data.req ? data.req.options : {};
+        var isLogged = Boolean(data.user);
+        var pageContent;
+
+        if(isLogged){
+            pageContent = [
+                {
+                    block : 'sidebar',
+                    mods : { left : true },
+                    content : [
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'channels' },
+                            content : [
+                                { elem : 'title', content : 'Каналы' },
+                                { elem : 'container' },
+                                {
+                                    block : 'spin',
+                                    mix : { block : 'list', elem : 'spin' },
+                                    mods : { theme : 'shriming', size : 'm' }
+                                }
+                            ]
+                        },
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'users' },
+                            content: [
+                                { elem : 'title', content : 'Пользователи' },
+                                { elem : 'container' },
+                                {
+                                    block : 'spin',
+                                    mix : { block : 'list', elem : 'spin' },
+                                    mods : { theme : 'shriming', size : 'm' }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    block : 'dialog',
+                    data : data.user
+                },
+                {
+                    block : 'sidebar',
+                    mods : { right : true },
+                    content : [
+                        {
+                            block : 'controller',
+                            elem : options.controller,
+                            mods : { action : options.action },
+                            data : data
+                        },
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'conference' },
+                            content : [
+                                { elem : 'title', content : 'Активные звонки' },
+                                {
+                                    elem : 'container',
+                                    content : [
+                                        { block : 'video', mods : { remote : true } },
+                                        { block : 'video', mods : { local : true } }
+                                    ]
+                                },
+                                {
+                                    content: data.socketId
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ];
+        }else{
+            pageContent = [
+                { block : 'landing' }
+            ];
+        }
 
         return applyCtx({
             block : 'page',
+            mods : { logged: isLogged },
             mix : [{ block : 'libs' }],
             head : [
                 { elem : 'css', url : '/static/css/_merged.css' },
@@ -18,63 +95,8 @@ match(this.ctx.data)
                 },
                 {
                     block : 'main',
-                    content : [
-                        {
-                            block : 'sidebar',
-                            mods : { left : true },
-                            content : [
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'channels' },
-                                    content: [
-                                        { elem : 'title', content : 'Каналы' },
-                                        { elem : 'container' }
-                                    ]
-                                },
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'users' },
-                                    content: [
-                                        { elem : 'title', content : 'Пользователи' },
-                                        { elem : 'container' }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            block : 'dialog',
-                            data : data.user
-                        },
-                        {
-                            block : 'sidebar',
-                            mods : { right : true },
-                            content : [
-                                {
-                                    block : 'controller',
-                                    elem : options.controller,
-                                    mods : { action : options.action },
-                                    data : data
-                                },
-                                {
-                                    block : 'list',
-                                    mods : { 'type' : 'conference' },
-                                    content : [
-                                        { elem : 'title', content : 'Активные звонки' },
-                                        {
-                                            elem : 'container',
-                                            content : [
-                                                { block : 'video', mods : { remote : true } },
-                                                { block : 'video', mods : { local : true } }
-                                            ]
-                                        },
-                                        {
-                                            content: data.socketId
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
+                    mods : { logged : isLogged },
+                    content : pageContent
                 },
                 { elem : 'js', url : '/static/js/_merged.js' }
             ]

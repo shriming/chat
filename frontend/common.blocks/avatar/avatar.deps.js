@@ -1,5 +1,6 @@
 ({
     shouldDeps : [
-        {elem : 'image'}
+        {elem : 'image'},
+        { block: 'image'}
     ]
 });

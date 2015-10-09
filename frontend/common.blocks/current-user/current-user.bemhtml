@@ -1,0 +1,39 @@
+block('current-user')(
+    content()(function(){
+        var user = this.ctx.user || {};
+        var content = [];
+
+        if (user.email) {
+            content.push(
+                {
+                    block : 'current-user',
+                    elem : 'avatar',
+                    content : {
+                        block : 'avatar',
+                        mods : { size : 's' },
+                        user : user
+                    }
+                },
+                {
+                    block : 'current-user',
+                    elem : 'title',
+                    content : (user.real_name || user.name || user.email)
+                },
+                {
+                    block : 'current-user',
+                    elem : 'logout',
+                    tag : 'span',
+                    content : {
+                        block : 'link',
+                        mods : { theme : 'shriming' },
+                        url : '/logout/',
+                        content : 'Выход'
+                    }
+                }
+            );
+        }
+
+        return content;
+    })
+);
+

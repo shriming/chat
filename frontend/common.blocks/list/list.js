@@ -1,57 +1,83 @@
-modules.define(
-    'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI){
-        var LISTS = {
-            users : 'members',
-            channels : 'channels',
-            groups : 'groups'
-        };
-
-        provide(BEMDOM.decl('list', {
+modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users){
+        provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var instances = this.__self.instances || (
-                                this.__self.instances = []);
-                        var type = this.getMod('type');
-
+                        var instances = this.__self.instances || (this.__self.instances = []);
                         instances.push(this);
-                        this._getListData(type);
 
-                        if(!chatAPI.isOpen()) {
-                            // Нужен на время тестирования
-                            var TOKEN = "xoxp-11352820727-11352369638-11388775793-8454f5e6e0";
-                            chatAPI.setToken(TOKEN);
+                        this._container = this.elem('container');
+                        this.findBlockInside('spin').setMod('visible');
+
+                        if(this.getMod('type') === 'channels') {
+                            this._getChannelsData();
+                        }else{
+                            Users.fetch().then(function(){
+                                this._getUsersData();
+                            }.bind(this));
                         }
-
-                        chatAPI.on('*', function(message){
-                            console.log(message);
-                        });
                     }
                 }
             },
 
-            _getListData : function(type){
-                var container = this.elem('container');
+            _getChannelsData : function(){
+                var _this = this;
 
-                chatAPI.get(type + '.list', {}).then(function(data){
-                    var items = data[LISTS[type]];
+                chatAPI.get('channels.list').then(function(data){
+                    var channelsList = data.channels.map(function(channel){
+                        return BEMHTML.apply({
+                            block : 'list',
+                            elem : 'item',
+                            mods : { type : 'channels' },
+                            content : channel.name,
+                            js : {
+                                id : channel.id,
+                                name : '#' + channel.name,
+                                realName : channel.topic.value
+                            }
+                        });
+                    });
 
-                    items.forEach(function(item){
-                        BEMDOM.append(container,
-                            BEMHTML.apply({
+                    BEMDOM.update(_this._container, channelsList);
+                }).always(function(){
+                    _this.findBlockInside('spin').delMod('visible');
+                });
+            },
+
+            _getUsersData : function(){
+                var _this = this;
+
+                chatAPI.get('im.list').then(function(data){
+                    var imsList = data.ims.map(function(im){
+                        var user = Users.getUser(im.user);
+
+                        if(!user){ return; }
+
+                        return BEMHTML.apply({
+                            block : 'user',
+                            mix : {
                                 block : 'list',
                                 elem : 'item',
-                                mods : { type : type },
-                                content : item.name,
+                                mods : { type : 'users' },
                                 js : {
-                                    id : item.id,
-                                    name : item.name
+                                    id : im.id,
+                                    userId : user.id,
+                                    name : '@' + user.name,
+                                    realName: user.real_name
                                 }
-                            })
-                        );
+                            },
+                            user : {
+                                name : user.name,
+                                realName : user.real_name,
+                                image_48 : user.profile.image_48
+                            }
+                        });
                     });
+
+                    BEMDOM.update(_this._container, imsList);
+                }).always(function(){
+                    _this.findBlockInside('spin').delMod('visible');
                 });
             },
 

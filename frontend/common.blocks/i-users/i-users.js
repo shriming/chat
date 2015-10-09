@@ -3,19 +3,33 @@
  * @description Коллекция пользователей
  */
 
-modules.define('i-users', ['i-chat-api', 'jquery'],
-    function(provide, chatAPI, $){
+modules.define('i-users', ['i-chat-api'],
+    function(provide, chatAPI){
+        var BOT_PROFILE = {
+            is_bot : true,
+            name : 'slackbot',
+            real_name : 'Бот',
+            profile : {
+                image_32 : 'static/images/bot_32.png',
+                image_48 : 'static/images/bot_48.png'
+            }
+        };
 
         var Users = {
             /**
              * Загружает данные пользователей
+             *
+             * @returns {Promise}
              */
             fetch : function(){
                 var _this = this;
+                this._users = {};
 
-                chatAPI.get('users.list').then(function(data){
+                return chatAPI.get('users.list').then(function(data){
                     if(data.members && data.members.length) {
-                        _this._users = data.members;
+                        data.members.forEach(function(member){
+                            _this._users[member.id] = member;
+                        });
                     }
                 });
             },
@@ -27,18 +41,12 @@ modules.define('i-users', ['i-chat-api', 'jquery'],
              * @returns {Object}
              */
             getUser : function(id){
-                return $.grep(this._users, function(user){ return user.id == id; })[0];
-            },
+                if(!Object.keys(this._users).length){
+                    return {};
+                }
 
-            /**
-             * Получить список пользователей
-             *
-             * @returns {Array}
-             */
-            getUsers : function(){
-                return this._users;
+                return this._users[id] || BOT_PROFILE;
             }
-
         };
 
         provide(/** @exports */Users);

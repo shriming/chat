@@ -5,16 +5,32 @@ block('dialog').def()(function(){
         block : this.block,
         content : [
             {
-                elem : 'header'
+                elem : 'header',
+                content : [
+                    { elem : 'title' },
+                    { elem : 'description' },
+                    {
+                        block: 'dialog-controls',
+                        elem: 'call'
+                    }
+                ]
             },
             {
                 elem : 'history',
-                content : { elem : 'container' }
+                content : [
+                    { elem : 'container' },
+                    {
+                        block : 'spin',
+                        mix : { block : 'dialog', elem : 'spin' },
+                        mods : { theme : 'shriming', size : 'xl' }
+                    }
+                ]
             },
             {
                 elem : 'console',
                 data : data
             }
-        ]
+        ],
+        js : true
     });
 });

@@ -8,19 +8,6 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
 
         var chatAPIPrototype = {
             /**
-             * Устанавливает token для общения с сервером Slack
-             *
-             * @param {String} token Токен, выданный при авторизации в Slack
-             */
-            setToken : function(token){
-                this._token = token;
-
-                if (!this.isOpen()) {
-                    this._init();
-                }
-            },
-
-            /**
              * Совершает запрос к серверу Slack
              *
              * @param {String} action  Код метода в API Slack
@@ -52,7 +39,7 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
              * @returns {Boolean} Статус соединения (открыто/закрыто)
              */
             isOpen : function(isOpen){
-                if (arguments.length) {
+                if(arguments.length) {
                     return this._isOpen = isOpen;
                 }
 
@@ -61,14 +48,14 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
 
             _RTM_START_URL : 'https://slack.com/api/rtm.start',
 
-            _init : helper.once(function(){
+            init : helper.once(function(){
                 this._setHandlers();
                 this._getSocketURL();
             }),
 
             _setHandlers : function(){
                 var events = this._internalEvents;
-                for (var event in events) if (events.hasOwnProperty(event)) {
+                for (var event in events) if(events.hasOwnProperty(event)) {
                     this.on(event, events[event]);
                 }
             },
@@ -92,33 +79,22 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
 
             _getSocketURL : function(){
                 var _this = this;
-                _this.isOpen(true);
-
-                return new vow.Promise(function(resolve, reject){
-                    $.ajax({
-                        method : "POST",
-                        url : _this._RTM_START_URL,
-                        data : {
-                            token : _this._token
+                _this.post('rtm.start')
+                    .then(function(result){
+                        if(!result.ok) {
+                            throw new Error(result);
                         }
+
+                        if(!result.url) {
+                            throw  new Error('URL для создания socket-соединения не найден!');
+                        }
+
+                        _this.isOpen(true);
+                        _this._initSocket(result.url);
                     })
-                        .done(function(result){
-                            if (!result.ok) {
-                                reject(result);
-                            }
-
-                            if (!result.url) {
-                                reject('URL для создания socket-соединения не найден!');
-                            }
-
-                            _this._initSocket(result.url);
-                            resolve(result);
-
-                        })
-                        .fail(function(error){
-                            reject(error);
-                        });
-                });
+                    .catch(function(error){
+                        console.error(error);
+                    });
             },
 
             _initSocket : function(url){
@@ -135,7 +111,8 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                         reason : event.reason
                     };
 
-                    if (event.wasClean) {
+                    _this.isOpen(false);
+                    if(event.wasClean) {
                         _this.emit('_connection-close', response);
                     } else {
                         _this.emit('_connection-abort', response);

@@ -1,5 +1,4 @@
-(
-{
+({
     shouldDeps : [
         {
             block : 'link'

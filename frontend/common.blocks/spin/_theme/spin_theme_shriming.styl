@@ -1,0 +1,37 @@
+$sizes = (16 24 28 32 38)
+
+$sizeList($val)
+    return $sizes[$val]
+
+.spin_theme_shriming
+    position absolute
+    display inline-block
+    visibility hidden
+    box-sizing border-box
+    border 2px solid transparent
+    border-radius 50%
+
+    &:after
+        content '\00A0'
+
+    &.spin_visible
+        position relative
+        visibility visible
+        border-top-color $primary_color
+        border-left-color $primary_color
+        animation spin_theme_shriming 1s infinite linear
+        backface-visibility hidden
+
+    for $sizeVal, $i in (xs s m l xl)
+        &.spin_size_{$sizeVal}
+            line-height $sizeList($i)px
+            width $sizeList($i)px
+            height $sizeList($i)px
+
+
+@keyframes spin_theme_shriming
+    from
+        transform rotate(0)
+
+    to
+        transform rotate(360deg)

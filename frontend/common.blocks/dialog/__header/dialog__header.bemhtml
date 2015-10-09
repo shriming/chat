@@ -1,17 +1,4 @@
 block('dialog').elem('header')(
     js()(true),
-    mix()('i-bem'),
-    content()(function(){
-            return [
-                {
-                    block: 'title',
-                    content: 'Добро пожаловать в Shrimig!'
-                },
-                {
-                    block: 'dialog-controls',
-                    elem: 'call'
-                }
-            ];
-        }
-    )
+    mix()('i-bem')
 );

@@ -1,9 +1,9 @@
-(
-{
+({
     mustDeps : [],
     shouldDeps : [
         {
-            elems : ['logout']
-        },
+            block : 'current-user',
+            elems : ['avatar', 'logout', 'title']
+        }
     ]
 });

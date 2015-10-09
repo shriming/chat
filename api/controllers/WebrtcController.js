@@ -11,9 +11,12 @@ module.exports = {
      * `WebrtcController.message()`
      */
     message : function(req, res){
-        return res.json({
-            todo : 'message() is not implemented yet!'
-        });
+        console.log(req.body);
+        var message = req.body;
+
+        sails.sockets.emit(message.to, 'webrtc', { content : message.content, from : sails.users[req.user.id] });
+
+        return res.end();
     },
     getSocketID : function(req, res){
         console.log('server on getSocketID');
@@ -24,7 +27,10 @@ module.exports = {
         var socketId = sails.sockets.id(req.socket);
         // => "BetX2G-2889Bg22xi-jy"
 
-        return res.json({id: socketId});
+        return res.json({ id : socketId });
+    },
+    getUsers : function(req, res){
+        return res.json(sails.users);
     }
 };
 
