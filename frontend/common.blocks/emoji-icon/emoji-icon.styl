@@ -1,0 +1,8 @@
+.emoji-icon
+    $sizeList = (16 24 28 32 38);
+
+    for $sizeVal, i in xs s m l xl
+        &.emoji-icon_size_{$sizeVal} img
+            line-height: $sizeList[i]px
+            width: $sizeList[i]px
+            height: $sizeList[i]px
