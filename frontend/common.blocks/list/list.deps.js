@@ -10,5 +10,14 @@
         { block : 'spin', mods : { theme : 'shriming', size : 's' } },
         { block : 'notify' },
         { block : 'events', elems : 'channels' },
+        {
+            block : 'popup',
+            mods : {
+                theme : 'islands',
+                target : 'anchor',
+                autoclosable : true,
+                visible : false
+            },
+        }
     ]
 });

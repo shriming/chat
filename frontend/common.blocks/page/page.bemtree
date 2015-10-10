@@ -21,6 +21,16 @@ match(this.ctx.data)
                                     content : 'Каналы'
                                 },
                                 {
+                                    block : 'popup',
+                                    mods : {
+                                        theme : 'islands',
+                                        target : 'anchor',
+                                        autoclosable : true,
+                                        visible : false
+                                    },
+                                    mix : { block : 'list', elem : 'popup' }
+                                },
+                                {
                                     block : 'button',
                                     mods : { theme : 'islands', view : 'plain' },
                                     icon : {
