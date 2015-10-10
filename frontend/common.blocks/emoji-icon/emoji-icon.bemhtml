@@ -1,0 +1,14 @@
+block('emoji-icon')(
+    tag()('span'),
+
+    content()(function(){
+        var icon = this.ctx.icon || '';
+        var shortname = this.ctx.shortname || '';
+
+        return {
+            block : 'image',
+            url : 'http://cdn.jsdelivr.net/emojione/assets/png/' + icon + '.png',
+            alt : shortname + ' emoji icon'
+        };
+    })
+);
