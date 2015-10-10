@@ -10,18 +10,14 @@ modules.define(
 
         /* global io */
 
-        console.log('socket-io block this: ', this);
         function doProvide(preserveGlobal){
             /**
              * @exports
              * @type Function
              */
-            console.log('should connect!');
             io.socket.on('connect', function(){
                 io.socket.get('/csrfToken', function(data){
-                    io.socket.get('/webrtc/connected', { _csrf : data._csrf }, function(){
-                        console.log('/webrtc/connected args: ', arguments);
-                    });
+                    io.socket.get('/webrtc/connected', { _csrf : data._csrf });
                 });
             });
             provide(preserveGlobal? io : io);

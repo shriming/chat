@@ -43,6 +43,11 @@ modules.define(
                 }
             },
             _onCall : function(){
+                if (this.hasMod('disabled')) {
+//                    todo call tostr error!!
+                    console.log('Button disabled!!!!');
+                    return;
+                }
                 var _this = this;
                 this._slackId = this.domElem.data('slackId');
 

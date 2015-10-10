@@ -5,12 +5,11 @@ block('dialog-controls')(
         content()(function(){
                 return [{
                     block : 'button',
-                    mods : { theme : 'islands', size : 'm' },
-                    text: 'CALL'
-//                    icon : {
-//                        block : 'icon',
-//                        mods : { name : 'call' }
-//                    }
+                    mods : { theme : 'islands', size : 'm', view: 'plain' },
+                    icon : {
+                        block : 'icon',
+                        mods : { name : 'call-disabled' }
+                    }
                 }];
             }
         )

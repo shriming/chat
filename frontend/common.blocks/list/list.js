@@ -102,7 +102,6 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                 mods : { type : 'users' },
                                 js : {
                                     id : im.id,
-                                    userId : user.id,
                                     name : '@' + user.name,
                                     realName : user.real_name
                                 }
@@ -123,16 +122,13 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                 });
 
                 function updateUsersStatus(name, data){
-                    console.info('updateUsersStatus args: ', arguments);
                     _this.findBlocksInside('user').forEach(function(user){
                         switch(name) {
                             case 'activeUsersUpdated':
                                 if(data[user.params.id]) {
                                     user.setMod('presence', 'local');
-                                } else if (user.getMod('presence') == 'local') {
-                                    console.log('users.getPresence args');
+                                } else if (user.hasMod('presence', 'local')) {
                                     chatAPI.get('users.getPresence', { user : user.params.id }).then(function(data){
-                                        console.log('users.getPresence data: ', data);
                                         if(data.ok) {
                                             user.setMod('presence', data.presence);
                                         }
@@ -140,7 +136,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                 }
                                 break;
                             case 'presence_change':
-                                if(user.params.id == data.user && user.getMod('presence') != 'local') {
+                                if(user.params.id == data.user && !user.hasMod('presence', 'local')) {
                                     user.setMod('presence', data.presence);
                                 }
                                 break;
@@ -156,7 +152,6 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                     updateUsersStatus('presence_change', data);
                 });
             },
-
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');

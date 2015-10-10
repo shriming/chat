@@ -11,7 +11,6 @@ module.exports = {
      * `WebrtcController.message()`
      */
     message : function(req, res){
-        console.log(req.body);
         var message = req.body;
 
         sails.sockets.emit(message.to, 'webrtc', { content : message.content, from : sails.users[req.user.id] });
@@ -19,7 +18,6 @@ module.exports = {
         return res.end();
     },
     getSocketID : function(req, res){
-        console.log('server on getSocketID');
         if(!req.isSocket) {
             return res.badRequest();
         }
