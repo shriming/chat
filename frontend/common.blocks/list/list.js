@@ -72,7 +72,10 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                         if(!user){ return; }
 
-                        user.presence = usersStatusOnStart[user.id];
+                        var presence = usersStatusOnStart[user.id];
+                        if (presence) {
+                            user.presence = usersStatusOnStart[user.id];
+                        }
 
                         return BEMHTML.apply({
                             block : 'user',
