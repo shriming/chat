@@ -6,32 +6,79 @@ modules.define(
         var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
         var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-
         var pc = new PeerConnection(null);
+
+
+        function gotStream(stream){
+            BEMDOM.update(
+                this.findBlockOutside('page')
+                    .findBlockInside({ block : 'video', modName : 'local', modVal : true })
+                    .findElem('inner'),
+                BEMHTML.apply({
+                    tag : 'video',
+                    attrs : {
+                        class : 'video_local',
+                        muted : false,
+                        autoplay : true,
+                        src : URL.createObjectURL(stream)
+                    }
+                }));
+
+                pc.addStream(stream);
+                pc.onicecandidate = this._gotIceCandidate.bind(this);
+                pc.onaddstream = this._gotRemoteStream.bind(this);
+        }
 
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
 
-                        this.bindTo('click', this._onCall);
+                        this.bindTo('click', this._onCall.bind(this));
 
                         var _this = this;
 
-                        io.socket.on('webrtc', function(message){
+                        io.socket.on('call', function(message){
+                            var from = message.from;
 
+                            if(confirm('Принять вызов от ' + from + '?')) {
+                                navigator.getUserMedia({
+                                        audio : true,
+                                        video : {
+                                            mandatory : {
+                                                maxWidth : 320,
+                                                maxHeight : 240
+                                            }
+                                        }
+                                    },
+                                    function(stream){
+                                        gotStream.call(_this, stream);
+                                        _this._sendMessage('callback', {}, from);
+                                    },
+                                    console.error);
+                            }
+                        });
+
+                        io.socket.on('callback', function(message){
+                            _this._createOffer();
+                        });
+
+                        io.socket.on('webrtc', function(message){
                             var content = message.content;
                             var from = message.from;
 
                             _this._socketId = from;
 
                             if(content.type == 'offer') {
-                                if(confirm('Принять вызов от ' + from + '?')) {
-                                    _this._processAnswerStream(content);
-                                }
+                                 pc.setRemoteDescription(new SessionDescription(content));
+                                _this._createAnswer.call(_this);
+                                console.log('offer');
                             } else if(content.type == 'answer') {
+                                console.log('answer');
                                 pc.setRemoteDescription(new SessionDescription(content));
                             } else if(content.type == 'candidate') {
+                                console.log('candidate');
+
                                 var candidate = new IceCandidate({
                                     sdpMLineIndex : content.label, candidate : content.candidate
                                 });
@@ -51,92 +98,30 @@ modules.define(
                 var _this = this;
                 this._slackId = this.domElem.data('slackId');
 
-                function callback(users){
+                io.socket.get('/webrtc/getUsers', (function(users){
                     this._socketId = users[this._slackId];
-                    console.log('users from server', users);
-                    console.log("Maxim socketid:", this._socketId);
-                    this._processOfferStream.call(this);
-                }
 
-                io.socket.get('/webrtc/getUsers', function(users){
-                    callback.call(_this, users);
-                });
-            },
-            _processOfferStream : function(){
-                _this = this;
-
-                navigator.getUserMedia({
-                        audio : true,
-                        video : {
-                            mandatory : {
-                                maxWidth : 160,
-                                maxHeight : 120
-                            }
-                        }
-                    },
-                    function(stream){
-                        BEMDOM.update(
-                            _this.findBlockOutside('page')
-                                .findBlockInside({ block : 'video', modName : 'local', modVal : true })
-                                .findElem('inner'),
-                            BEMHTML.apply({
-                                tag : 'video',
-                                attrs : {
-                                    autoplay : true,
-                                    muted : true,
-                                    src : URL.createObjectURL(stream)
+                    navigator.getUserMedia({
+                            audio : true,
+                            video : {
+                                mandatory : {
+                                    maxWidth : 320,
+                                    maxHeight : 240
                                 }
-                            })
-                        );
-
-                        pc.addStream(stream);
-                        pc.onicecandidate = _this._gotIceCandidate.bind(_this);
-                        pc.onaddstream = _this._gotRemoteStream.bind(_this);
-                        _this._createOffer.call(_this);
-                    }, this._gotError
-                );
-            },
-            _processAnswerStream : function(content){
-                _this = this;
-
-                navigator.getUserMedia({
-                        audio : true,
-                        video : {
-                            mandatory : {
-                                maxWidth : 160,
-                                maxHeight : 120
                             }
-                        }
-                    },
-                    function(stream){
-                        BEMDOM.update(
-                            _this.findBlockOutside('page')
-                                .findBlockInside({ block : 'video', modName : 'local', modVal : true })
-                                .findElem('inner'),
-                            BEMHTML.apply({
-                                tag : 'video',
-                                attrs : {
-                                    autoplay : true,
-                                    muted : true,
-                                    src : URL.createObjectURL(stream)
-                                }
-                            })
-                        );
+                        },
+                        (function(stream){
+                            gotStream.call(this, stream);
+                            this._sendMessage('call', {}, this._socketId);
+                        }).bind(this),
+                        console.error);
 
-                        pc.addStream(stream);
-                        pc.onicecandidate = _this._gotIceCandidate.bind(_this);
-                        pc.onaddstream = _this._gotRemoteStream.bind(_this);
-
-                        pc.setRemoteDescription(new SessionDescription(content));
-                        _this._createAnswer.call(_this);
-                    }, this._gotError
-                );
+                }).bind(this));
 
             },
             _gotError : function(error){
             },
             _gotIceCandidate : function gotIceCandidate(event){
-
                 if(event.candidate) {
                     this._sendMessage('webrtc', {
                         type : 'candidate',
@@ -154,8 +139,8 @@ modules.define(
                     BEMHTML.apply({
                         tag : 'video',
                         attrs : {
+                            class : 'video_remote',
                             autoplay : true,
-                            muted : true,
                             src : URL.createObjectURL(event.stream)
                         }
                     })
