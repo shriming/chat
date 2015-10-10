@@ -1,7 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'list', 'message', 'keyboard__codes', 'jquery'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, List, Message, keyCodes, $){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'list', 'message', 'keyboard__codes', 'jquery', 'notify'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, List, Message, keyCodes, $, Notify){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -21,7 +21,7 @@ modules.define(
                         io.socket.on('chat.postMessage', function(response){
                             var data = response.data;
 
-                            if (data && !data.error) {
+                            if(data && !data.error){
                                 var messageHTML = _this._generateMessage(data.message);
                                 BEMDOM.append(_this.container, messageHTML);
                                 _this._scrollToBottom();
@@ -52,23 +52,26 @@ modules.define(
 
                 chatAPI.post(type + '.history', {
                     channel : channelId
-                }).then(function(resData){
-                    var messagesList = resData.messages.reverse().map(function(message){
-                        return _this._generateMessage(message);
-                    });
+                })
+                    .then(function(resData){
+                        var messagesList = resData.messages.reverse().map(function(message){
+                            return _this._generateMessage(message);
+                        });
 
-                    BEMDOM.update(_this.container, messagesList);
-                    _this._scrollToBottom();
-                    //chatAPI.on('message',function(data){
-                    //    var result =  _this._generateMessage(data);
-                    //
-                    //    BEMDOM.append(_this.container, result);
-                    //});
-                }, function(error){
-                    console.log('channels.history error: ', error);
-                }).always(function(){
-                    _this.findBlockInside('spin').delMod('visible');
-                });
+                        BEMDOM.update(_this.container, messagesList);
+                        _this._scrollToBottom();
+                        //chatAPI.on('message',function(data){
+                        //    var result =  _this._generateMessage(data);
+                        //
+                        //    BEMDOM.append(_this.container, result);
+                        //});
+                    })
+                    .catch(function(){
+                        Notify.error('Ошибка загрузки списка сообщений!');
+                    })
+                    .always(function(){
+                        _this.findBlockInside('spin').delMod('visible');
+                    });
             },
 
             _generateMessage : function(message){
@@ -83,14 +86,14 @@ modules.define(
              */
             _scrollToBottom : function(){
                 var historyElement = this.elem('history');
-                if (historyElement.length) {
+                if(historyElement.length){
                     var historyElementHeight = historyElement[0].scrollHeight;
                     $(historyElement).scrollTop(historyElementHeight);
                 }
             },
 
             _onConsoleKeyDown : function(e){
-                if (e.keyCode === keyCodes.ENTER && !e.ctrlKey) {
+                if(e.keyCode === keyCodes.ENTER && !e.ctrlKey){
                     e.preventDefault();
 
                     this._sendMessage(e.target.value);
@@ -101,7 +104,7 @@ modules.define(
             _sendMessage : function(message){
                 var _this = this;
 
-                if (!this._channelId) {
+                if(!this._channelId){
                     return;
                 }
 
