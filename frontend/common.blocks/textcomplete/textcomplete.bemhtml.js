@@ -1,0 +1,3 @@
+block('textcomplete')(
+    js()(true)
+);

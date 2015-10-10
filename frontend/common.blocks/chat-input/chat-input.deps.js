@@ -1,6 +1,8 @@
 ({
     mustDeps : [],
-    shouldDeps : [{
-        block: 'emoji-icon'
-    }]
+    shouldDeps : [
+        {
+            block : 'emoji-icon'
+        }
+    ]
 });

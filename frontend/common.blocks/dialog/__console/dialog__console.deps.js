@@ -30,6 +30,9 @@
         },
         {
             block : 'menu-item'
+        },
+        {
+            block: 'textcomplete'
         }
     ],
     shouldDeps : []

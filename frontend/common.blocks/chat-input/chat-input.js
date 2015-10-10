@@ -1,4 +1,4 @@
-modules.define('chat-input', ['i-bem__dom', 'BEMHTML', 'jquery'], function(provide, BEMDOM, BEMHTML, $){
+modules.define('chat-input', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, BEMHTML){
     provide(BEMDOM.decl(this.name, {
         onSetMod : {
             js : {
@@ -28,10 +28,11 @@ modules.define('chat-input', ['i-bem__dom', 'BEMHTML', 'jquery'], function(provi
                         content : 'Горы'
                     },
                     {
-                        block: 'menu-item',
-                        val: 3,
-                        content: {
-                            block: 'emoji-icon'
+                        block : 'menu-item',
+                        val : 3,
+                        content : {
+                            block : 'emoji-icon',
+                            js : 'smile'
                         }
                     }
                 ]

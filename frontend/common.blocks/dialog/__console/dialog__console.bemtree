@@ -15,6 +15,10 @@ block('dialog').elem('console')(
                 {
                     block : 'chat-input',
                     js : true
+                },
+                {
+                    block: 'textcomplete',
+                    js : true
                 }
             ],
 
@@ -50,7 +54,7 @@ block('dialog').elem('console')(
                     block : 'textarea',
                     //mods : { theme : 'shriming', size : 'm', focused : true, name : 'msg' },
                     mods : {
-                        focused : true
+                        focused : false
                     },
                     mix : {
                         block : 'chat-input',
