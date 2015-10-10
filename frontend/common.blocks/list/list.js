@@ -103,6 +103,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                 this.setMod(item, 'current', true);
                 this.emit('click-' + type, this.elemParams(item));
+                this.dropElemCache('item');
             }
         }, {
             live : function(){
