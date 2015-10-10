@@ -81,6 +81,8 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
                 var _this = this;
                 _this.post('rtm.start')
                     .then(function(result){
+                        _this.emit('rtm.start', result);
+
                         if(!result.ok) {
                             throw new Error(result);
                         }
@@ -91,6 +93,7 @@ modules.define('i-chat-api', ['i-chat-api__web', 'jquery', 'vow', 'eventemitter2
 
                         _this.isOpen(true);
                         _this._initSocket(result.url);
+                        _this._RTM_START_OBJECT = result;
                     })
                     .catch(function(error){
                         console.error(error);
