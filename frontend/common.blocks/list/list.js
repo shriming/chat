@@ -1,5 +1,5 @@
-modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users){
+modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
