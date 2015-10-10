@@ -19,7 +19,7 @@ modules.define(
             },
 
             _onClick : function(){
-                this.emit('click', '123');
+                this.emit('click');
             }
         }));
     }

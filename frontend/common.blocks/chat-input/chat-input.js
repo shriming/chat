@@ -14,11 +14,6 @@ modules.define(
                         this._generateEmojis();
                         this._submitOnEmojiClicked();
                     }
-                },
-                pressed : {
-                    true : function(){
-                        console.log('pressed!');
-                    }
                 }
             },
 
