@@ -8,6 +8,9 @@
         {
             block: 'jquery',
             elem: 'textcomplete'
+        },
+        {
+            block: 'emoji-icon'
         }
     ]
 });

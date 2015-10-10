@@ -51,7 +51,16 @@ modules.define(
                         callback(newResults);
                     },
                     template : function(shortname){
-                        return '<img class="emojione" src="//cdn.jsdelivr.net/emojione/assets/png/' + emojiStrategy[shortname].unicode + '.png"> :' + shortname + ':';
+                        console.log(emojiStrategy[shortname].unicode);
+                        return BEMHTML.apply([
+                            {
+                                block: 'emoji-icon',
+                                cls: 'emojione',
+                                icon: emojiStrategy[shortname].unicode,
+                                shortname: shortname
+                            },
+                            ':' + shortname + ':'
+                        ]);
                     },
                     replace : function(shortname){
                         return ':' + shortname + ': ';
