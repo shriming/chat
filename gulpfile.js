@@ -52,7 +52,7 @@ gulp.task('copy-css', function(){
     gulp.src([
         'frontend/desktop.bundles/merged/_merged.css'
     ])
-        .pipe(replace(/(url\([',"]?(.*[\/]{1})?(\w*\.(png|jpg|gif|svg))[',"]?\))/g, 'url("../images/$3")'))
+        .pipe(replace(/(url\([',"]?(.*[\/]{1})?(.*\.(png|jpg|gif|svg))[',"]?\))/g, 'url("../images/$3")'))
         .pipe(flatten())
         .pipe(gulp.dest('frontend/static/css'));
 });

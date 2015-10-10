@@ -7,8 +7,20 @@ block('dialog').def()(function(){
             {
                 elem : 'header',
                 content : [
-                    { elem : 'title' },
-                    { elem : 'description' }
+                    {
+                        elem : 'info',
+                        content : [
+                            { elem : 'title' },
+                            { elem : 'description' }
+                        ]
+                    },
+                    {
+                        block : 'dialog-controls',
+                        mods : { 'type' : 'channels' },
+                        content : [
+                            { elem : 'call' }
+                        ]
+                    }
                 ]
             },
             {

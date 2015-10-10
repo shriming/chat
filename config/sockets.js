@@ -18,10 +18,14 @@ module.exports.sockets = {
      * disconnects                                                              *
      *                                                                          *
      ***************************************************************************/
-    // afterDisconnect : function (session, socket) {
-
-    //     // By default: do nothing.
-    // },
+    afterDisconnect : function(session, socket, cb){
+        sails.users = sails.users || {};
+        if(socket.id) {
+            delete sails.users[session.User.id];
+            sails.sockets.blast('activeUsersUpdated', sails.users);
+        }
+        return cb();
+    },
 
     /***************************************************************************
      *                                                                          *

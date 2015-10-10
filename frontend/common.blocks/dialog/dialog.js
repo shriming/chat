@@ -1,7 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'list', 'message', 'keyboard__codes', 'jquery', 'notify'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, List, Message, keyCodes, $, Notify){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -16,6 +16,8 @@ modules.define(
                         _this.container = _this.elem('container');
 
                         List.on('click-channels click-users', _this._onChannelSelect, _this);
+                        User.on('click', _this._onUserSelect, _this);
+
                         textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
 
                         io.socket.on('chat.postMessage', function(response){
@@ -34,10 +36,31 @@ modules.define(
             destruct : function(){
                 List.un('click-channels click-users');
             },
+            _onUserSelect : function(e, userParams){
+                var dialogControlBlock = this.findBlockInside('dialog-controls');
+                var callButton = dialogControlBlock.findElem('call');
+                if(userParams.presence != 'local') {
+                    dialogControlBlock.setMod(callButton, 'disabled');
+                    dialogControlBlock.setMod(callButton, 'disabled');
+                    return;
+                }
 
+                dialogControlBlock.delMod(callButton, 'disabled');
+
+                callButton.data('slackId', userParams.id);
+            },
             _onChannelSelect : function(e, data){
                 this.elem('title').text(data.realName);
                 this.elem('description').text(data.name);
+
+                switch(e.type) {
+                    case 'click-channels':
+                        this.findBlockInside('dialog-controls').setMod('type', 'channels');
+                        break;
+                    case 'click-users':
+                        this.findBlockInside('dialog-controls').setMod('type', 'user');
+                        break;
+                }
 
                 this._channelId = data.id;
                 BEMDOM.update(this.container, []);

@@ -1,6 +1,6 @@
 ({
     mustDeps : [
-        { elems : ['message', 'container', 'spin'] }
+        { elems : ['message', 'container', 'spin', 'description', 'title', 'info'] }
     ],
     shouldDeps : [
         { block : 'keyboard', elems : ['codes'] },

@@ -52,6 +52,23 @@ match(this.ctx.data)
                             elem : options.controller,
                             mods : { action : options.action },
                             data : data
+                        },
+                        {
+                            block : 'list',
+                            mods : { 'type' : 'conference' },
+                            content : [
+                                { elem : 'title', content : 'Активные звонки' },
+                                {
+                                    elem : 'container',
+                                    content : [
+                                        { block : 'video', mods : { remote : true } },
+                                        { block : 'video', mods : { local : true } }
+                                    ]
+                                },
+                                {
+                                    content: data.socketId
+                                }
+                            ]
                         }
                     ]
                 }

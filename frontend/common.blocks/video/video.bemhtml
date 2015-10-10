@@ -1,0 +1,7 @@
+block('video')(
+    content()(function(){
+        return {
+            elem: 'inner'
+        };
+    })
+);

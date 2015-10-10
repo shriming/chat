@@ -1,5 +1,3 @@
-/*global sails */
-
 /**
  * IndexPageController
  *
@@ -21,10 +19,5 @@ module.exports = {
             }
         });
 
-        sails.sockets.blast('newUserConnected',
-            (
-                req.session.User? req.session.User.name : 'New anonymous user'
-            ) + ' connected to application.'
-        );
     }
 };

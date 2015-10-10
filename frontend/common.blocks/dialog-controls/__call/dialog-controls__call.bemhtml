@@ -1,0 +1,17 @@
+block('dialog-controls')(
+    elem('call')(
+        js()(true),
+        mix()('i-bem'),
+        content()(function(){
+                return [{
+                    block : 'button',
+                    mods : { theme : 'islands', size : 'm', view: 'plain' },
+                    icon : {
+                        block : 'icon',
+                        mods : { name : 'call-disabled' }
+                    }
+                }];
+            }
+        )
+    )
+);
