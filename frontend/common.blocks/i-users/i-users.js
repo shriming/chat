@@ -9,6 +9,7 @@ modules.define('i-users', ['i-chat-api'],
             is_bot : true,
             name : 'slackbot',
             real_name : 'Бот',
+            presence : 'active',
             profile : {
                 image_32 : 'static/images/bot_32.png',
                 image_48 : 'static/images/bot_48.png'

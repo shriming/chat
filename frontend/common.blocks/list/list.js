@@ -10,13 +10,22 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         this._container = this.elem('container');
                         this.findBlockInside('spin').setMod('visible');
 
-                        if(this.getMod('type') === 'channels') {
-                            this._getChannelsData();
-                        }else{
-                            Users.fetch().then(function(){
-                                this._getUsersData();
-                            }.bind(this));
-                        }
+                        var _this = this;
+                        chatAPI.on('rtm.start', function(result){
+                            if(_this.getMod('type') === 'channels') {
+                                _this._getChannelsData();
+                            }else{
+                                Users.fetch().then(function(){
+                                    var usersStatusOnStart = {};
+
+                                    result.users.forEach(function(user){
+                                        usersStatusOnStart[user.id] = user.presence;
+                                    });
+
+                                    _this._getUsersData(usersStatusOnStart);
+                                }.bind(_this));
+                            }
+                        });
                     }
                 }
             },
@@ -39,13 +48,22 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                         });
                     });
 
+                    var generalChannelIndex = data.channels.map(function(channel){
+                        return channel.is_general;
+                    }).indexOf(true);
+
+                    var hashChannelIndex = data.channels.map(function(channel){
+                        return channel.name;
+                    }).indexOf(location.hash.slice(1));
+
                     BEMDOM.update(_this._container, channelsList);
+                    _this._container.children()[hashChannelIndex != -1 ? hashChannelIndex : generalChannelIndex].click();
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
             },
 
-            _getUsersData : function(){
+            _getUsersData : function(usersStatusOnStart){
                 var _this = this;
 
                 chatAPI.get('im.list').then(function(data){
@@ -54,8 +72,17 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                         if(!user){ return; }
 
+                        var presence = usersStatusOnStart[user.id];
+                        if (presence) {
+                            user.presence = usersStatusOnStart[user.id];
+                        }
+
                         return BEMHTML.apply({
                             block : 'user',
+                            js : {
+                                id : user.id
+                            },
+                            mods: { presence: user.presence },
                             mix : {
                                 block : 'list',
                                 elem : 'item',
@@ -79,11 +106,23 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
+
+                chatAPI.on('presence_change', function(data){
+                    _this.findBlocksInside('user').forEach(function(user){
+                        if(user.params.id == data.user){
+                            user.setMod('presence', data.presence);
+                        }
+                    });
+                });
             },
 
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
+
+                if(type=='channels'){
+                    location.hash = e.target.innerText;
+                }
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');
@@ -91,6 +130,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                 this.setMod(item, 'current', true);
                 this.emit('click-' + type, this.elemParams(item));
+                this.dropElemCache('item');
             }
         }, {
             live : function(){
