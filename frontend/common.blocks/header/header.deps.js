@@ -8,6 +8,9 @@
         {
             block : 'logo',
             mods : { white : true }
+        },
+        {
+            block: 'notify'
         }
     ]
 });
