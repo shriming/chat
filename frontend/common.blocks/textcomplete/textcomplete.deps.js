@@ -10,7 +10,8 @@
             elem: 'textcomplete'
         },
         {
-            block: 'emoji-icon'
+            block: 'emoji-icon',
+            elems: [ 'data']
         }
     ]
 });
