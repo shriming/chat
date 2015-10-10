@@ -14,7 +14,7 @@ block('header')(
                 },
                 {
                     elem : 'title',
-                    content : 'Shriming-chat'
+                    content : 'Shriming chat'
                 },
                 {
                     block : 'current-user',

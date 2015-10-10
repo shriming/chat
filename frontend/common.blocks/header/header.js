@@ -6,7 +6,9 @@ modules.define(
             onSetMod : {
                 js : {
                     inited : function(){
-                        this._fetchTitleInfo();
+                        if(this.hasMod('logged')){
+                            this._fetchTitleInfo();
+                        }
                     }
                 }
             },

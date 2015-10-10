@@ -14,7 +14,7 @@ module.exports = {
 
         res.render({
             data : {
-                title : 'Shriming чат',
+                title : 'Shriming chat',
                 user : req.session.User || null
             }
         });
