@@ -11,11 +11,8 @@ module.exports = {
      * `WebrtcController.message()`
      */
     message : function(req, res){
-        console.log(req.body);
         var message = req.body;
-
-        sails.sockets.emit(message.to, 'webrtc', { content : message.content, from : sails.users[req.user.id] });
-
+        sails.sockets.emit(message.to, message.type, { content : message.content, from : sails.users[req.user.id] });
         return res.end();
     },
     getSocketID : function(req, res){
