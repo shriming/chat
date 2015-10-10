@@ -33,12 +33,6 @@ module.exports = function(req, res, next){
 
             if (req.session.auth) {
                 slack.init(req);
-//                console.log('req.user: ', req.user);
-                sails.users = sails.users || {};
-//                console.log('sails.users: ', sails.users);
-                if (sails.sockets.id(req.socket)) {
-                    sails.users[req.user.id] = sails.sockets.id(req.socket);
-                }
             }
 
             next();

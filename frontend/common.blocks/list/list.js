@@ -1,31 +1,41 @@
-modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users){
+modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'socket-io'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, io){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var instances = this.__self.instances || (this.__self.instances = []);
+                        var instances = this.__self.instances || (
+                                this.__self.instances = []);
                         instances.push(this);
 
                         this._container = this.elem('container');
-                        this.findBlockInside('spin').setMod('visible');
+
+                        var spinBlock = this.findBlockInside('spin');
+                        if(spinBlock) {
+                            spinBlock.setMod('visible');
+                        }
 
                         var _this = this;
-                        chatAPI.on('rtm.start', function(result){
-                            if(_this.getMod('type') === 'channels') {
+
+                        switch(_this.getMod('type')) {
+                            case 'channels':
                                 _this._getChannelsData();
-                            }else{
-                                Users.fetch().then(function(){
-                                    var usersStatusOnStart = {};
+                                break;
+                            case 'users':
+                                chatAPI.on('rtm.start', function(result){
+                                    Users.fetch().then(function(){
+                                        var usersStatusOnStart = {};
 
-                                    result.users.forEach(function(user){
-                                        usersStatusOnStart[user.id] = user.presence;
-                                    });
-
-                                    _this._getUsersData(usersStatusOnStart);
-                                }.bind(_this));
-                            }
-                        });
+                                        result.users.forEach(function(user){
+                                            usersStatusOnStart[user.id] = user.presence;
+                                        });
+                                        _this._getUsersData(usersStatusOnStart);
+                                    }.bind(_this));
+                                });
+                                break;
+                            case 'conference':
+                                break;
+                        }
                     }
                 }
             },
@@ -57,7 +67,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                     }).indexOf(location.hash.slice(1));
 
                     BEMDOM.update(_this._container, channelsList);
-                    _this._container.children()[hashChannelIndex != -1 ? hashChannelIndex : generalChannelIndex].click();
+                    _this._container.children()[hashChannelIndex != -1? hashChannelIndex : generalChannelIndex].click();
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
@@ -65,15 +75,18 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
             _getUsersData : function(usersStatusOnStart){
                 var _this = this;
+                var pageBlock = this.findBlockOutside('page');
 
                 chatAPI.get('im.list').then(function(data){
                     var imsList = data.ims.map(function(im){
                         var user = Users.getUser(im.user);
 
-                        if(!user){ return; }
+                        if(!user) {
+                            return;
+                        }
 
                         var presence = usersStatusOnStart[user.id];
-                        if (presence) {
+                        if(presence) {
                             user.presence = usersStatusOnStart[user.id];
                         }
 
@@ -82,7 +95,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                             js : {
                                 id : user.id
                             },
-                            mods: { presence: user.presence },
+                            mods : { presence : user.presence },
                             mix : {
                                 block : 'list',
                                 elem : 'item',
@@ -91,7 +104,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                     id : im.id,
                                     userId : user.id,
                                     name : '@' + user.name,
-                                    realName: user.real_name
+                                    realName : user.real_name
                                 }
                             },
                             user : {
@@ -101,18 +114,46 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                             }
                         });
                     });
-
                     BEMDOM.update(_this._container, imsList);
+
+                    updateUsersStatus('activeUsersUpdated', pageBlock._activeUsersUpdated);
+
                 }).always(function(){
                     _this.findBlockInside('spin').delMod('visible');
                 });
 
-                chatAPI.on('presence_change', function(data){
+                function updateUsersStatus(name, data){
+                    console.info('updateUsersStatus args: ', arguments);
                     _this.findBlocksInside('user').forEach(function(user){
-                        if(user.params.id == data.user){
-                            user.setMod('presence', data.presence);
+                        switch(name) {
+                            case 'activeUsersUpdated':
+                                if(data[user.params.id]) {
+                                    user.setMod('presence', 'local');
+                                } else if (user.getMod('presence') == 'local') {
+                                    console.log('users.getPresence args');
+                                    chatAPI.get('users.getPresence', { user : user.params.id }).then(function(data){
+                                        console.log('users.getPresence data: ', data);
+                                        if(data.ok) {
+                                            user.setMod('presence', data.presence);
+                                        }
+                                    });
+                                }
+                                break;
+                            case 'presence_change':
+                                if(user.params.id == data.user && user.getMod('presence') != 'local') {
+                                    user.setMod('presence', data.presence);
+                                }
+                                break;
                         }
                     });
+                }
+
+                pageBlock.on('activeUsersUpdated', function(e, data){
+                    updateUsersStatus('activeUsersUpdated', data);
+                });
+
+                chatAPI.on('presence_change', function(data){
+                    updateUsersStatus('presence_change', data);
                 });
             },
 
@@ -120,7 +161,7 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
 
-                if(type=='channels'){
+                if(type == 'channels') {
                     location.hash = e.target.innerText;
                 }
 

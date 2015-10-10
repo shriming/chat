@@ -31,6 +31,16 @@ module.exports = {
     },
     getUsers : function(req, res){
         return res.json(sails.users);
+    },
+    connected : function(req, res){
+        if(req.session.auth) {
+            sails.users = sails.users || {};
+            if(sails.sockets.id(req.socket)) {
+                sails.users[req.user.id] = sails.sockets.id(req.socket);
+                sails.sockets.blast('activeUsersUpdated', sails.users);
+            }
+        }
+        return res.json({ users : sails.users });
     }
 };
 
