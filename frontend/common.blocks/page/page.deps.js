@@ -10,8 +10,8 @@
         { block : 'clearfix' },
         { block : 'header', mods : { 'logged': true } },
         { block : 'main', mods : { 'logged': true } },
-        { block : 'list' },
         { block : 'video' },
+        { block : 'list', elems: ['addition'] },
         { block : 'dialog' },
         { block : 'link' }
     ]
