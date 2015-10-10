@@ -1,0 +1,7 @@
+block('list').elem('counter')(
+    content()(function(){
+        var count = Number(this.ctx.count);
+
+        return (count === 0) ? '' : count;
+    })
+);

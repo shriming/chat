@@ -11,6 +11,7 @@
         { block : 'avatar', mods : { 'size' : 'm' } },
         { block : 'i-users' },
         { block : 'spin', mods : { theme : 'shriming', size : 'xl' } },
-        { block : 'notify' }
+        { block : 'notify' },
+        { block : 'events', elems : 'channels' }
     ]
 });

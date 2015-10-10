@@ -1,7 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -19,16 +19,7 @@ modules.define(
                         User.on('click', _this._onUserSelect, _this);
 
                         textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
-
-                        io.socket.on('chat.postMessage', function(response){
-                            var data = response.data;
-
-                            if(data && !data.error){
-                                var messageHTML = _this._generateMessage(data.message);
-                                BEMDOM.append(_this.container, messageHTML);
-                                _this._scrollToBottom();
-                            }
-                        });
+                        _this._subscribeMessageUpdate();
                     }
                 }
             },
@@ -36,6 +27,7 @@ modules.define(
             destruct : function(){
                 List.un('click-channels click-users');
             },
+
             _onUserSelect : function(e, userParams){
                 var dialogControlBlock = this.findBlockInside('dialog-controls');
                 var callButton = dialogControlBlock.findElem('call');
@@ -49,6 +41,24 @@ modules.define(
 
                 callButton.data('slackId', userParams.id);
             },
+
+            _subscribeMessageUpdate : function(){
+                var _this = this;
+                var messageManager = channels('message-manager');
+                var generatedMessage;
+
+                chatAPI.on('message',function(data){
+
+                    if(_this._channelId && data.channel === _this._channelId){
+                        generatedMessage =  _this._generateMessage(data);
+                        BEMDOM.append(_this.container, generatedMessage);
+                        _this._scrollToBottom();
+                    }else{
+                        messageManager.emit('channel-received-message', { channelId : data.channel });
+                    }
+                });
+            },
+
             _onChannelSelect : function(e, data){
                 this.elem('title').text(data.realName);
                 this.elem('description').text(data.name);
@@ -83,11 +93,6 @@ modules.define(
 
                         BEMDOM.update(_this.container, messagesList);
                         _this._scrollToBottom();
-                        //chatAPI.on('message',function(data){
-                        //    var result =  _this._generateMessage(data);
-                        //
-                        //    BEMDOM.append(_this.container, result);
-                        //});
                     })
                     .catch(function(){
                         Notify.error('Ошибка загрузки списка сообщений!');

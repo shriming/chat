@@ -1,11 +1,12 @@
-modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'socket-io', 'notify'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, io, Notify){
+modules.define(
+    'list',
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify', 'events__channels'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify, channels){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var instances = this.__self.instances || (
-                                this.__self.instances = []);
+                        var instances = this.__self.instances || (this.__self.instances = []);
                         instances.push(this);
 
                         this._container = this.elem('container');
@@ -19,8 +20,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
 
                         switch(_this.getMod('type')) {
                             case 'channels':
-                                _this._getChannelsData();
+                                this._getChannelsData();
                                 break;
+
                             case 'users':
                                 chatAPI.on('rtm.start', function(result){
                                     Users.fetch().then(function(){
@@ -35,11 +37,84 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                                     });
                                 });
                                 break;
+
                             case 'conference':
                                 break;
+
+                            default:
+
                         }
+
+                        this._initializeLists();
+                        this._setupMessageManager();
                     }
                 }
+            },
+
+            _setupMessageManager : function(){
+                var messageManager = channels('message-manager');
+
+                messageManager.on('channel-received-message', this._handleNewMessage, this);
+            },
+
+            _handleNewMessage : function(e, data){
+                var counter = this._getItemCounter(data.channelId);
+
+                if(counter){
+                    counter.text(Number(counter.text()) + 1);
+                }
+
+                this.dropElemCache('item');
+            },
+
+            /**
+             * Получаем каналы и итерируемся по каждому с целью
+             * простановки счетчика непрочитнных сообщений
+             *
+             * @param {String} channelId - ID канала
+             * @returns {Object|null} - Элемент counter счетчика непрочитанных сообщений канала
+             *
+             * @private
+             */
+            _getItemCounter : function(channelId){
+                var _this = this;
+                var counterElem;
+
+                this.elem('item').each(function(index, item){
+                    // Получаем параметры канала
+                    var itemParams = _this.elemParams($(item));
+
+                    // Если id итерируемого канала равен channelId
+                    if(itemParams.id === channelId){
+                        counterElem = $(_this.elem('counter')[index]);
+                    }
+                });
+
+                return counterElem ? counterElem : null;
+            },
+
+            _initializeLists : function(){
+                var _this = this;
+
+                chatAPI.on('rtm.start', function(result){
+                    if(_this.getMod('type') === 'channels'){
+                        _this._getChannelsData();
+                    } else{
+                        Users.fetch()
+                            .then(function(){
+                                var usersStatusOnStart = {};
+
+                                result.users.forEach(function(user){
+                                    usersStatusOnStart[user.id] = user.presence;
+                                });
+
+                                _this._getUsersData(usersStatusOnStart);
+                            })
+                            .catch(function(){
+                                Notify.error('Ошибка загрузки списка пользователей!');
+                            });
+                    }
+                });
             },
 
             _getChannelsData : function(){
@@ -100,25 +175,25 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                             }
 
                             return BEMHTML.apply({
-                                block : 'user',
+                                block : 'list',
+                                elem : 'item',
+                                mods : { type : 'users' },
                                 js : {
-                                    id : user.id
+                                    id : im.id,
+                                    name : '@' + user.name,
+                                    realName : user.real_name
                                 },
-                                mods : { presence : user.presence },
-                                mix : {
-                                    block : 'list',
-                                    elem : 'item',
-                                    mods : { type : 'users' },
+                                content : {
+                                    block : 'user',
                                     js : {
-                                        id : im.id,
-                                        name : '@' + user.name,
-                                        realName : user.real_name
+                                        id : user.id
+                                    },
+                                    mods : { presence : user.presence },
+                                    user : {
+                                        name : user.name,
+                                        realName : user.real_name,
+                                        image_48 : user.profile.image_48
                                     }
-                                },
-                                user : {
-                                    name : user.name,
-                                    realName : user.real_name,
-                                    image_48 : user.profile.image_48
                                 }
                             });
                         });
@@ -170,6 +245,9 @@ modules.define('list', ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-user
                 if(type == 'channels') {
                     location.hash = e.target.innerText;
                 }
+
+                var counter = this._getItemCounter(this.elemParams(item).id);
+                counter.text('');
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');

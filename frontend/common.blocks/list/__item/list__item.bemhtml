@@ -1,1 +1,15 @@
-block('list').elem('item').tag()('li');
+block('list').elem('item')(
+    tag()('li'),
+    content()(function(){
+        var content = applyNext();
+
+        return [
+            content,
+            {
+                block : 'list',
+                elem : 'counter',
+                content : ''
+            }
+        ];
+    })
+);
