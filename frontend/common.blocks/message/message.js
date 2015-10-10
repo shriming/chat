@@ -20,7 +20,7 @@ modules.define('message', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, B
                                 block : 'avatar',
                                 user : {
                                     name : username,
-                                    image_48 : user.profile.image_32
+                                    image_48 : user.profile.image_48
                                 },
                                 mods : { size : 'm' },
                                 mix : { block : 'message', elem : 'avatar' }
