@@ -22,6 +22,9 @@ block('user')(
                         content : user.name
                     }
                 ]
+            },
+            {
+                elem : 'status'
             }
         ]);
 
