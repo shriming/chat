@@ -1,5 +1,5 @@
 modules.define(
-    'jquery-textcomplete',
+    'jquery__textcomplete',
     ['loader_type_js', 'jquery'],
     function(provide, loader, $){
         window.jQuery = $;

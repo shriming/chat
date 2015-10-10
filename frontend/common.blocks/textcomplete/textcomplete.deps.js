@@ -6,7 +6,8 @@
             elem : 'dom'
         },
         {
-            block: 'jquery-textcomplete'
+            block: 'jquery',
+            elem: 'textcomplete'
         }
     ]
 });

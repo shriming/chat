@@ -1,6 +1,6 @@
 modules.define(
     'textcomplete',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'jquery-textcomplete'],
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'jquery__textcomplete'],
     function(provide, BEMDOM, BEMHTML, $){
 
         // Список всех emoji-смайлов
