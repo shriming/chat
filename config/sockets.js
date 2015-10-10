@@ -20,7 +20,7 @@ module.exports.sockets = {
      ***************************************************************************/
     afterDisconnect : function(session, socket, cb){
         sails.users = sails.users || {};
-        if(socket.id) {
+        if(socket && socket.id && session.User && session.User.id) {
             delete sails.users[session.User.id];
             sails.sockets.blast('activeUsersUpdated', sails.users);
         }
