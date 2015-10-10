@@ -1,0 +1,1 @@
+block('chat-input').elem('emoji-button').tag()('a');

@@ -7,8 +7,10 @@
             mods : {
                 theme : 'islands',
                 target : 'anchor',
+                directions : ['bottom-left'],
+                direction : 'left-center',
                 autoclosable : true,
-                visible: false
+                visible : false
             }
         },
         {
@@ -17,22 +19,22 @@
         },
         {
             block : 'button',
-            mods : {theme : 'islands', view : 'plain'}
+            mods : { theme : 'islands', view : 'plain' }
         },
         { block : 'i-chat-api' },
         {
-            block: 'chat-input',
-            elem: 'emoji'
+            block : 'chat-input',
+            elem : 'emoji-button'
         },
         {
-            block: 'menu',
+            block : 'menu',
             mods : { theme : 'islands', size : 'm' },
         },
         {
             block : 'menu-item'
         },
         {
-            block: 'textcomplete'
+            block : 'textcomplete'
         }
     ],
     shouldDeps : []
