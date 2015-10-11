@@ -1,7 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -16,19 +16,10 @@ modules.define(
                         _this.container = _this.elem('container');
 
                         List.on('click-channels click-users', _this._onChannelSelect, _this);
-                        User.on('click', _this._onUserSelect, _this);
+                        User.on('click', _this._onUserClick, _this);
 
                         textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
-
-                        io.socket.on('chat.postMessage', function(response){
-                            var data = response.data;
-
-                            if(data && !data.error){
-                                var messageHTML = _this._generateMessage(data.message);
-                                BEMDOM.append(_this.container, messageHTML);
-                                _this._scrollToBottom();
-                            }
-                        });
+                        _this._subscribeMessageUpdate();
                     }
                 }
             },
@@ -36,9 +27,28 @@ modules.define(
             destruct : function(){
                 List.un('click-channels click-users');
             },
-            _onUserSelect : function(e, userParams){
+
+            _subscribeMessageUpdate : function(){
+                var _this = this;
+                var messageManager = channels('message-manager');
+                var generatedMessage;
+
+                chatAPI.on('message',function(data){
+
+                    if(_this._channelId && data.channel === _this._channelId){
+                        generatedMessage =  _this._generateMessage(data);
+                        BEMDOM.append(_this.container, generatedMessage);
+                        _this._scrollToBottom();
+                    }else{
+                        messageManager.emit('channel-received-message', { channelId : data.channel });
+                    }
+                });
+            },
+
+            _onUserClick : function(e, userParams){
                 var dialogControlBlock = this.findBlockInside('dialog-controls');
                 var callButton = dialogControlBlock.findElem('call');
+
                 if(userParams.presence != 'local') {
                     dialogControlBlock.setMod(callButton, 'disabled');
                     dialogControlBlock.setMod(callButton, 'disabled');
@@ -46,9 +56,9 @@ modules.define(
                 }
 
                 dialogControlBlock.delMod(callButton, 'disabled');
-
                 callButton.data('slackId', userParams.id);
             },
+
             _onChannelSelect : function(e, data){
                 this.elem('title').text(data.realName);
                 this.elem('description').text(data.name);
@@ -57,17 +67,32 @@ modules.define(
                     case 'click-channels':
                         this.findBlockInside('dialog-controls').setMod('type', 'channels');
                         break;
+
                     case 'click-users':
                         this.findBlockInside('dialog-controls').setMod('type', 'user');
                         break;
+
+                    default:
+
                 }
 
                 this._channelId = data.id;
                 BEMDOM.update(this.container, []);
-
                 this.findBlockInside('spin').setMod('visible');
-
                 this._getData(data.id, EVENT_METHODS[e.type]);
+            },
+
+            _markChannelRead : function(channelId, type, timestamp){
+                chatAPI.post(type + '.mark', {
+                    channel : channelId,
+                    ts : timestamp
+                })
+                    .then(function(data){
+                        console.log('Channel mark: ', data);
+                    })
+                    .catch(function(){
+                        Notify.error('Ошибка при открытии канала!');
+                    });
             },
 
             _getData : function(channelId, type){
@@ -77,17 +102,14 @@ modules.define(
                     channel : channelId
                 })
                     .then(function(resData){
-                        var messagesList = resData.messages.reverse().map(function(message){
+                        var messages = resData.messages.reverse();
+                        var messagesList = messages.map(function(message){
                             return _this._generateMessage(message);
                         });
 
+                        _this._markChannelRead(channelId, type, messages[0].ts);
                         BEMDOM.update(_this.container, messagesList);
                         _this._scrollToBottom();
-                        //chatAPI.on('message',function(data){
-                        //    var result =  _this._generateMessage(data);
-                        //
-                        //    BEMDOM.append(_this.container, result);
-                        //});
                     })
                     .catch(function(){
                         Notify.error('Ошибка загрузки списка сообщений!');
@@ -109,8 +131,10 @@ modules.define(
              */
             _scrollToBottom : function(){
                 var historyElement = this.elem('history');
+                var historyElementHeight;
+
                 if(historyElement.length){
-                    var historyElementHeight = historyElement[0].scrollHeight;
+                    historyElementHeight = historyElement[0].scrollHeight;
                     $(historyElement).scrollTop(historyElementHeight);
                 }
             },
@@ -136,11 +160,13 @@ modules.define(
                     channel : _this._channelId,
                     username : _this.params.username,
                     as_user : true
-                }).then(function(data){
-                    console('postMessage res data: ', data);
-                }, function(error){
-                    console('postMessage error: ', error);
-                });
+                })
+                    .then(function(data){
+                        console('postMessage data: ', data);
+                    })
+                    .catch(function(){
+                        Notify.error('Ошибка при отправке сообщения!');
+                    });
             }
         }));
     }
