@@ -16,35 +16,6 @@ modules.define(
                             spinBlock.setMod('visible');
                         }
 
-                        var _this = this;
-
-                        switch(_this.getMod('type')) {
-                            case 'channels':
-                                this._getChannelsData();
-                                break;
-
-                            case 'users':
-                                chatAPI.on('rtm.start', function(result){
-                                    Users.fetch().then(function(){
-                                        var usersStatusOnStart = {};
-
-                                        result.users.forEach(function(user){
-                                            usersStatusOnStart[user.id] = user.presence;
-                                        });
-                                        _this._getUsersData(usersStatusOnStart);
-                                    }).catch(function(){
-                                        Notify.error('Ошибка загрузки списка пользователей!');
-                                    });
-                                });
-                                break;
-
-                            case 'conference':
-                                break;
-
-                            default:
-
-                        }
-
                         this._initializeLists();
                         this._setupMessageManager();
                     }
@@ -96,25 +67,32 @@ modules.define(
             _initializeLists : function(){
                 var _this = this;
 
-                chatAPI.on('rtm.start', function(result){
-                    if(_this.getMod('type') === 'channels'){
-                        _this._getChannelsData();
-                    } else{
-                        Users.fetch()
-                            .then(function(){
+                switch(_this.getMod('type')) {
+                    case 'channels':
+                        this._getChannelsData();
+                        break;
+
+                    case 'users':
+                        chatAPI.on('rtm.start', function(result){
+                            Users.fetch().then(function(){
                                 var usersStatusOnStart = {};
 
                                 result.users.forEach(function(user){
                                     usersStatusOnStart[user.id] = user.presence;
                                 });
-
                                 _this._getUsersData(usersStatusOnStart);
-                            })
-                            .catch(function(){
+                            }).catch(function(){
                                 Notify.error('Ошибка загрузки списка пользователей!');
                             });
-                    }
-                });
+                        });
+                        break;
+
+                    case 'conference':
+                        break;
+
+                    default:
+
+                }
             },
 
             _getChannelsData : function(){
@@ -238,16 +216,19 @@ modules.define(
                     updateUsersStatus('presence_change', data);
                 });
             },
+
             _onItemClick : function(e){
                 var item = $(e.currentTarget);
                 var type = this.getMod(item, 'type');
+                var counter = this._getItemCounter(this.elemParams(item).id);
 
-                if(type == 'channels') {
+                if(type == 'channels'){
                     location.hash = e.target.innerText;
                 }
 
-                var counter = this._getItemCounter(this.elemParams(item).id);
-                counter.text('');
+                if(counter){
+                    counter.text('');
+                }
 
                 this.__self.instances.forEach(function(list){
                     list.delMod(list.elem('item'), 'current');

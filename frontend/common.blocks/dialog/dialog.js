@@ -16,7 +16,7 @@ modules.define(
                         _this.container = _this.elem('container');
 
                         List.on('click-channels click-users', _this._onChannelSelect, _this);
-                        User.on('click', _this._onUserSelect, _this);
+                        User.on('click', _this._onUserClick, _this);
 
                         textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
                         _this._subscribeMessageUpdate();
@@ -26,20 +26,6 @@ modules.define(
 
             destruct : function(){
                 List.un('click-channels click-users');
-            },
-
-            _onUserSelect : function(e, userParams){
-                var dialogControlBlock = this.findBlockInside('dialog-controls');
-                var callButton = dialogControlBlock.findElem('call');
-                if(userParams.presence != 'local') {
-                    dialogControlBlock.setMod(callButton, 'disabled');
-                    dialogControlBlock.setMod(callButton, 'disabled');
-                    return;
-                }
-
-                dialogControlBlock.delMod(callButton, 'disabled');
-
-                callButton.data('slackId', userParams.id);
             },
 
             _subscribeMessageUpdate : function(){
@@ -59,6 +45,20 @@ modules.define(
                 });
             },
 
+            _onUserClick : function(e, userParams){
+                var dialogControlBlock = this.findBlockInside('dialog-controls');
+                var callButton = dialogControlBlock.findElem('call');
+
+                if(userParams.presence != 'local') {
+                    dialogControlBlock.setMod(callButton, 'disabled');
+                    dialogControlBlock.setMod(callButton, 'disabled');
+                    return;
+                }
+
+                dialogControlBlock.delMod(callButton, 'disabled');
+                callButton.data('slackId', userParams.id);
+            },
+
             _onChannelSelect : function(e, data){
                 this.elem('title').text(data.realName);
                 this.elem('description').text(data.name);
@@ -67,17 +67,32 @@ modules.define(
                     case 'click-channels':
                         this.findBlockInside('dialog-controls').setMod('type', 'channels');
                         break;
+
                     case 'click-users':
                         this.findBlockInside('dialog-controls').setMod('type', 'user');
                         break;
+
+                    default:
+
                 }
 
                 this._channelId = data.id;
                 BEMDOM.update(this.container, []);
-
                 this.findBlockInside('spin').setMod('visible');
-
                 this._getData(data.id, EVENT_METHODS[e.type]);
+            },
+
+            _markChannelRead : function(channelId, type, timestamp){
+                chatAPI.post(type + '.mark', {
+                    channel : channelId,
+                    ts : timestamp
+                })
+                    .then(function(data){
+                        console.log('Channel mark: ', data);
+                    })
+                    .catch(function(){
+                        Notify.error('Ошибка при открытии канала!');
+                    });
             },
 
             _getData : function(channelId, type){
@@ -87,10 +102,12 @@ modules.define(
                     channel : channelId
                 })
                     .then(function(resData){
-                        var messagesList = resData.messages.reverse().map(function(message){
+                        var messages = resData.messages.reverse();
+                        var messagesList = messages.map(function(message){
                             return _this._generateMessage(message);
                         });
 
+                        _this._markChannelRead(channelId, type, messages[0].ts);
                         BEMDOM.update(_this.container, messagesList);
                         _this._scrollToBottom();
                     })
@@ -114,8 +131,10 @@ modules.define(
              */
             _scrollToBottom : function(){
                 var historyElement = this.elem('history');
+                var historyElementHeight;
+
                 if(historyElement.length){
-                    var historyElementHeight = historyElement[0].scrollHeight;
+                    historyElementHeight = historyElement[0].scrollHeight;
                     $(historyElement).scrollTop(historyElementHeight);
                 }
             },
@@ -141,11 +160,13 @@ modules.define(
                     channel : _this._channelId,
                     username : _this.params.username,
                     as_user : true
-                }).then(function(data){
-                    console('postMessage res data: ', data);
-                }, function(error){
-                    console('postMessage error: ', error);
-                });
+                })
+                    .then(function(data){
+                        console('postMessage data: ', data);
+                    })
+                    .catch(function(){
+                        Notify.error('Ошибка при отправке сообщения!');
+                    });
             }
         }));
     }
