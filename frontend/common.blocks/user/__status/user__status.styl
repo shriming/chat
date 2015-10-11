@@ -1,7 +1,10 @@
+$stats_radius = 9 / 2
+$avatar_radius = 32 / 2
+$status_offset = $avatar_radius + (cos(45deg) * $avatar_radius) - $stats_radius
 .user__status
     position absolute
-    top 32px
-    left 37px
+    left 13 + $status_offset px
+    top 7 + $status_offset px
     height 9px
     width 9px
     background $user_status_offline_color
