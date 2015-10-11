@@ -7,7 +7,7 @@ block('emoji-icon')(
 
         return {
             block : 'image',
-            url : 'http://cdn.jsdelivr.net/emojione/assets/png/' + icon + '.png',
+            url : '//cdn.jsdelivr.net/emojione/assets/png/' + icon + '.png',
             alt : shortname + ' emoji icon'
         };
     })
