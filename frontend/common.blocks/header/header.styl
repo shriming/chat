@@ -1,7 +1,7 @@
 .header
     display flex
     align-items center
-    padding 13px
+    padding 13px 0
     padding-top 40px
     margin 0 auto
     width 100%
@@ -11,3 +11,8 @@
     text-transform uppercase
     font-weight bold
     box-sizing border-box
+
+@media $touch
+    .header_logged .current-user__title,
+    .header_logged .logo
+        display none

@@ -14,6 +14,11 @@ modules.define(
                             }
                             _this._fetchTitleInfo();
                         });
+
+                        _this.elem('menu').on('click', function(){
+                            this.classList.add('header__menu_close');
+                            _this.findBlockOutside('page').findBlockInside('sidebar').toggleMod('hidden');
+                        });
                     }
                 }
             },
