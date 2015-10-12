@@ -1,0 +1,45 @@
+.header__menu
+    position relative
+    display none
+    transition all.3s ease
+    width 21px
+    height 2px
+    background #fff
+    margin 0 30px 0 6px
+    border-radius 2px
+    transform translateZ(0)
+        
+@media $touch
+    .header_logged .header__menu
+        display inline-block
+
+.header__menu:before,
+.header__menu:after
+    transition all.3s cubic-bezier(0.63, -0.41, 0.68, 1.71)
+    content ''
+    position absolute
+    display block
+    height 100%
+    width 100%
+    background #fff
+    margin-top -6px
+    border-radius 3px
+    
+.header__menu:after
+    margin-top 6px
+    
+.header__menu
+    &.header__menu_close
+        background inherit
+
+.header__menu_close:before,
+.header__menu_close:after
+    margin 0
+    
+.header__menu
+    &.header__menu_close:before
+        transform rotate(45deg)
+    
+.header__menu
+    &.header__menu_close:after
+        transform rotate(-45deg)
