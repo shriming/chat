@@ -228,6 +228,8 @@ modules.define(
 
                 this.findBlockOutside('sidebar').setMod('hidden', true);
 
+                this.findBlockOutside('sidebar').setMod('hidden', true);
+
                 if(type == 'channels'){
                     location.hash = e.target.innerText;
                 }
