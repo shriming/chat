@@ -9,6 +9,10 @@ block('header')(
             js: true,
             content : [
                 {
+                    elem : 'menu',
+                    mods : { close : true }
+                },
+                {
                     block : 'logo',
                     mods : { white : isLogged }
                 },

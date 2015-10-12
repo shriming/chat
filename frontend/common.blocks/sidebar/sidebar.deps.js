@@ -1,3 +1,7 @@
 ({
-    shouldDeps : []
+    shouldDeps : [
+        {
+            mods : { hidden : true }
+        },
+    ]
 });

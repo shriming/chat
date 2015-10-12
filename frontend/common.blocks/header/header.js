@@ -6,6 +6,12 @@ modules.define(
             onSetMod : {
                 js : {
                     inited : function(){
+                        var _this = this;
+                        _this.elem('menu').on('click', function(){
+                            this.classList.add('header__menu_close');
+                            _this.findBlockOutside('page').findBlockInside('sidebar').toggleMod('hidden');
+                        });
+                        
                         if(this.hasMod('logged')){
                             this._fetchTitleInfo();
                         }
