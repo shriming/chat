@@ -16,16 +16,12 @@ modules.define(
                             spinBlock.setMod('visible');
                         }
 
-                        this._initializeLists();
-                        this._setupMessageManager();
+                        var shrimingEvents = channels('shriming-events');
+
+                        shrimingEvents.on('users-loaded', this._initializeLists, this);
+                        shrimingEvents.on('channel-received-message', this._handleNewMessage, this);
                     }
                 }
-            },
-
-            _setupMessageManager : function(){
-                var messageManager = channels('message-manager');
-
-                messageManager.on('channel-received-message', this._handleNewMessage, this);
             },
 
             _handleNewMessage : function(e, data){
@@ -74,16 +70,13 @@ modules.define(
 
                     case 'users':
                         chatAPI.on('rtm.start', function(result){
-                            Users.fetch().then(function(){
-                                var usersStatusOnStart = {};
+                            var usersStatusOnStart = {};
 
-                                result.users.forEach(function(user){
-                                    usersStatusOnStart[user.id] = user.presence;
-                                });
-                                _this._getUsersData(usersStatusOnStart);
-                            }).catch(function(){
-                                Notify.error('Ошибка загрузки списка пользователей!');
+                            result.users.forEach(function(user){
+                                usersStatusOnStart[user.id] = user.presence;
                             });
+
+                            _this._getUsersData(usersStatusOnStart);
                         });
                         break;
 

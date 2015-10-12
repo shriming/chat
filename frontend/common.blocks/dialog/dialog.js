@@ -30,7 +30,7 @@ modules.define(
 
             _subscribeMessageUpdate : function(){
                 var _this = this;
-                var messageManager = channels('message-manager');
+                var shrimingEvents = channels('shriming-events');
                 var generatedMessage;
 
                 chatAPI.on('message',function(data){
@@ -40,7 +40,7 @@ modules.define(
                         BEMDOM.append(_this.container, generatedMessage);
                         _this._scrollToBottom();
                     }else{
-                        messageManager.emit('channel-received-message', { channelId : data.channel });
+                        shrimingEvents.emit('channel-received-message', { channelId : data.channel });
                     }
                 });
             },

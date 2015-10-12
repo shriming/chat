@@ -3,8 +3,8 @@
  * @description Коллекция пользователей
  */
 
-modules.define('i-users', ['i-chat-api'],
-    function(provide, chatAPI){
+modules.define('i-users', ['i-chat-api', 'events__channels'],
+    function(provide, chatAPI, channels){
         var BOT_PROFILE = {
             is_bot : true,
             name : 'slackbot',
@@ -15,6 +15,8 @@ modules.define('i-users', ['i-chat-api'],
                 image_48 : 'static/images/bot_48.png'
             }
         };
+
+        var shrimingEvents = channels('shriming-events');
 
         var Users = {
             /**
@@ -30,6 +32,7 @@ modules.define('i-users', ['i-chat-api'],
                     if(data.members && data.members.length) {
                         data.members.forEach(function(member){
                             _this._users[member.id] = member;
+                            shrimingEvents.emit('users-loaded');
                         });
                     }
                 });
