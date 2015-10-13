@@ -32,6 +32,45 @@ modules.define(
             },
 
             /**
+             * Устанавливает значение для заголовка
+             *
+             * @param {String} value - Значение заголовка
+             * @param {Boolean} isActive - Делать ли заголовок изменяемым при клике
+             * @returns {Object}
+             */
+            setVal : function(value, isActive){
+                if(!value && isActive){
+                    value = 'Без названия';
+                    this.setMod('empty');
+                }else{
+                    this.delMod('empty');
+                }
+
+                this.setMod('active', isActive);
+                this._title.text(value);
+                this.params.channelId = this._channelId;
+
+                return this;
+            },
+
+            /**
+             * Обнуляет состояние блока
+             *
+             * @returns {Object}
+             */
+            reset : function(){
+                this._input
+                    .val('')
+                    .hide();
+
+                this._title
+                    .text('')
+                    .show();
+
+                return this;
+            },
+
+            /**
              * Обработка клика на заголовке
              *
              * @private

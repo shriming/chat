@@ -8,7 +8,9 @@ block('editable-title')(
             {
                 block : 'input',
                 mix : { block : 'editable-title', elem : 'input' },
-                mods : { theme : 'shriming', size : 's', width : 'available' }
+                mods : { theme : 'shriming', size : 's', width : 'available' },
+                maxLength : 250,
+                placeholder : 'Введите тему канала'
             },
             {
                 block : 'spin',

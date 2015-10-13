@@ -1,6 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list',
+        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
     function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
@@ -59,7 +60,9 @@ modules.define(
             _onChannelSelect : function(e, data){
                 this._channelId = data.channelId;
                 this.elem('name').text(data.name);
-                this._setHeaderTitle(data.title, (e.type == 'click-channels'));
+                this.findBlockInside('editable-title')
+                    .reset()
+                    .setVal(data.title, (e.type == 'click-channels'));
 
                 switch(e.type) {
                     case 'click-channels':
@@ -81,21 +84,6 @@ modules.define(
                 BEMDOM.update(this.container, []);
                 this.setMod(this.elem('spin'), 'visible');
                 this._getData(data.channelId, EVENT_METHODS[e.type]);
-            },
-
-            _setHeaderTitle : function(value, isActive){
-                var element = this.findBlockInside('title', 'editable-title');
-
-                if(!value && isActive){
-                    value = 'Без названия';
-                    element.setMod('empty');
-                }else{
-                    element.delMod('empty');
-                }
-
-                element.setMod('active', isActive);
-                element.elem('title').text(value);
-                element.params.channelId = this._channelId;
             },
 
             _markChannelRead : function(channelId, type, timestamp){
