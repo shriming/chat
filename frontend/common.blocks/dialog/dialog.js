@@ -1,6 +1,7 @@
 modules.define(
     'dialog',
-    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list', 'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list',
+        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
     function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
@@ -11,15 +12,13 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var _this = this;
-                        var textarea = _this.findBlockInside('textarea');
-                        _this.container = _this.elem('container');
+                        this.container = this.elem('container');
 
-                        List.on('click-channels click-users', _this._onChannelSelect, _this);
-                        User.on('click', _this._onUserClick, _this);
+                        List.on('click-channels click-users', this._onChannelSelect, this);
+                        User.on('click', this._onUserClick, this);
 
-                        textarea.bindTo('keydown', _this._onConsoleKeyDown.bind(_this));
-                        _this._subscribeMessageUpdate();
+                        this.findBlockInside('textarea').bindTo('keydown', this._onConsoleKeyDown.bind(this));
+                        this._subscribeMessageUpdate();
                     }
                 }
             },
@@ -33,8 +32,7 @@ modules.define(
                 var shrimingEvents = channels('shriming-events');
                 var generatedMessage;
 
-                chatAPI.on('message',function(data){
-
+                chatAPI.on('message', function(data){
                     if(_this._channelId && data.channel === _this._channelId){
                         generatedMessage =  _this._generateMessage(data);
                         BEMDOM.append(_this.container, generatedMessage);
@@ -60,26 +58,32 @@ modules.define(
             },
 
             _onChannelSelect : function(e, data){
-                this.elem('title').text(data.realName);
-                this.elem('description').text(data.name);
+                this._channelId = data.channelId;
+                this.elem('name').text(data.name);
+                this.findBlockInside('editable-title')
+                    .reset()
+                    .setVal(data.title, (e.type == 'click-channels'));
 
                 switch(e.type) {
                     case 'click-channels':
                         this.findBlockInside('dialog-controls').setMod('type', 'channels');
+                        this.setMod(this.elem('name'), 'type', 'channels');
+
                         break;
 
                     case 'click-users':
                         this.findBlockInside('dialog-controls').setMod('type', 'user');
+                        this.setMod(this.elem('name'), 'type', 'users');
+
                         break;
 
                     default:
 
                 }
 
-                this._channelId = data.id;
                 BEMDOM.update(this.container, []);
-                this.findBlockInside('spin').setMod('visible');
-                this._getData(data.id, EVENT_METHODS[e.type]);
+                this.setMod(this.elem('spin'), 'visible');
+                this._getData(data.channelId, EVENT_METHODS[e.type]);
             },
 
             _markChannelRead : function(channelId, type, timestamp){
@@ -122,7 +126,7 @@ modules.define(
                         Notify.error('Ошибка загрузки списка сообщений!');
                     })
                     .always(function(){
-                        _this.findBlockInside('spin').delMod('visible');
+                        _this.delMod(_this.elem('spin'), 'visible');
                     });
             },
 
