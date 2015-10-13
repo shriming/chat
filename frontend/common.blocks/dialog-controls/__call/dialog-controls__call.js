@@ -6,7 +6,18 @@ modules.define(
         var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
         var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
-        var pc = new PeerConnection(null);
+        var pc = new PeerConnection({
+        iceServers: [
+            { url: "stun:23.21.150.121" },
+            { url: "stun:stun.l.google.com:19302" }
+        ]
+    },
+    {
+        optional: [
+            // FF/Chrome interop? https://hacks.mozilla.org/category/webrtc/as/complete/
+            { DtlsSrtpKeyAgreement: true }
+        ]
+    });
 
 
         function gotStream(stream){
