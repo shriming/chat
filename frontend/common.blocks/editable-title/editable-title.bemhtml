@@ -1,0 +1,20 @@
+block('editable-title')(
+    content()(function(){
+        return applyCtx([
+            {
+                block : 'editable-title',
+                elem : 'title'
+            },
+            {
+                block : 'input',
+                mix : { block : 'editable-title', elem : 'input' },
+                mods : { theme : 'shriming', size : 's', width : 'available' }
+            },
+            {
+                block : 'spin',
+                mix : { block : 'editable-title', elem : 'spin' },
+                mods : { theme : 'shriming', size : 's', visible : true }
+            }
+        ]);
+    })
+);
