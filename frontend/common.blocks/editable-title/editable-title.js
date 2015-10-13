@@ -1,7 +1,16 @@
+/**
+ * @module Editable-input
+ */
+
 modules.define(
     'editable-title',
     ['i-bem__dom', 'i-chat-api', 'keyboard__codes', 'notify'],
     function(provide, BEMDOM, chatAPI, keyCodes, Notify){
+
+        /**
+         * @exports
+         * @class editable-input
+         */
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
@@ -22,6 +31,11 @@ modules.define(
                 }
             },
 
+            /**
+             * Обработка клика на заголовке
+             *
+             * @private
+             */
             _handleTitleClick : function(){
                 this._input.show();
                 this._title.hide();
@@ -31,6 +45,12 @@ modules.define(
                     .focus();
             },
 
+            /**
+             * Обработка нажатия на клавиши при фокусе в инпуте
+             *
+             * @param {Event} e - объект события
+             * @private
+             */
             _handleInputKeyDown : function(e){
                 var value = e.target.value;
 
@@ -39,6 +59,13 @@ modules.define(
                 }
             },
 
+            /**
+             * Валидация инпута, при ошибке показывается Notify
+             *
+             * @param {String} value - Новое значение заголовка
+             * @returns {boolean} - Результат валидации инпута
+             * @private
+             */
             _validateInput : function(value){
                 if(value){
                     this.delMod(this._input, 'error');
@@ -50,6 +77,12 @@ modules.define(
                 return Boolean(value);
             },
 
+            /**
+             * Метод для сохранения нового значения названия заголовка
+             *
+             * @param {String} value - Новое значение заголовка
+             * @private
+             */
             _saveTitle : function(value){
                 var _this = this;
 
