@@ -34,7 +34,7 @@ block('dialog').def()(function(){
                         mix : { block : 'dialog', elem : 'spin' },
                         mods : { theme : 'shriming', size : 'xl', visible : true }
                     },
-                    { elem : 'blank', content : 'Сообщений нет. Вы можете стать первым прямо сейчас!' },
+                    { elem : 'blank', content : 'Сообщений нет' },
                     { elem : 'container' }
                 ]
             },

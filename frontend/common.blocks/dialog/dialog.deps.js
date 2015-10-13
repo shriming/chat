@@ -13,6 +13,7 @@
         { block : 'i-users' },
         { block : 'notify' },
         { block : 'events', elems : 'channels' },
-        { block : 'editable-title', mods : { active : true, empty : true } }
+        { block : 'editable-title', mods : { active : true, empty : true } },
+        { block : 'functions', elem : 'throttle' }
     ]
 });

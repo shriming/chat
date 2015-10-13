@@ -1,8 +1,8 @@
 modules.define(
     'dialog',
     ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list',
-        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels){
+        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels', 'functions__throttle'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels, throttle){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -13,13 +13,13 @@ modules.define(
                 'js' : {
                     'inited' : function(){
                         this._textarea = this.findBlockInside('textarea');
-                        this.container = this.elem('container');
+                        this._container = this.elem('container');
 
                         List.on('click-channels click-users', this._onChannelSelect, this);
                         User.on('click', this._onUserClick, this);
 
-
                         this._textarea.bindTo('keydown', this._onConsoleKeyDown.bind(this));
+                        this.bindTo('history', 'scroll', this._onHistoryScroll.bind(this));
                         this._subscribeMessageUpdate();
                     }
                 }
@@ -37,7 +37,7 @@ modules.define(
                 chatAPI.on('message', function(data){
                     if(_this._channelId && data.channel === _this._channelId){
                         generatedMessage = _this._generateMessage(data);
-                        BEMDOM.append(_this.container, generatedMessage);
+                        BEMDOM.append(_this._container, generatedMessage);
                         _this._scrollToBottom();
                     }else{
                         shrimingEvents.emit('channel-received-message', { channelId : data.channel });
@@ -61,6 +61,9 @@ modules.define(
 
             _onChannelSelect : function(e, data){
                 this._channelId = data.channelId;
+                this._channelType = EVENT_METHODS[e.type];
+                this._tsOffset = 0;
+
                 this.elem('name').text(data.name);
                 this.findBlockInside('editable-title')
                     .reset()
@@ -83,14 +86,23 @@ modules.define(
 
                 }
 
-                BEMDOM.update(this.container, []);
+                BEMDOM.update(this._container, []);
                 this.setMod(this.elem('spin'), 'visible');
-                this._getData(data.channelId, EVENT_METHODS[e.type]);
+                this._getData();
             },
 
-            _markChannelRead : function(channelId, type, timestamp){
-                chatAPI.post(type + '.mark', {
-                    channel : channelId,
+            _onHistoryScroll : throttle(function(e){
+                var history = $(e.target);
+
+                if(history.scrollTop() === 0){
+                    this.setMod(this.elem('spin'), 'visible');
+                    this._getData(true);
+                }
+            }, 100),
+
+            _markChannelRead : function(timestamp){
+                chatAPI.post(this._channelType + '.mark', {
+                    channel : this._channelId,
                     ts : timestamp
                 })
                     .then(function(data){
@@ -101,13 +113,14 @@ modules.define(
                     });
             },
 
-            _getData : function(channelId, type){
+            _getData : function(infiniteScroll){
                 var _this = this;
 
                 this.elem('blank').hide();
 
-                chatAPI.post(type + '.history', {
-                    channel : channelId
+                chatAPI.post(this._channelType + '.history', {
+                    channel : this._channelId,
+                    latest : infiniteScroll? this._tsOffset : 0
                 })
                     .then(function(resData){
                         var messages = resData.messages.reverse();
@@ -116,13 +129,18 @@ modules.define(
                         });
 
                         if(messages.length){
-                            _this._markChannelRead(channelId, type, messages[0].ts);
-                            BEMDOM.update(_this.container, messagesList);
+                            _this._markChannelRead(messages[messages.length - 1].ts);
+                            _this._tsOffset = messages[0].ts;
                         }else{
                             _this.elem('blank').show();
                         }
 
-                        _this._scrollToBottom();
+                        if(infiniteScroll){
+                            BEMDOM.prepend(_this._container, messagesList.join(''));
+                        }else{
+                            BEMDOM.update(_this._container, messagesList);
+                            _this._scrollToBottom();
+                        }
                     })
                     .catch(function(){
                         Notify.error('Ошибка загрузки списка сообщений!');
