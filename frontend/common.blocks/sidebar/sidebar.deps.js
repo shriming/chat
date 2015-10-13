@@ -1,7 +1,6 @@
 ({
     shouldDeps : [
-        {
-            mods : { hidden : true }
-        },
+        { block : 'header' },
+        { mods : { hidden : true } },
     ]
 });

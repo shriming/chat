@@ -12,7 +12,13 @@
     font-weight bold
     box-sizing border-box
 
-@media $touch
-    .header_logged .current-user__title,
-    .header_logged .logo
-        display none
+    &_closed
+        .header__menu
+            background #fff
+
+            &:before, &:after
+                background #fff
+                transform rotate(0)
+
+            &:after
+                margin-top 6px

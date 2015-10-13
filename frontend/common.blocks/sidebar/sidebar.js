@@ -1,12 +1,16 @@
 modules.define(
     'sidebar',
     ['i-bem__dom', 'header'],
-    function(provide, BEMDOM, chatAPI, Notify){
+    function(provide, BEMDOM, Header){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
-                hidden : {
-                    true : function(){
-                        this.findBlockOutside('page').findBlocksInside('header')[0].findElem('menu')[0].classList.remove('header__menu_close');
+                js : {
+                    inited : function(){
+                        var _this = this;
+
+                        Header.on('menu-toggle', function(e, data){
+                            data.visible ? _this.setMod('hidden') : _this.delMod('hidden');
+                        });
                     }
                 }
             }

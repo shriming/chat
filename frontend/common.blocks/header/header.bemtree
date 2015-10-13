@@ -10,7 +10,7 @@ block('header')(
             content : [
                 {
                     elem : 'menu',
-                    mods : { close : true }
+                    mods : { closed : true }
                 },
                 {
                     block : 'logo',

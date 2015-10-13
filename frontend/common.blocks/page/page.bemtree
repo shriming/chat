@@ -10,6 +10,7 @@ match(this.ctx.data)
                 {
                     block : 'sidebar',
                     mods : { left : true },
+                    js : true,
                     content : [
                         {
                             block : 'list',
