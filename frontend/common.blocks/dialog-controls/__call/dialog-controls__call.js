@@ -5,7 +5,9 @@ modules.define(
         var PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
         var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
         var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
+
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+
         var pc = new PeerConnection({
         iceServers: [
             { url: "stun:23.21.150.121" },
@@ -18,7 +20,6 @@ modules.define(
             { DtlsSrtpKeyAgreement: true }
         ]
     });
-
 
         function gotStream(stream){
             BEMDOM.update(
@@ -44,7 +45,6 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-
                         this.bindTo('click', this._onCall.bind(this));
 
                         var _this = this;
@@ -74,6 +74,10 @@ modules.define(
                             _this._createOffer();
                         });
 
+                        io.socket.on('calloff', function(message){
+                            _this._finishCall();
+                        });
+
                         io.socket.on('webrtc', function(message){
                             var content = message.content;
                             var from = message.from;
@@ -83,13 +87,9 @@ modules.define(
                             if(content.type == 'offer') {
                                  pc.setRemoteDescription(new SessionDescription(content));
                                 _this._createAnswer.call(_this);
-                                console.log('offer');
                             } else if(content.type == 'answer') {
-                                console.log('answer');
                                 pc.setRemoteDescription(new SessionDescription(content));
                             } else if(content.type == 'candidate') {
-                                console.log('candidate');
-
                                 var candidate = new IceCandidate({
                                     sdpMLineIndex : content.label, candidate : content.candidate
                                 });
@@ -100,35 +100,63 @@ modules.define(
                     }
                 }
             },
+            _finishCall: function(){
+                var icon = this.findBlockInside('icon');
+
+                var localVideo = this.findBlockOutside('page')
+                    .findBlockInside({ block : 'video', modName : 'local', modVal : true })
+                    .findElem('inner');
+
+                var remoteVideo = this.findBlockOutside('page')
+                    .findBlockInside({ block : 'video', modName : 'remote', modVal : true })
+                    .findElem('inner');
+
+                [localVideo, remoteVideo].forEach(function(video){
+                    BEMDOM.update(
+                        video,
+                        BEMHTML.apply({
+                            content: null
+                        }));
+                });
+
+                icon.setMod('name', 'call-disabled');
+            },
             _onCall : function(){
                 if (this.hasMod('disabled')) {
-//                    todo call tostr error!!
+                   // todo call tostr error!!
                     console.log('Button disabled!!!!');
                     return;
                 }
-                var _this = this;
-                this._slackId = this.domElem.data('slackId');
 
-                io.socket.get('/webrtc/getUsers', (function(users){
-                    this._socketId = users[this._slackId];
+                var icon = this.findBlockInside('icon');
 
-                    navigator.getUserMedia({
-                            audio : true,
-                            video : {
-                                mandatory : {
-                                    maxWidth : 320,
-                                    maxHeight : 240
+                if (icon.hasMod('name', 'call-end')) {
+                    this._finishCall();
+                    this._sendMessage('calloff', {}, this._socketId);
+                } else {
+                    var _this = this;
+                    this._slackId = this.domElem.data('slackId');
+
+                    io.socket.get('/webrtc/getUsers', (function(users){
+                        this._socketId = users[this._slackId];
+
+                        navigator.getUserMedia({
+                                audio : true,
+                                video : {
+                                    mandatory : {
+                                        maxWidth : 320,
+                                        maxHeight : 240
+                                    }
                                 }
-                            }
-                        },
-                        (function(stream){
-                            gotStream.call(this, stream);
-                            this._sendMessage('call', {}, this._socketId);
-                        }).bind(this),
-                        console.error);
+                            },
+                            (function(stream){
+                                gotStream.call(this, stream);
+                                this._sendMessage('call', {}, this._socketId);
+                            }).bind(this),
+                            console.error);
 
-                }).bind(this));
-
+                    }).bind(this));
+                }
             },
             _gotError : function(error){
             },
@@ -156,6 +184,9 @@ modules.define(
                         }
                     })
                 );
+
+                var icon = this.findBlockInside('icon');
+                icon.setMod('name', 'call-end');
             },
             _getSocketId : function(name){
                 return this[name + 'SocketId'];
