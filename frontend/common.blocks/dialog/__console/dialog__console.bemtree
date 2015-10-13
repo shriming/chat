@@ -31,6 +31,8 @@ block('dialog').elem('console')(
                         autoclosable : true,
                         visible : false
                     },
+                    directions : ['top-right'],
+                    //secondaryOffset : -186,
                     mix : { block : 'chat-input', elem : 'popup' }
                 },
                 {
