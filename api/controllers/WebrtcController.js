@@ -15,6 +15,9 @@ module.exports = {
         sails.sockets.emit(message.to, message.type, { content : message.content, from : sails.users[req.user.id] });
         return res.end();
     },
+    getUsers : function(req, res){
+        return res.json(sails.users);
+    },
     connected : function(req, res){
         if (!req.session.auth) {
             return res.end();
