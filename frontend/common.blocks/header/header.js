@@ -1,7 +1,7 @@
 modules.define(
     'header',
-    ['i-bem__dom', 'i-chat-api', 'notify'],
-    function(provide, BEMDOM, chatAPI, Notify){
+    ['i-bem__dom', 'i-chat-api', 'notify', 'list'],
+    function(provide, BEMDOM, chatAPI, Notify, List){
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 js : {
@@ -14,8 +14,16 @@ modules.define(
                             }
                             _this._fetchTitleInfo();
                         });
+
+                        this.elem('menu').on('click', this._toggleMenuIcon.bind(this));
+                        List.on('click-channels click-users', this._toggleMenuIcon, this);
                     }
                 }
+            },
+
+            _toggleMenuIcon : function(){
+                this.toggleMod('closed');
+                this.emit('menu-toggle', { visible : this.getMod('closed') });
             },
 
             /**

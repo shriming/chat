@@ -226,7 +226,7 @@ modules.define(
                 var type = this.getMod(item, 'type');
                 var counter = this._getItemCounter(this.elemParams(item).channelId);
 
-                if(type == 'channels') {
+                if(type == 'channels'){
                     location.hash = e.target.innerText;
                 }
 

@@ -1,7 +1,7 @@
 .header
     display flex
     align-items center
-    padding 13px
+    padding 13px 0
     padding-top 40px
     margin 0 auto
     width 100%
@@ -11,3 +11,14 @@
     text-transform uppercase
     font-weight bold
     box-sizing border-box
+
+    &_closed
+        .header__menu
+            background #fff
+
+            &:before, &:after
+                margin-top -6px
+                transform rotate(0)
+
+            &:after
+                margin-top 6px

@@ -3,7 +3,7 @@
     shouldDeps : [
         { block : 'current-user' },
         {
-            elems : ['current-user', 'title']
+            elems : ['menu', 'current-user', 'title']
         },
         {
             block : 'logo',
