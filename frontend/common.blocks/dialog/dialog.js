@@ -64,7 +64,7 @@ modules.define(
                 this.elem('name').text(data.name);
                 this.findBlockInside('editable-title')
                     .reset()
-                    .setVal(data.title, (e.type == 'click-channels'));
+                    .setVal(this._channelId, data.title, (e.type == 'click-channels'));
 
                 switch(e.type) {
                     case 'click-channels':

@@ -38,7 +38,7 @@ modules.define(
              * @param {Boolean} isActive - Делать ли заголовок изменяемым при клике
              * @returns {Object}
              */
-            setVal : function(value, isActive){
+            setVal : function(channelId, value, isActive){
                 if(!value && isActive){
                     value = 'Без названия';
                     this.setMod('empty');
@@ -48,7 +48,7 @@ modules.define(
 
                 this.setMod('active', isActive);
                 this._title.text(value);
-                this.params.channelId = this._channelId;
+                this._channelId = channelId;
 
                 return this;
             },
@@ -130,7 +130,7 @@ modules.define(
                 this.setMod(this._spin, 'visible');
 
                 chatAPI.post('channels.setTopic', {
-                    channel : _this.params.channelId,
+                    channel : this._channelId,
                     topic : value
                 })
                     .then(function(resData){
