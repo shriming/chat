@@ -83,6 +83,7 @@ match(this.ctx.data)
             block : 'page',
             mods : { logged: isLogged },
             mix : [{ block : 'libs' }],
+            js: true,
             head : [
                 { elem : 'css', url : '/static/css/_merged.css' },
                 { elem : 'favicon', url : '/static/images/favicon.ico' }

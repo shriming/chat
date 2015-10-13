@@ -13,13 +13,15 @@ module.exports = {
         var options = req.method === 'POST'? req.body : req.query;
         var data = {};
 
+        var slackInstance = sails.slackInstances[req.user.id];
+
         function respond(data){
             sails.sockets.blast(req.params.method, data);
             res.json(data);
         }
 
-        if(slack.api) {
-            slack.api(req.params.method, options, function(error, response){
+        if(slackInstance && slackInstance.api) {
+            slackInstance.api(req.params.method, options, function(error, response){
                 data = { error : error, data : response };
                 respond(data);
             });

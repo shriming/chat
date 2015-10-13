@@ -74,10 +74,12 @@ var AuthController = {
      */
     logout : function(req, res){
         req.logout();
-        // TODO: Maybe it's not necessary
-        req.session.User = res.locals.currentUser = null;
-        req.session.auth = false;
-        res.redirect('/');
+        req.session.destroy(function(error){
+            if(error) {
+                console.log('logout error: ', error);
+            }
+            res.redirect('/');
+        });
     },
 
     /**

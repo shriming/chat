@@ -32,8 +32,8 @@ modules.define('i-users', ['i-chat-api', 'events__channels'],
                     if(data.members && data.members.length) {
                         data.members.forEach(function(member){
                             _this._users[member.id] = member;
-                            shrimingEvents.emit('users-loaded');
                         });
+                        shrimingEvents.emit('users-loaded');
                     }
                 });
             },

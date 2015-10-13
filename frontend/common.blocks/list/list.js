@@ -6,7 +6,8 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
-                        var instances = this.__self.instances || (this.__self.instances = []);
+                        var instances = this.__self.instances || (
+                                this.__self.instances = []);
                         instances.push(this);
 
                         this._container = this.elem('container');
@@ -27,7 +28,7 @@ modules.define(
             _handleNewMessage : function(e, data){
                 var counter = this._getItemCounter(data.channelId);
 
-                if(counter){
+                if(counter) {
                     counter.text(Number(counter.text()) + 1);
                 }
 
@@ -52,12 +53,12 @@ modules.define(
                     var itemParams = _this.elemParams($(item));
 
                     // Если id итерируемого канала равен channelId
-                    if(itemParams.id === channelId){
+                    if(itemParams.id === channelId) {
                         counterElem = $(_this.elem('counter')[index]);
                     }
                 });
 
-                return counterElem ? counterElem : null;
+                return counterElem? counterElem : null;
             },
 
             _initializeLists : function(){
@@ -90,10 +91,21 @@ modules.define(
 
             _getChannelsData : function(){
                 var _this = this;
-
+                var generalChannelIndex;
+                var hashChannelIndex;
+                var selectedChannel;
+                var items;
                 chatAPI.get('channels.list')
                     .then(function(data){
-                        var channelsList = data.channels.map(function(channel){
+                        var channelsList = data.channels.map(function(channel, index){
+                            if(channel.is_general) {
+                                generalChannelIndex = index;
+                            }
+
+                            if(channel.name == location.hash.slice(1)) {
+                                generalChannelIndex = index;
+                            }
+
                             return BEMHTML.apply({
                                 block : 'list',
                                 elem : 'item',
@@ -107,17 +119,14 @@ modules.define(
                             });
                         });
 
-                        var generalChannelIndex = data.channels.map(function(channel){
-                            return channel.is_general;
-                        }).indexOf(true);
-
-                        var hashChannelIndex = data.channels.map(function(channel){
-                            return channel.name;
-                        }).indexOf(location.hash.slice(1));
-
                         BEMDOM.update(_this._container, channelsList);
-                        _this._container.children()[hashChannelIndex != -1? hashChannelIndex :
-                                                    generalChannelIndex].click();
+
+                        items = _this._container.children();
+                        selectedChannel = items[hashChannelIndex || generalChannelIndex];
+
+                        if(selectedChannel) {
+                            selectedChannel.click();
+                        }
                     })
                     .catch(function(){
                         Notify.error('Ошибка получения списка каналов!');
@@ -215,11 +224,11 @@ modules.define(
                 var type = this.getMod(item, 'type');
                 var counter = this._getItemCounter(this.elemParams(item).id);
 
-                if(type == 'channels'){
+                if(type == 'channels') {
                     location.hash = e.target.innerText;
                 }
 
-                if(counter){
+                if(counter) {
                     counter.text('');
                 }
 

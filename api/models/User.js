@@ -5,7 +5,7 @@ module.exports = {
 
     attributes : {
         id : { type : 'string', unique : true, primaryKey : true },
-        email : { type : 'email', unique : true },
+        email : { type : 'email'},
         passports : { collection : 'Passport', via : 'user' },
         name : { type : 'string' },
         deleted : { type : 'boolean', defaultsTo : false },

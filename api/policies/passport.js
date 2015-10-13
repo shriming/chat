@@ -31,10 +31,6 @@ module.exports = function(req, res, next){
             req.session.User = res.locals.currentUser = req.user;
             req.session.auth = !!req.user;
 
-            if (req.session.auth) {
-                slack.init(req);
-            }
-
             next();
         });
     });
