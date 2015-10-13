@@ -180,6 +180,7 @@ modules.define(
                         });
 
                         BEMDOM.update(_this._container, imsList);
+                        updateUsersStatus('activeUsersUpdated', pageBlock._activeUsersUpdated);
                     })
                     .catch(function(){
                         Notify.error('Ошибка получения списка приватных бесед');

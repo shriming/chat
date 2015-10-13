@@ -6,9 +6,14 @@ modules.define(
             onSetMod : {
                 js : {
                     inited : function(){
-                        if(this.hasMod('logged')){
-                            this._fetchTitleInfo();
-                        }
+                        var pageBlock = this.findBlockOutside('page');
+                        var _this = this;
+                        pageBlock.on('slackInited', function(){
+                            if(!_this.hasMod('logged')){
+                                return;
+                            }
+                            _this._fetchTitleInfo();
+                        });
                     }
                 }
             },
