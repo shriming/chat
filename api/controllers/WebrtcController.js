@@ -15,19 +15,6 @@ module.exports = {
         sails.sockets.emit(message.to, message.type, { content : message.content, from : sails.users[req.user.id] });
         return res.end();
     },
-    getSocketID : function(req, res){
-        if(!req.isSocket) {
-            return res.badRequest();
-        }
-
-        var socketId = sails.sockets.id(req.socket);
-        // => "BetX2G-2889Bg22xi-jy"
-
-        return res.json({ id : socketId });
-    },
-    getUsers : function(req, res){
-        return res.json(sails.users);
-    },
     connected : function(req, res){
         if (!req.session.auth) {
             return res.end();

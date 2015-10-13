@@ -15,11 +15,7 @@ modules.define(
              * @exports
              * @type Function
              */
-            io.socket.on('connect', function(){
-                io.socket.get('/csrfToken', function(data){
-                    io.socket.get('/webrtc/connected', { _csrf : data._csrf });
-                });
-            });
+            io.sails.autoConnect = false;
             provide(preserveGlobal? io : io);
         }
 
