@@ -21,14 +21,14 @@ match(this.ctx.data)
                                     content : 'Каналы'
                                 },
                                 {
-                                    block : 'popup',
-                                    mods : {
-                                        theme : 'islands',
-                                        target : 'anchor',
-                                        autoclosable : true,
-                                        visible : false
-                                    },
-                                    mix : { block : 'list', elem : 'popup' }
+                                    block : 'input',
+                                    mods : { theme : 'islands', size : 's', 'has-clear' : true },
+                                    placeholder : 'Введите название канала',
+                                    mix : {
+                                        block : 'list',
+                                        elem : 'add-channel-input',
+                                        mods : { visible : false }
+                                    }
                                 },
                                 {
                                     block : 'button',
@@ -42,12 +42,12 @@ match(this.ctx.data)
                                         elem : 'addition'
                                     }
                                 },
-                                { elem : 'container' },
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'shriming', size : 'm' }
-                                }
+                                    mods : { theme : 'shriming', size : 's' }
+                                },
+                                { elem : 'container' }
                             ]
                         },
                         {
@@ -59,7 +59,7 @@ match(this.ctx.data)
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'shriming', size : 'm' }
+                                    mods : { theme : 'shriming', size : 's' }
                                 }
                             ]
                         }
@@ -92,7 +92,7 @@ match(this.ctx.data)
                                     ]
                                 },
                                 {
-                                    content: data.socketId
+                                    content : data.socketId
                                 }
                             ]
                         }
@@ -109,7 +109,7 @@ match(this.ctx.data)
             block : 'page',
             mods : { logged : isLogged },
             mix : [{ block : 'libs' }],
-            js: true,
+            js : true,
             head : [
                 {
                     elem : 'meta',
