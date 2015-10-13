@@ -12,12 +12,14 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
+                        this._textarea = this.findBlockInside('textarea');
                         this.container = this.elem('container');
 
                         List.on('click-channels click-users', this._onChannelSelect, this);
                         User.on('click', this._onUserClick, this);
 
-                        this.findBlockInside('textarea').bindTo('keydown', this._onConsoleKeyDown.bind(this));
+
+                        this._textarea.bindTo('keydown', this._onConsoleKeyDown.bind(this));
                         this._subscribeMessageUpdate();
                     }
                 }
@@ -34,7 +36,7 @@ modules.define(
 
                 chatAPI.on('message', function(data){
                     if(_this._channelId && data.channel === _this._channelId){
-                        generatedMessage =  _this._generateMessage(data);
+                        generatedMessage = _this._generateMessage(data);
                         BEMDOM.append(_this.container, generatedMessage);
                         _this._scrollToBottom();
                     }else{
@@ -154,15 +156,17 @@ modules.define(
                 if(e.keyCode === keyCodes.ENTER && !e.ctrlKey){
                     e.preventDefault();
 
-                    this._sendMessage(e.target.value);
-                    e.target.value = '';
+                    if(!this._textarea.hasMod('emoji')){
+                        this._sendMessage(e.target.value);
+                        e.target.value = '';
+                    }
                 }
             },
 
             _sendMessage : function(message){
                 var _this = this;
 
-                if(!this._channelId){
+                if(!this._channelId) {
                     return;
                 }
 
