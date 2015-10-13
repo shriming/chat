@@ -29,13 +29,28 @@ module.exports = {
         return res.json(sails.users);
     },
     connected : function(req, res){
-        if(req.session.auth) {
-            sails.users = sails.users || {};
-            if(sails.sockets.id(req.socket)) {
-                sails.users[req.user.id] = sails.sockets.id(req.socket);
-                sails.sockets.blast('activeUsersUpdated', sails.users);
-            }
+        if (!req.session.auth) {
+            return res.end();
         }
+
+        sails.users = sails.users || {};
+        sails.slackInstances = sails.slackInstances || {};
+
+        if (!req.isSocket) {
+            return res.json({ users : sails.users });
+        }
+
+        var socketId = sails.sockets.id(req.socket);
+
+        if (sails.slackInstances[req.user.id]) {
+            sails.sockets.emit(socketId, 'slackInited');
+        } else {
+            slack.init(req);
+        }
+
+        sails.users[req.user.id] = sails.sockets.id(req.socket);
+        sails.sockets.blast('activeUsersUpdated', sails.users);
+
         return res.json({ users : sails.users });
     }
 };

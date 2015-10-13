@@ -3,10 +3,8 @@ var Slack = require('slack-node');
 var slackApi = {
 
     init : function(req){
-        var _this = this;
-
         Passport.findOne({
-            identifier : req.session.User.id
+            identifier : req.user.id
         }, function(err, passport){
 
             if(err) {
@@ -24,9 +22,8 @@ var slackApi = {
                 return;
             }
 
-            var slack = new Slack(passport.tokens.accessToken);
-            _.extend(_this, slack);
-
+            sails.slackInstances[req.user.id] = new Slack(passport.tokens.accessToken);
+            sails.sockets.emit(sails.sockets.id(req.socket), 'slackInited');
         });
     }
 
