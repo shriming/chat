@@ -1,0 +1,6 @@
+block('dialog')(
+    elem('typing')(
+        js()(true),
+        mix()('i-bem')
+     )
+ );

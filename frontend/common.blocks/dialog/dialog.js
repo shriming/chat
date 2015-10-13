@@ -12,6 +12,8 @@ modules.define(
             onSetMod : {
                 'js' : {
                     'inited' : function(){
+                        _this = this;
+
                         this._textarea = this.findBlockInside('textarea');
                         this.container = this.elem('container');
 
@@ -21,6 +23,13 @@ modules.define(
 
                         this._textarea.bindTo('keydown', this._onConsoleKeyDown.bind(this));
                         this._subscribeMessageUpdate();
+
+                        chatAPI.on('user_typing', function(data){
+                            if(data.channel == _this._channelId){
+                                console.log('TYPING');
+                                _this.setMod(_this.elem('typing'), 'visible');
+                            }
+                        });
                     }
                 }
             },
