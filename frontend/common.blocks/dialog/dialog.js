@@ -98,6 +98,8 @@ modules.define(
             _getData : function(channelId, type){
                 var _this = this;
 
+                this.elem('blank').hide();
+
                 chatAPI.post(type + '.history', {
                     channel : channelId
                 })
@@ -107,8 +109,13 @@ modules.define(
                             return _this._generateMessage(message);
                         });
 
-                        _this._markChannelRead(channelId, type, messages[0].ts);
-                        BEMDOM.update(_this.container, messagesList);
+                        if(messages.length){
+                            _this._markChannelRead(channelId, type, messages[0].ts);
+                            BEMDOM.update(_this.container, messagesList);
+                        }else{
+                            _this.elem('blank').show();
+                        }
+
                         _this._scrollToBottom();
                     })
                     .catch(function(){
@@ -161,8 +168,8 @@ modules.define(
                     username : _this.params.username,
                     as_user : true
                 })
-                    .then(function(data){
-                        console('postMessage data: ', data);
+                    .then(function(){
+                        _this.elem('blank').hide();
                     })
                     .catch(function(){
                         Notify.error('Ошибка при отправке сообщения!');
