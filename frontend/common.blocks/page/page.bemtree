@@ -10,6 +10,7 @@ match(this.ctx.data)
                 {
                     block : 'sidebar',
                     mods : { left : true },
+                    js : true,
                     content : [
                         {
                             block : 'list',
@@ -85,6 +86,14 @@ match(this.ctx.data)
             mix : [{ block : 'libs' }],
             js: true,
             head : [
+                {
+                    elem : 'meta',
+                    attrs: {
+                        name: 'viewport',
+                        content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'
+                    }
+                },
+                { elem : 'meta', attrs: { name: 'theme-color', content: '#383455'} },
                 { elem : 'css', url : '/static/css/_merged.css' },
                 { elem : 'favicon', url : '/static/images/favicon.ico' }
             ],
