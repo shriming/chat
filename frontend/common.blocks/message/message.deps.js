@@ -7,5 +7,6 @@
             block : 'avatar',
             mods : { 'size' : 'm' }
         },
+        { block : 'i-users' }
     ]
 });
