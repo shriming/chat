@@ -22,7 +22,7 @@ match(this.ctx.data)
                                 },
                                 {
                                     block : 'input',
-                                    mods : { theme : 'islands', size : 's', 'has-clear' : true },
+                                    mods : { theme : 'shriming', size : 's', 'has-clear' : true },
                                     placeholder : 'Введите название канала',
                                     mix : {
                                         block : 'list',

@@ -14,7 +14,7 @@
         { elem : 'addition', mods : { 'open' : true } },
         {
             block : 'input',
-            mods : { theme : 'islands', size : 's', 'has-clear' : true }
+            mods : { theme : 'shriming', size : 's', 'has-clear' : true }
         },
         {
             block: 'keyboard',

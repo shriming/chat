@@ -1,7 +1,7 @@
 modules.define(
     'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify', 'events__channels', 'editable-title'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify, channels, EditableTitle){
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify', 'events__channels', 'keyboard__codes', 'editable-title'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify, channels, keyCodes, EditableTitle){
 
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
@@ -229,12 +229,15 @@ modules.define(
 
             _initCreateNewChannelButton : function(){
                 this._createChannelButton = this.findBlockInside('button');
+                this._createChannelInput = this.findBlockInside('add-channel-input', 'input');
+
                 this._createChannelButton.on('click', function(){
                     this.toggleMod(this.elem('add-channel-input'), 'visible');
+                    this._createChannelInput.setMod('focused');
+
                     this.toggleMod(this.elem('addition'), 'open');
                 }, this);
 
-                this._createChannelInput = this.findBlockInside('add-channel-input', 'input');
                 this._createChannelInput.domElem.on('keydown', function(e){
                     if(e.keyCode === keyCodes.ENTER) {
                         e.preventDefault();
@@ -263,7 +266,7 @@ modules.define(
                                     Notify.error('Вам запрещено создавать новые каналы!');
                                     break;
                                 case 'no_channel':
-                                    Notify.error('Имя канала не может быть пустым!');
+                                    Notify.error('Имя канала не может быть пустым и должно состоять из букв и цифр!');
                                     break;
                                 default:
                                     Notify.error('Ошибка создания канала!');
