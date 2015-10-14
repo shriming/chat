@@ -13,20 +13,22 @@ modules.define(
 
         Notify.prototype = {
             success : function(message, title){
-                toastr['success'](message, title);
+                return toastr['success'](message, title);
             },
 
             info : function(message, title){
-                toastr['info'](message, title);
+                return toastr['info'](message, title);
             },
 
             warning : function(message, title){
-                toastr['warning'](message, title);
+                return toastr['warning'](message, title);
             },
 
             error : function(message, title){
-                toastr['error'](message, title);
+                return toastr['error'](message, title);
             },
+
+            native: toastr,
 
             init : function(){
                 toastr.options = {

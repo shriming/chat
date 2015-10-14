@@ -13,8 +13,10 @@ modules.define('page', ['i-bem__dom', 'i-chat-api', 'socket-io', 'i-users'],
                         io.socket = io.sails.connect();
 
                         io.socket.on('connect', function(){
-                            io.socket.get('/csrfToken', function(data){
-                                io.socket.get('/webrtc/connected', { _csrf : data._csrf });
+                            setTimeout(function(){
+                                io.socket.get('/csrfToken', function(data){
+                                    io.socket.get('/webrtc/connected', { _csrf : data._csrf });
+                                });
                             });
                         });
 
