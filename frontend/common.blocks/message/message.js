@@ -53,9 +53,9 @@ modules.define('message', ['i-bem__dom', 'BEMHTML', 'i-users'], function(provide
                 var matchPm = regexp.pm.exec(message);
 
                 if(matchSystem){
-                    message = matchSystem[2] + message.replace(regexp.system, '');
+                    message = '@' + matchSystem[2] + message.replace(regexp.system, '');
                 } else if(matchPm){
-                    message = Users.getUser(matchPm[1]).name + message.replace(regexp.pm, '');
+                    message = '@' + Users.getUser(matchPm[1]).name + message.replace(regexp.pm, '');
                 }
 
                 return message;
