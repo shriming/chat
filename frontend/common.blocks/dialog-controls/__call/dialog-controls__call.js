@@ -99,6 +99,7 @@ modules.define(
                                             }
                                         },
                                         function(stream){
+                                            _this.localStream = stream;
                                             gotStream.call(_this, stream);
                                             _this._sendMessage('callback', {}, message.from.socketId);
                                         },
@@ -166,6 +167,8 @@ modules.define(
                 });
 
                 icon.setMod('name', 'call-disabled');
+                this.localStream.close();
+                this.remoteStream.close();
             },
             _openUser : function(userId){
                 var pageBlock = this.findBlockOutside('page');
@@ -239,6 +242,8 @@ modules.define(
                         }
                     })
                 );
+
+                this.remoteStream = event.stream;
             },
             _getSocketId : function(name){
                 return this[name + 'SocketId'];
