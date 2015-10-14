@@ -2,5 +2,16 @@
     margin-top 30px
     margin-bottom 2px
 
+    transform translateZ(0)
+    animation message-animation .4s
+
     &:last-child
         margin-bottom 30px
+
+@keyframes {message-animation}
+    from
+        transform: translateX(-100%)
+
+    to
+        transform: translateX(0)
+

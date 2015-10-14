@@ -1,22 +1,32 @@
+@keyframes {screenshot-animation}
+    from
+        transform: translateX(100%)
+
+    to
+        transform: translateX(0)
+
 .landing__image
     display block
     max-width 70%
     position relative
     right -12vw
+    transform translateZ(0)
+    animation screenshot-animation 1.5s
 
-@media screen and (max-width: 800px)
-    .landing__image
-        display none
+    @media screen and (max-width: 800px)
+        &
+            display none
 
-@media screen and (max-height: 500px)
-    .landing__image
-        right 0
-        margin-left 50px
-        max-width 40%
+    @media screen and (max-height: 500px)
+        &
+            right 0
+            margin-left 50px
+            max-width 40%
 
-@media screen and (max-height: 700px) and (min-width: 1500px)
-    .landing__image
-        align-self flex-start
-        right 0
-        margin-left 50px
-        width 60%
+    @media screen and (max-height: 700px) and (min-width: 1500px)
+        &
+            align-self flex-start
+            right 0
+            margin-left 50px
+            width 60%
+
