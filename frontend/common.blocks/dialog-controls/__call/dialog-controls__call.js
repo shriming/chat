@@ -39,6 +39,9 @@ modules.define(
                 pc.addStream(stream);
                 pc.onicecandidate = this._gotIceCandidate.bind(this);
                 pc.onaddstream = this._gotRemoteStream.bind(this);
+
+                var icon = this.findBlockInside('icon');
+                icon.setMod('name', 'call-end');
         }
 
         provide(BEMDOM.decl(this.name, {
@@ -68,6 +71,9 @@ modules.define(
                                     },
                                     console.error);
                             }
+
+                            var icon = this.findBlockInside('icon');
+                            icon.setMod('name', 'call-end');
                         });
 
                         io.socket.on('callback', function(message){
@@ -76,6 +82,7 @@ modules.define(
 
                         io.socket.on('calloff', function(message){
                             _this._finishCall();
+                            alert('Ваш собеседник завершил вызов');
                         });
 
                         io.socket.on('webrtc', function(message){
@@ -184,9 +191,6 @@ modules.define(
                         }
                     })
                 );
-
-                var icon = this.findBlockInside('icon');
-                icon.setMod('name', 'call-end');
             },
             _getSocketId : function(name){
                 return this[name + 'SocketId'];
