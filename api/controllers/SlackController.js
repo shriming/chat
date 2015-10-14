@@ -1,5 +1,4 @@
 var emojiParser = require('./../services/parser/EmojiParser');
-var markdownParser = require('./../services/parser/MarkdownParser');
 
 /**
  * SlackController
@@ -27,8 +26,7 @@ module.exports = {
             if(req.params.method === 'chat.postMessage') {
                 var messageText = options.text;
 
-                markdownParser(messageText)
-                    .then(emojiParser)
+                emojiParser(messageText)
                     .then(function(message){
                         options.text = message;
                         slackInstance.api(req.params.method, options, function(error, response){
