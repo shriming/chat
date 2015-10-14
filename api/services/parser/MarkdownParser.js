@@ -1,10 +1,21 @@
 var vow = require('vow');
-var marked  = require('marked');
+var marked = require('marked');
 
+var renderer = new marked.Renderer();
+renderer.link = function(href){
+    return href;
+};
+
+renderer.image = function(href){
+    return href;
+};
 
 marked.setOptions({
-    renderer: new marked.Renderer(),
-    sanitize: true
+    renderer : renderer,
+    sanitize : true,
+    highlight : function(code){
+        return require('highlight.js').highlightAuto(code).value;
+    }
 });
 
 module.exports = function(messageText){
@@ -13,7 +24,13 @@ module.exports = function(messageText){
             resolve(messageText);
         }
 
-        var resultStr = marked(messageText);
-        resolve(resultStr);
+        marked(messageText, function(err, content){
+            if(err) {
+                console.error('Markdown error!');
+                resolve(messageText);
+            }
+
+            resolve(content);
+        });
     });
 };

@@ -1,14 +1,14 @@
 var vow = require('vow');
 
-var emojiRegExp = /:(\w{2,15}):/gim;
+var emojiRegExp = /:(\w{2,30}):/gim;
 
 var createImageUrl = function(emoji){
     if(!emoji.length) {
         return '';
     }
 
-    return '<img width="24" height="24">https://cdn.jsdelivr.net/emojione/assets/png/' +
-        emojiData[emoji].unicode + '.png</img>';
+    return '<img width="24" height="24" src="https://cdn.jsdelivr.net/emojione/assets/png/'+
+        emojiData[emoji].unicode + '.png" alt=""/>';
 };
 
 var emojiData = {
