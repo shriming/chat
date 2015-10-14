@@ -5,7 +5,7 @@ match(this.ctx.data)
         var isLogged = Boolean(data.user);
         var pageContent;
 
-        if(isLogged){
+        if(isLogged) {
             pageContent = [
                 {
                     block : 'sidebar',
@@ -16,25 +16,50 @@ match(this.ctx.data)
                             block : 'list',
                             mods : { 'type' : 'channels' },
                             content : [
-                                { elem : 'title', content : 'Каналы' },
-                                { elem : 'container' },
+                                {
+                                    elem : 'title',
+                                    content : 'Каналы'
+                                },
+                                {
+                                    block : 'input',
+                                    mods : { theme : 'shriming', size : 's', 'has-clear' : true },
+                                    placeholder : 'Введите название канала',
+                                    mix : {
+                                        block : 'list',
+                                        elem : 'add-channel-input',
+                                        mods : { visible : false }
+                                    }
+                                },
+                                {
+                                    block : 'button',
+                                    mods : { theme : 'islands', view : 'plain' },
+                                    icon : {
+                                        block : 'icon',
+                                        content : '<svg fill="#aaaaaa" width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path d="M0 0h24v24H0z" fill="none"/><path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/> </svg>'
+                                    },
+                                    mix : {
+                                        block : 'list',
+                                        elem : 'addition'
+                                    }
+                                },
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'shriming', size : 'm' }
-                                }
+                                    mods : { theme : 'shriming', size : 's' }
+                                },
+                                { elem : 'container' }
                             ]
                         },
                         {
                             block : 'list',
                             mods : { 'type' : 'users' },
-                            content: [
+                            content : [
                                 { elem : 'title', content : 'Пользователи' },
                                 { elem : 'container' },
                                 {
                                     block : 'spin',
                                     mix : { block : 'list', elem : 'spin' },
-                                    mods : { theme : 'shriming', size : 'm' }
+                                    mods : { theme : 'shriming', size : 's' }
                                 }
                             ]
                         }
@@ -67,14 +92,14 @@ match(this.ctx.data)
                                     ]
                                 },
                                 {
-                                    content: data.socketId
+                                    content : data.socketId
                                 }
                             ]
                         }
                     ]
                 }
             ];
-        }else{
+        } else {
             pageContent = [
                 { block : 'landing' }
             ];
@@ -82,9 +107,9 @@ match(this.ctx.data)
 
         return applyCtx({
             block : 'page',
-            mods : { logged: isLogged },
+            mods : { logged : isLogged },
             mix : [{ block : 'libs' }],
-            js: true,
+            js : true,
             head : [
                 {
                     elem : 'meta',

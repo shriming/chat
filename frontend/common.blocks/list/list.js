@@ -1,7 +1,8 @@
 modules.define(
     'list',
-    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify', 'events__channels', 'editable-title'],
-    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify, channels, EditableTitle){
+    ['i-bem__dom', 'BEMHTML', 'jquery', 'i-chat-api', 'i-users', 'notify', 'events__channels', 'keyboard__codes', 'editable-title'],
+    function(provide, BEMDOM, BEMHTML, $, chatAPI, Users, Notify, channels, keyCodes, EditableTitle){
+
         provide(BEMDOM.decl(this.name, {
             onSetMod : {
                 'js' : {
@@ -12,9 +13,9 @@ modules.define(
 
                         this._container = this.elem('container');
 
-                        var spinBlock = this.findBlockInside('spin');
-                        if(spinBlock) {
-                            spinBlock.setMod('visible');
+                        this._spinBlock = this.findBlockInside('spin');
+                        if(this._spinBlock) {
+                            this._spinBlock.setMod('visible');
                         }
 
                         var shrimingEvents = channels('shriming-events');
@@ -22,6 +23,10 @@ modules.define(
                         shrimingEvents.on('users-loaded', this._initializeLists, this);
                         shrimingEvents.on('channel-received-message', this._handleNewMessage, this);
                         EditableTitle.on('channel-change-title', this._onChannelChangeTitle, this);
+
+                        if(this.hasMod('type', 'channels')) {
+                            this._initCreateNewChannelButton();
+                        }
                     }
                 }
             },
@@ -54,18 +59,18 @@ modules.define(
                     var itemParams = _this.elemParams($(item));
 
                     // Если id итерируемого канала равен channelId
-                    if(itemParams.id === channelId) {
-                        counterElem = $(_this.elem('counter')[index]);
+                    if(itemParams.channelId === channelId) {
+                        counterElem = $(_this.findElem('counter')[index]);
                     }
                 });
 
-                return counterElem? counterElem : null;
+                return counterElem ? counterElem : null;
             },
 
             _initializeLists : function(){
                 var _this = this;
 
-                switch(_this.getMod('type')) {
+                switch (_this.getMod('type')) {
                     case 'channels':
                         this._getChannelsData();
                         break;
@@ -133,7 +138,7 @@ modules.define(
                         Notify.error('Ошибка получения списка каналов!');
                     })
                     .always(function(){
-                        _this.findBlockInside('spin').delMod('visible');
+                        _this._spinBlock.delMod('visible');
                     });
             },
 
@@ -186,12 +191,12 @@ modules.define(
                         Notify.error('Ошибка получения списка приватных бесед');
                     })
                     .always(function(){
-                        _this.findBlockInside('spin').delMod('visible');
+                        _this._spinBlock.delMod('visible');
                     });
 
                 function updateUsersStatus(name, data){
                     _this.findBlocksInside('user').forEach(function(user){
-                        switch(name) {
+                        switch (name) {
                             case 'activeUsersUpdated':
                                 if(data[user.params.id]) {
                                     user.setMod('presence', 'local');
@@ -219,6 +224,63 @@ modules.define(
                 chatAPI.on('presence_change', function(data){
                     updateUsersStatus('presence_change', data);
                 });
+            },
+
+            _initCreateNewChannelButton : function(){
+                this._createChannelButton = this.findBlockInside('button');
+                this._createChannelInput = this.findBlockInside('add-channel-input', 'input');
+
+                this._createChannelButton.on('click', function(){
+                    this.toggleMod(this.elem('add-channel-input'), 'visible');
+                    this._createChannelInput.setMod('focused');
+
+                    this.toggleMod(this.elem('addition'), 'open');
+                }, this);
+
+                this._createChannelInput.domElem.on('keydown', function(e){
+                    if(e.keyCode === keyCodes.ENTER) {
+                        e.preventDefault();
+                        this._createChannel(e.target.value);
+                    }
+                }.bind(this));
+            },
+
+            _createChannel : function(){
+                var channelName = this._createChannelInput.getVal();
+                if(!channelName.length) {
+                    return Notify.error('Введите название канала!');
+                }
+
+                this._spinBlock.setMod('visible');
+                this.delMod(this.elem('add-channel-input'), 'visible');
+                var _this = this;
+                chatAPI.post('channels.create', { name : channelName })
+                    .then(function(response){
+                        if(!response.ok) {
+                            switch (response.error) {
+                                case 'name_taken':
+                                    Notify.error('Такое имя канала уже существует!');
+                                    break;
+                                case 'restricted_action':
+                                    Notify.error('Вам запрещено создавать новые каналы!');
+                                    break;
+                                case 'no_channel':
+                                    Notify.error('Имя канала не может быть пустым и должно состоять из букв и цифр!');
+                                    break;
+                                default:
+                                    Notify.error('Ошибка создания канала!');
+                            }
+                            return;
+                        }
+                        Notify.success('Канал успешно создан!');
+                        _this._createChannelInput.setVal('');
+                        _this.dropElemCache('item');
+                        _this._initializeLists();
+                    })
+                    .always(function(){
+                        _this._spinBlock.delMod('visible');
+                        _this.setMod(_this.elem('add-channel-input'), 'visible');
+                    });
             },
 
             _onItemClick : function(e){
