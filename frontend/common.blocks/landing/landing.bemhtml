@@ -9,6 +9,7 @@ block('landing')(
         return applyCtx([
             {
                 block : 'landing',
+                js: true,
                 content : [
                     {
                         elem : 'container',

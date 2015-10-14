@@ -1,6 +1,10 @@
 ({
     mustDeps : [
-        { elems : ['title', 'description', 'image', 'footer', 'login', 'link'] }
+        { elems : ['title', 'description', 'image', 'footer', 'login', 'link'] },
+        {
+            block : 'landing',
+            mods : { animated : true }
+        }
     ],
     shouldDeps : [
         {
