@@ -1,4 +1,4 @@
-modules.define('message', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, BEMHTML){
+modules.define('message', ['i-bem__dom', 'BEMHTML', 'i-users'], function(provide, BEMDOM, BEMHTML, Users){
     provide(BEMDOM.decl(this.name, {}, {
             render : function(user, message){
                 var date = new Date(Math.round(message.ts) * 1000);
@@ -44,11 +44,18 @@ modules.define('message', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, B
             },
 
             _parseSystemMessage : function(message){
-                var regexp = /<@(.*)\|(.*)>/g;
-                var match = regexp.exec(message);
+                var regexp = {
+                    system : /<@(.*)\|(.*)>/g,
+                    pm : /<@(.*)>/g
+                };
 
-                if(match){
-                    message = match[2] + message.replace(regexp, '');
+                var matchSystem = regexp.system.exec(message);
+                var matchPm = regexp.pm.exec(message);
+
+                if(matchSystem){
+                    message = matchSystem[2] + message.replace(regexp.system, '');
+                } else if(matchPm){
+                    message = Users.getUser(matchPm[1]).name + message.replace(regexp.pm, '');
                 }
 
                 return message;
