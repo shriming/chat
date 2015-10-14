@@ -1,8 +1,8 @@
 modules.define(
     'dialog',
     ['i-bem__dom', 'BEMHTML', 'socket-io', 'i-chat-api', 'i-users', 'user', 'list',
-        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels', 'functions__throttle'],
-    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels, throttle){
+        'message', 'keyboard__codes', 'jquery', 'notify', 'events__channels', 'functions__debounce'],
+    function(provide, BEMDOM, BEMHTML, io, chatAPI, Users, User, List, Message, keyCodes, $, Notify, channels, debounce){
         var EVENT_METHODS = {
             'click-channels' : 'channels',
             'click-users' : 'im'
@@ -19,7 +19,7 @@ modules.define(
                         User.on('click', this._onUserClick, this);
 
                         this._textarea.bindTo('keydown', this._onConsoleKeyDown.bind(this));
-                        this.bindTo('history', 'scroll', this._onHistoryScroll.bind(this));
+                        this.bindTo('history', 'wheel DOMMouseScroll mousewheel', this._onHistoryScroll.bind(this));
                         this._subscribeMessageUpdate();
                     }
                 }
@@ -91,10 +91,10 @@ modules.define(
                 this._getData();
             },
 
-            _onHistoryScroll : throttle(function(e){
-                var history = $(e.target);
-
-                if(history.scrollTop() === 0){
+            _onHistoryScroll : debounce(function(e){
+                var history = this.elem('history');
+                
+                if((e.type === 'wheel' || e.type === 'DOMMouseScroll' || e.type === 'mousewheel') && history.scrollTop() === 0){
                     this.setMod(this.elem('spin'), 'visible');
                     this._getData(true);
                 }

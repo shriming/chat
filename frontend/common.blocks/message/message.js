@@ -3,6 +3,7 @@ modules.define('message', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, B
             render : function(user, message){
                 var date = new Date(Math.round(message.ts) * 1000);
                 var username = user ? (user.real_name || user.name) : 'Бот какой-то';
+                var text = this._parseSystemMessage(message.text);
 
                 var _getSimpleDate = function(date){
                     var hours = ('0' + date.getHours()).slice(-2);
@@ -35,11 +36,22 @@ modules.define('message', ['i-bem__dom', 'BEMHTML'], function(provide, BEMDOM, B
                             },
                             {
                                 elem : 'content',
-                                content : message.text
+                                content : text
                             }
                         ]
                     }
                 );
+            },
+
+            _parseSystemMessage : function(message){
+                var regexp = /<@(.*)\|(.*)>/g;
+                var match = regexp.exec(message);
+
+                if(match){
+                    message = match[2] + message.replace(regexp, '');
+                }
+
+                return message;
             }
         }
     ));
