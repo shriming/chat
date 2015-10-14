@@ -40,7 +40,7 @@ modules.define(
             pc.onicecandidate = this._gotIceCandidate.bind(this);
             pc.onaddstream = this._gotRemoteStream.bind(this);
 
-            var icon = _this.findBlockInside('icon');
+            var icon = this.findBlockInside('icon');
             icon.setMod('name', 'call-end');
         }
 
@@ -112,7 +112,7 @@ modules.define(
                                 });
                             }
 
-                            var icon = this.findBlockInside('icon');
+                            var icon = _this.findBlockInside('icon');
                             icon.setMod('name', 'call-end');
                         });
 
