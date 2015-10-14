@@ -74,12 +74,7 @@ var AuthController = {
      */
     logout : function(req, res){
         req.logout();
-        req.session.destroy(function(error){
-            if(error) {
-                console.log('logout error: ', error);
-            }
-            res.redirect('/');
-        });
+        res.redirect('/');
     },
 
     /**

@@ -12,7 +12,16 @@ module.exports = {
      */
     message : function(req, res){
         var message = req.body;
-        sails.sockets.emit(message.to, message.type, { content : message.content, from : sails.users[req.user.id] });
+        sails.sockets.emit(message.to, message.type,
+            {
+                content : message.content,
+                from : {
+                    socketId: sails.users[req.user.id],
+                    userId: req.user.id,
+                    userName: req.user.name,
+                    userTitle : req.user.real_name
+                }
+            });
         return res.end();
     },
     getUsers : function(req, res){

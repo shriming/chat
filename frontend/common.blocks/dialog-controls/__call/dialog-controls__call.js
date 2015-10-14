@@ -1,24 +1,23 @@
 modules.define(
     'dialog-controls__call',
-    ['i-bem__dom', 'BEMHTML', 'socket-io'],
-    function(provide, BEMDOM, BEMHTML, io){
+    ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
+    function(provide, BEMDOM, BEMHTML, io, Notify){
         var PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
         var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
         var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
         navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
         var pc = new PeerConnection({
-        iceServers: [
-            { url: "stun:23.21.150.121" },
-            { url: "stun:stun.l.google.com:19302" }
-        ]
-    },
-    {
-        optional: [
-            // FF/Chrome interop? https://hacks.mozilla.org/category/webrtc/as/complete/
-            { DtlsSrtpKeyAgreement: true }
-        ]
-    });
-
+                iceServers : [
+                    { url : "stun:23.21.150.121" },
+                    { url : "stun:stun.l.google.com:19302" }
+                ]
+            },
+            {
+                optional : [
+                    // FF/Chrome interop? https://hacks.mozilla.org/category/webrtc/as/complete/
+                    { DtlsSrtpKeyAgreement : true }
+                ]
+            });
 
         function gotStream(stream){
             BEMDOM.update(
@@ -35,9 +34,9 @@ modules.define(
                     }
                 }));
 
-                pc.addStream(stream);
-                pc.onicecandidate = this._gotIceCandidate.bind(this);
-                pc.onaddstream = this._gotRemoteStream.bind(this);
+            pc.addStream(stream);
+            pc.onicecandidate = this._gotIceCandidate.bind(this);
+            pc.onaddstream = this._gotRemoteStream.bind(this);
         }
 
         provide(BEMDOM.decl(this.name, {
@@ -48,25 +47,64 @@ modules.define(
                         this.bindTo('click', this._onCall.bind(this));
 
                         var _this = this;
-
+                        _this.emit('openUser', 'message.from.userId');
                         io.socket.on('call', function(message){
-                            var from = message.from;
 
-                            if(confirm('Принять вызов от ' + from + '?')) {
-                                navigator.getUserMedia({
-                                        audio : true,
-                                        video : {
-                                            mandatory : {
-                                                maxWidth : 320,
-                                                maxHeight : 240
+                            console.info('call from: ', message.from);
+                            var userName = message.from.userTitle || message.from.userName;
+
+                            var msg = BEMHTML.apply({
+                                block : 'incomming-call',
+                                content : [
+                                    {
+                                        elem : 'question',
+                                        tag : 'p',
+                                        content : userName + ' хочет поговорить с вами! Принять звонок?'
+                                    },
+                                    {
+                                        elem : 'yes',
+                                        tag : 'button',
+                                        content : 'Да'
+                                    },
+                                    {
+                                        elem : 'no',
+                                        tag : 'button',
+                                        content : 'Нет'
+                                    }
+                                ]
+                            });
+
+                            var options = {
+                                positionClass : 'toast-top-center',
+                                timeOut : "25000",
+                                extendedTimeOut : "5000"
+                            };
+
+                            $toast = Notify.native.info(msg, 'Входящий вызов...', options);
+
+                            if($toast.find('.incomming-call__yes').length) {
+                                $toast.delegate('.incomming-call__yes', 'click', function(){
+                                    navigator.getUserMedia({
+                                            audio : true,
+                                            video : {
+                                                mandatory : {
+                                                    maxWidth : 320,
+                                                    maxHeight : 240
+                                                }
                                             }
-                                        }
-                                    },
-                                    function(stream){
-                                        gotStream.call(_this, stream);
-                                        _this._sendMessage('callback', {}, from);
-                                    },
-                                    console.error);
+                                        },
+                                        function(stream){
+                                            gotStream.call(_this, stream);
+                                            _this._sendMessage('callback', {}, message.from.socketId);
+                                            _this._openUser(message.from.userId);
+                                        },
+                                        console.error);
+                                });
+                            }
+                            if($toast.find('.incomming-call__no').length) {
+                                $toast.delegate('.incomming-call__no', 'click', function(){
+                                    console.log('Refused call');
+                                });
                             }
                         });
 
@@ -76,12 +114,11 @@ modules.define(
 
                         io.socket.on('webrtc', function(message){
                             var content = message.content;
-                            var from = message.from;
 
-                            _this._socketId = from;
+                            _this._socketId = message.from.socketId;
 
                             if(content.type == 'offer') {
-                                 pc.setRemoteDescription(new SessionDescription(content));
+                                pc.setRemoteDescription(new SessionDescription(content));
                                 _this._createAnswer.call(_this);
                                 console.log('offer');
                             } else if(content.type == 'answer') {
@@ -100,34 +137,44 @@ modules.define(
                     }
                 }
             },
+            _openUser : function(userId){
+                var pageBlock = this.findBlockOutside('page');
+                var listBlock = pageBlock.findBlockInside({block: 'list', modName: 'type', modVal: 'users'});
+                listBlock.findBlocksInside('user').forEach(function(user){
+                    if(user.params.id == userId && !user.hasMod('presence', 'local')) {
+                        user.domElem.click();
+                    }
+                });
+            },
             _onCall : function(){
-                if (this.hasMod('disabled')) {
-//                    todo call tostr error!!
-                    console.log('Button disabled!!!!');
+                if(this.hasMod('disabled')) {
+                    Notify.warning('Пользователя нет на сайте! Пригласите его, чтобы начать звонок.');
                     return;
                 }
-                var _this = this;
+
                 this._slackId = this.domElem.data('slackId');
 
-                io.socket.get('/webrtc/getUsers', (function(users){
-                    this._socketId = users[this._slackId];
+                io.socket.get('/webrtc/getUsers', (
+                    function(users){
+                        this._socketId = users[this._slackId];
 
-                    navigator.getUserMedia({
-                            audio : true,
-                            video : {
-                                mandatory : {
-                                    maxWidth : 320,
-                                    maxHeight : 240
+                        navigator.getUserMedia({
+                                audio : true,
+                                video : {
+                                    mandatory : {
+                                        maxWidth : 320,
+                                        maxHeight : 240
+                                    }
                                 }
-                            }
-                        },
-                        (function(stream){
-                            gotStream.call(this, stream);
-                            this._sendMessage('call', {}, this._socketId);
-                        }).bind(this),
-                        console.error);
+                            },
+                            (
+                                function(stream){
+                                    gotStream.call(this, stream);
+                                    this._sendMessage('call', {}, this._socketId);
+                                }).bind(this),
+                            console.error);
 
-                }).bind(this));
+                    }).bind(this));
 
             },
             _gotError : function(error){
@@ -183,8 +230,7 @@ modules.define(
                 message = { type : type, content : message, to : to };
                 io.socket.get('/csrfToken', function(data){
                     message._csrf = data._csrf;
-                    io.socket.post('/webrtc/message', message, function(data, jwres){
-                    });
+                    io.socket.post('/webrtc/message', message);
                 });
             }
         }));
