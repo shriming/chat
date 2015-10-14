@@ -32,7 +32,6 @@ modules.define(
             },
 
             _handleNewMessage : function(e, data){
-                console.log(data);
                 var counter = this._getItemCounter(data.channelId);
 
                 if(counter) {
