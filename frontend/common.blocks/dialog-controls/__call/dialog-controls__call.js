@@ -40,6 +40,8 @@ modules.define(
             pc.onicecandidate = this._gotIceCandidate.bind(this);
             pc.onaddstream = this._gotRemoteStream.bind(this);
 
+            this.localStream = stream;
+
             var icon = this.findBlockInside('icon');
             icon.setMod('name', 'call-end');
         }
@@ -53,10 +55,7 @@ modules.define(
                         var _this = this;
 
                         io.socket.on('call', function(message){
-
-                            console.info('call from: ', message.from);
                             var userName = message.from.userTitle || message.from.userName;
-
                             var msg = BEMHTML.apply({
                                 block : 'incomming-call',
                                 content : [
@@ -88,7 +87,6 @@ modules.define(
 
                             if($toast.find('.incomming-call__yes').length) {
                                 $toast.delegate('.incomming-call__yes', 'click', function(){
-                                    _this._openUser(message.from.userId);
                                     navigator.getUserMedia({
                                             audio : true,
                                             video : {
@@ -99,22 +97,22 @@ modules.define(
                                             }
                                         },
                                         function(stream){
-                                            _this.localStream = stream;
                                             gotStream.call(_this, stream);
                                             _this._sendMessage('callback', {}, message.from.socketId);
+                                            _this._openUser(message.from.userId);
                                         },
                                         console.error);
                                 });
                             }
 
+                            var icon = _this.findBlockInside('icon');
+
                             if($toast.find('.incomming-call__no').length) {
                                 $toast.delegate('.incomming-call__no', 'click', function(){
-                                    _this._sendMessage('calloff', {}, _this._socketId);
+                                    icon.setMod('name', 'call-disabled');
+                                    _this._sendMessage('calloff', {}, message.from.socketId);
                                 });
                             }
-
-                            var icon = _this.findBlockInside('icon');
-                            icon.setMod('name', 'call-end');
                         });
 
                         io.socket.on('callback', function(message){
@@ -167,14 +165,17 @@ modules.define(
                 });
 
                 icon.setMod('name', 'call-disabled');
-                this.localStream.close();
-                this.remoteStream.close();
+                this.localStream.stop();
+                if (this.remoteStream) {
+                    this.remoteStream.stop();
+                }
             },
             _openUser : function(userId){
                 var pageBlock = this.findBlockOutside('page');
                 var listBlock = pageBlock.findBlockInside({ block : 'list', modName : 'type', modVal : 'users' });
+
                 listBlock.findBlocksInside('user').forEach(function(user){
-                    if(user.params.id == userId && !user.hasMod('presence', 'local')) {
+                    if(user.params.id == userId && user.hasMod('presence', 'local')) {
                         user.domElem.click();
                     }
                 });

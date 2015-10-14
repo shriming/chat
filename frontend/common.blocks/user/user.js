@@ -21,7 +21,6 @@ modules.define('user', ['i-bem__dom'],
                 }
             },
             _onUserClick : function(){
-                console.info('_onUserClick!!');
                 var userParams = this.params;
                 userParams.presence = this.getMod('presence');
                 this.emit('click', userParams);
