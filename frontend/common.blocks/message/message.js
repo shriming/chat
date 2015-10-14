@@ -1,4 +1,5 @@
-modules.define('message', ['i-bem__dom', 'BEMHTML', 'i-users'], function(provide, BEMDOM, BEMHTML, Users){
+modules.define('message', ['i-bem__dom', 'BEMHTML', 'i-users', jquery], function(provide, BEMDOM, BEMHTML, Users, $){
+
     provide(BEMDOM.decl(this.name, {}, {
             render : function(user, message){
                 var date = new Date(Math.round(message.ts) * 1000);
@@ -12,6 +13,19 @@ modules.define('message', ['i-bem__dom', 'BEMHTML', 'i-users'], function(provide
                     return hours + ':' + minutes;
                 };
 
+                function unescapeHtml(safe){
+                    return safe.replace(/&amp;/g, '&')
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#039;/g, "'");
+                }
+
+                function escapeHtml(unsafe){
+                    return $('<div />').text(unsafe).html();
+                }
+
+                console.log(escapeHtml(unescapeHtml(message.text)));
                 return BEMHTML.apply(
                     {
                         block : 'message',

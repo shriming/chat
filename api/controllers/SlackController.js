@@ -1,3 +1,6 @@
+//var emojiParser = require('./../services/parser/EmojiParser');
+var markdownParser = require('./../services/parser/MarkdownParser');
+
 /**
  * SlackController
  *
@@ -10,7 +13,7 @@ module.exports = {
      * `SlackController.api()`
      */
     api : function(req, res){
-        var options = req.method === 'POST'? req.body : req.query;
+        var options = req.method === 'POST' ? req.body : req.query;
         var data = {};
 
         var slackInstance = sails.slackInstances[req.user.id];
@@ -21,10 +24,32 @@ module.exports = {
         }
 
         if(slackInstance && slackInstance.api) {
-            slackInstance.api(req.params.method, options, function(error, response){
-                data = { error : error, data : response };
-                respond(data);
+            console.log({
+                method : req.params.method,
+                options : options
             });
+            if(req.params.method === 'chat.postMessage') {
+                var messageText = options.text;
+
+                markdownParser(messageText)
+                    .then(function(message){
+                        options.text = message;
+                        slackInstance.api(req.params.method, options, function(error, response){
+                            data = { error : error, data : response };
+                            respond(data);
+                        });
+                    })
+                    .catch(function(error){
+                        console.error(error);
+                    });
+
+
+            } else {
+                slackInstance.api(req.params.method, options, function(error, response){
+                    data = { error : error, data : response };
+                    respond(data);
+                });
+            }
         } else {
             data.error = 'Slack service was\'t properly inited. Can\'t perform request.';
             console.log('Slack controller error: ', data.error);
