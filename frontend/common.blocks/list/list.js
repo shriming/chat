@@ -60,8 +60,8 @@ modules.define(
                     var itemParams = _this.elemParams($(item));
 
                     // Если id итерируемого канала равен channelId
-                    if(itemParams.id === channelId) {
-                        counterElem = $(_this.elem('counter')[index]);
+                    if(itemParams.channelId === channelId) {
+                        counterElem = $(_this.findElem('counter')[index]);
                     }
                 });
 
