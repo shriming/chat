@@ -31,3 +31,6 @@
  3) Наберите `gulp` (требуется установленный [Gulp](http://gulpjs.com/)).
 
 
+## Contribution
+
+[Соглашения по работе над проектом](https://github.com/shriming/chat/wiki).
