@@ -2,7 +2,11 @@ block('page')(
     js()(true),
     content()(function(){
         var content = applyNext();
-        var url = 'http://localhost:8090/browser-sync/browser-sync-client.2.9.3.js';
+
+        var url = 'http://localhost:' +
+            process.env.BROWSER_SYNC_PORT +
+            '/browser-sync/browser-sync-client.2.9.11.js';
+
         if(process.env.NODE_ENV === 'development') {
             content.push({
                 elem : 'js',

@@ -17,7 +17,7 @@ module.exports = {
         supernew : true,
         undef : true,
         unused : true,
-        predef: ['Passport', 'passport', 'User' , 'sails', '_', 'slack', 'console']
+        predef: ['Passport', 'passport', 'User' , 'sails', 'slack', 'console']
     },
 
     groups : {
@@ -75,7 +75,8 @@ module.exports = {
                     'mod',
                     'mode',
                     'tag',
-                    'process'
+                    'process',
+                    'console'
                 ]
             },
             includes : ['frontend/*.blocks/**/*.bemhtml']
