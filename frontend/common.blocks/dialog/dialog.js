@@ -35,6 +35,7 @@ modules.define(
                 var generatedMessage;
 
                 chatAPI.on('message', function(data){
+                    console.log(data);
                     if(_this._channelId && data.channel === _this._channelId){
                         generatedMessage = _this._generateMessage(data);
                         BEMDOM.append(_this._container, generatedMessage);
@@ -93,7 +94,7 @@ modules.define(
 
             _onHistoryScroll : debounce(function(e){
                 var history = this.elem('history');
-                
+
                 if((e.type === 'wheel' || e.type === 'DOMMouseScroll' || e.type === 'mousewheel') && history.scrollTop() === 0){
                     this.setMod(this.elem('spin'), 'visible');
                     this._getData(true);
@@ -192,6 +193,8 @@ modules.define(
                     text : message,
                     channel : _this._channelId,
                     username : _this.params.username,
+                    unfurl_links: true,
+                    unfurl_media: true,
                     as_user : true
                 })
                     .then(function(){

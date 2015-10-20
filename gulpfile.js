@@ -7,14 +7,16 @@ var flatten = require('gulp-flatten');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 var stylint = require('gulp-stylint');
+var config = require('./config/env/config');
+
+/***************************************************************************
+ * Server tasks                                                            *
+ ***************************************************************************/
 
 gulp.task('server', function(){
-    var called = false;
-
     nodemon({
-        script : 'app.js',
-        watch : ['./config', './api'],
-        env : { 'NODE_ENV' : 'development' },
+        script : config.appScript,
+        watch : config.src.server,
         task : ['jslint']
     })
     .on('restart', function(changedFiles){
@@ -26,95 +28,61 @@ gulp.task('server', function(){
     });
 });
 
-gulp.task('prod', function(){
-    runSequence('enb-no-cache', 'copy-files', 'run-app');
-});
-
-gulp.task('run-app', shell.task([
-    'node app.js --prod'
-]));
-
 gulp.task('nodemon-restart', function(){
     nodemon.emit('restart');
 });
 
+/***************************************************************************
+ * Copy tasks                                                              *
+ ***************************************************************************/
+
 gulp.task('copy-images', function(){
-    gulp.src([
-        'frontend/**/*.{png,jpg,gif,svg,ico}',
-        '!frontend/static/*',
-        '!frontend/*.bundles/*'
-    ])
+    return gulp.src(config.src.images)
         .pipe(flatten())
-        .pipe(gulp.dest('frontend/static/images'));
+        .pipe(gulp.dest(config.dest.images));
 });
 
 gulp.task('copy-css', function(){
-    gulp.src([
-        'frontend/desktop.bundles/merged/_merged.css'
-    ])
+    return gulp.src(config.dest.mergedCss)
         .pipe(replace(/(url\([',"]?(.*[\/]{1})?(.*\.(png|jpg|gif|svg))[',"]?\))/g, 'url("../images/$3")'))
         .pipe(flatten())
-        .pipe(gulp.dest('frontend/static/css'));
+        .pipe(gulp.dest(config.dest.finalCss));
 });
 
 gulp.task('copy-js', function(){
-    gulp.src([
-        'frontend/desktop.bundles/merged/_merged.js'
-    ])
+    return gulp.src(config.dest.mergedJs)
         .pipe(flatten())
-        .pipe(gulp.dest('frontend/static/js'));
+        .pipe(gulp.dest(config.dest.finalJs));
 });
 
 gulp.task('copy-files', ['copy-js', 'copy-css', 'copy-images']);
 
-gulp.task('watch', function(){
-    gulp.watch([
-        'frontend/**/*.{png,jpg,gif,svg,ico}',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'
-    ], function(){
-        runSequence('copy-images', 'browser-reload');
-    });
+/***************************************************************************
+ * Mongo tasks                                                             *
+ ***************************************************************************/
 
-    gulp.watch(['frontend/**/*.bemhtml',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function(){
-        runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
-    });
+gulp.task('mongo', shell.task([
+    'mkdir db & mongod --dbpath ' + config.directoryForDb
+]));
 
-    gulp.watch(['frontend/**/*.bemtree',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function(){
-        runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
-    });
-
-    gulp.watch(['frontend/**/*.styl',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function(){
-        runSequence('stylint', 'enb-no-cache', 'copy-css', 'browser-reload');
-    });
-
-    gulp.watch(['frontend/**/*.js',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'], function(){
-        runSequence('jslint', 'enb-no-cache', 'copy-js', 'browser-reload');
-     });
-});
-
+/***************************************************************************
+ * Enb tasks                                                               *
+ ***************************************************************************/
 
 gulp.task('enb-no-cache', shell.task([
-    './node_modules/.bin/enb make -d frontend --no-cache'
+    config.bin + 'enb make -d frontend --no-cache'
 ]));
 
 gulp.task('enb-cached', shell.task([
-    './node_modules/.bin/enb make -d frontend'
+    config.bin + 'enb make -d frontend'
 ]));
 
+/***************************************************************************
+ * Lint tasks                                                              *
+ ***************************************************************************/
+
 gulp.task('stylint', function(){
-    return gulp.src(['frontend/**/*.styl',
-        '!frontend/libs/**/*',
-        '!frontend/static/**/*',
-        '!frontend/*.bundles/**/*'])
+    return gulp.src(config.src.css)
         .pipe(stylint({ config : '.stylintrc' }));
 });
 
@@ -122,21 +90,21 @@ gulp.task('jslint',  shell.task([
     'jshint-groups && jscs .'
 ]));
 
-gulp.task('mongo', shell.task([
-    'mkdir db & mongod --dbpath ./db'
-]));
-
 gulp.task('lint', ['jslint', 'stylint']);
+
+/***************************************************************************
+ * Browser-sync tasks                                                      *
+ ***************************************************************************/
 
 gulp.task('browser-sync', function(){
     var options = {
         notify : true,
         ghostMode : true,
         injectChanges : true,
-        logLevel : 'debug',
+        logLevel : config.logLevel,
         minify : false,
         codeSync : true,
-        port : 8090
+        port : config.browserSyncPort
     };
 
     browserSync.init(options, function(err, inj){
@@ -150,8 +118,46 @@ gulp.task('browser-reload', function(){
     browserSync.reload();
 });
 
+/***************************************************************************
+ * Other tasks                                                             *
+ ***************************************************************************/
+
+gulp.task('run-app', shell.task([
+    'node app.js --prod'
+]));
+
+gulp.task('watch', function(){
+    gulp.watch(config.src.images, function(){
+        runSequence('copy-images', 'browser-reload');
+    });
+
+    gulp.watch(config.src.bemhtmlTemplates, function(){
+        runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
+    });
+
+    gulp.watch(config.src.bemtreeTemplates, function(){
+        runSequence('jslint', 'enb-no-cache', 'copy-js', 'nodemon-restart');
+    });
+
+    gulp.watch(config.src.css, function(){
+        runSequence('stylint', 'enb-no-cache', 'copy-css', 'browser-reload');
+    });
+
+    gulp.watch(config.src.js, function(){
+        runSequence('jslint', 'enb-no-cache', 'copy-js', 'browser-reload');
+     });
+});
+
+/***************************************************************************
+ * Final gulp tasks                                                        *
+ ***************************************************************************/
+
 gulp.task('dev', function(){
     runSequence('lint', 'enb-no-cache', 'copy-files', 'server', 'browser-sync', 'watch');
+});
+
+gulp.task('prod', function(){
+    runSequence('enb-no-cache', 'copy-files', 'run-app');
 });
 
 gulp.task('default', ['mongo', 'dev']);
