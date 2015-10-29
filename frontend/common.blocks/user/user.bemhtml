@@ -1,9 +1,7 @@
 block('user')(
     content()(function(){
         var user = this.ctx.user || {};
-        var content = [];
-
-        content.push([
+        var content = [
             {
                 block : 'avatar',
                 mix : { block : 'user', elem : 'avatar' },
@@ -22,11 +20,14 @@ block('user')(
                         content : user.name
                     }
                 ]
-            },
-            {
-                elem : 'status'
             }
-        ]);
+        ];
+
+        if (!user.hideStatus) {
+            content.push({
+                elem : 'status'
+            });
+        }
 
         return content;
     })

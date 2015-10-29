@@ -5,7 +5,7 @@ var config = {
     prod: 'production'
 };
 
-process.env.PORT = process.env.PORT || 3000;
+process.env.PORT = process.env.PORT || 1337;
 config.port = process.env.PORT;
 
 process.env.BROWSER_SYNC_PORT = process.env.BROWSER_SYNC_PORT || 8090;

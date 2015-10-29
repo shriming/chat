@@ -3,11 +3,14 @@ block('current-user')(
         var user = this.ctx.user || {};
         var content = [];
 
-        if (user.email) {
+        if(user.email) {
             content.push(
                 {
                     block : 'current-user',
                     elem : 'avatar',
+                    attrs : {
+                        'data-currentId' : user.id
+                    },
                     content : {
                         block : 'avatar',
                         mods : { size : 's' },
@@ -17,7 +20,8 @@ block('current-user')(
                 {
                     block : 'current-user',
                     elem : 'title',
-                    content : (user.real_name || user.name || user.email)
+                    content : (
+                    user.real_name || user.name || user.email)
                 },
                 {
                     block : 'current-user',
