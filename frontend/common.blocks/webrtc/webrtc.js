@@ -91,8 +91,9 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify', 'i-use
                 });
 
                 io.socket.on('calloff', function(message){
-                    WebRTC.finishCall();
+                    Notify.native.clear();
                     Notify.warning('Ваш собеседник завершил вызов');
+                    WebRTC.finishCall();
                 });
 
                 io.socket.on('webrtc', function(message){
@@ -171,11 +172,16 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify', 'i-use
                 });
 
                 icon.setMod('name', 'call-disabled');
+                WebRTC._sidebar.domElem.addClass('sidebar_inactive');
+
+                if (!this.call_btn.localStream) {
+                    return;
+                }
+
                 this.call_btn.localStream.stop();
                 if(this.call_btn.remoteStream) {
                     this.call_btn.remoteStream.stop();
                 }
-                WebRTC._sidebar.domElem.addClass('sidebar_inactive');
             },
 
             onCall : function(){
