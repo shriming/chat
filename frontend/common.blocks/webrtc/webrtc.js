@@ -1,5 +1,5 @@
-modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
-    function(provide, BEMDOM, BEMHTML, io, Notify){
+modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify', 'i-users'],
+    function(provide, BEMDOM, BEMHTML, io, Notify, Users){
 
         var PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
         var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
@@ -17,11 +17,13 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                             { url : "stun:23.21.150.121" },
                             { url : "stun:stun.l.google.com:19302" }
                         ]
-                    },{
+                    }, {
                         optional : [{ DtlsSrtpKeyAgreement : true }]
                     }
                 );
 
+                WebRTC._sidebar = _this.findBlockOutside('page')
+                    .findBlockInside('sidebar_right');
 
                 io.socket.on('call', function(message){
                     var userName = message.from.userTitle || message.from.userName;
@@ -42,10 +44,20 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                                 elem : 'no',
                                 tag : 'button',
                                 content : 'Нет'
+                            },
+                            {
+                                tag : 'audio',
+                                attrs : {
+                                    src : 'https://www.freesound.org/data/previews/273/273540_3327179-lq.mp3',
+                                    style : "display: none;",
+                                    autoplay : true,
+                                    loop : true,
+                                    controls : true
+                                }
                             }
                         ]
                     });
-
+                    console.log('msg: ', msg);
                     var options = {
                         positionClass : 'toast-top-center',
                         timeOut : "25000",
@@ -79,14 +91,16 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                 });
 
                 io.socket.on('calloff', function(message){
-                    WebRTC.finishCall();
+                    Notify.native.clear();
                     Notify.warning('Ваш собеседник завершил вызов');
+                    WebRTC.finishCall();
                 });
 
                 io.socket.on('webrtc', function(message){
                     var content = message.content;
 
                     WebRTC._socketId = message.from.socketId;
+                    WebRTC._slackId = message.from.userId;
 
                     if(content.type == 'offer') {
                         WebRTC.pc.setRemoteDescription(new SessionDescription(content));
@@ -158,8 +172,14 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                 });
 
                 icon.setMod('name', 'call-disabled');
+                WebRTC._sidebar.domElem.addClass('sidebar_inactive');
+
+                if (!this.call_btn.localStream) {
+                    return;
+                }
+
                 this.call_btn.localStream.stop();
-                if (this.call_btn.remoteStream) {
+                if(this.call_btn.remoteStream) {
                     this.call_btn.remoteStream.stop();
                 }
             },
@@ -178,41 +198,17 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                 } else {
                     WebRTC._slackId = this.domElem.data('slackId');
 
-                    io.socket.get('/webrtc/getUsers', (function(users){
-                        WebRTC._socketId = users[WebRTC._slackId];
+                    io.socket.get('/webrtc/getUsers', (
+                        function(users){
+                            WebRTC._socketId = users[WebRTC._slackId];
 
-                        WebRTC.getUserMedia((function(stream){
-                            WebRTC.gotStream.call(this, stream);
-                            WebRTC.sendMessage('call', {}, WebRTC._socketId);
+                            WebRTC.getUserMedia((
+                                function(stream){
+                                    WebRTC.gotStream.call(this, stream);
+                                    WebRTC.sendMessage('call', {}, WebRTC._socketId);
+                                }).bind(this));
                         }).bind(this));
-                    }).bind(this));
                 }
-            },
-
-            gotStream : function(stream){
-                BEMDOM.update(
-                    this.findBlockOutside('page')
-                        .findBlockInside({ block : 'video', modName : 'local', modVal : true })
-                        .findElem('inner'),
-                    BEMHTML.apply({
-                        tag : 'video',
-                        attrs : {
-                            class : 'video_local',
-                            muted : false,
-                            autoplay : true,
-                            src : URL.createObjectURL(stream)
-                        }
-                    })
-                );
-
-                WebRTC.pc.addStream(stream);
-                WebRTC.pc.onicecandidate = WebRTC.gotIceCandidate.bind(this);
-                WebRTC.pc.onaddstream = WebRTC.gotRemoteStream.bind(this);
-
-                this.localStream = stream;
-
-                var icon = this.findBlockInside('icon');
-                icon.setMod('name', 'call-end');
             },
 
             gotError : function(error){
@@ -250,23 +246,95 @@ modules.define('webrtc', ['i-bem__dom', 'BEMHTML', 'socket-io', 'notify'],
                     }, WebRTC._socketId);
                 }
             },
+            gotStream : function(stream){
+                var currentId = this.findBlockOutside('page')
+                    .findBlockInside('current-user__avatar')
+                    .domElem.data('currentid');
+                var user = Users.getUser(currentId);
+                BEMDOM.update(
+                    this.findBlockOutside('page')
+                        .findBlockInside({ block : 'video', modName : 'local', modVal : true })
+                        .findElem('inner'),
+                    BEMHTML.apply(
+                        [
+                            {
+                                block : 'user',
+                                js : {
+                                    id : user.id
+                                },
+                                mods : { presence : user.presence },
+                                mix : { block : 'user', elem : 'video' },
+                                user : {
+                                    name : user.name,
+                                    realName : user.real_name,
+                                    hideStatus : true,
+                                    image_48 : user.profile.image_48
+                                }
+                            },
+                            {
+                                tag : 'video',
+                                attrs : {
+                                    class : 'video_local',
+                                    muted : false,
+                                    autoplay : true,
+                                    controls : true,
+                                    src : URL.createObjectURL(stream)
+                                }
+                            }
+                        ]
+                    )
+                );
+
+                WebRTC.pc.addStream(stream);
+                WebRTC.pc.onicecandidate = WebRTC.gotIceCandidate.bind(this);
+                WebRTC.pc.onaddstream = WebRTC.gotRemoteStream.bind(this);
+
+                this.localStream = stream;
+
+                var icon = this.findBlockInside('icon');
+                icon.setMod('name', 'call-end');
+
+                WebRTC._sidebar.domElem.removeClass('sidebar_inactive');
+            },
 
             gotRemoteStream : function(event){
+                var user = Users.getUser(WebRTC._slackId);
                 BEMDOM.update(
                     this.findBlockOutside('page')
                         .findBlockInside({ block : 'video', modName : 'remote', modVal : true })
                         .findElem('inner'),
                     BEMHTML.apply({
-                        tag : 'video',
-                        attrs : {
-                            class : 'video_remote',
-                            autoplay : true,
-                            src : URL.createObjectURL(event.stream)
-                        }
+                        content : [
+                            {
+                                block : 'user',
+                                js : {
+                                    id : user.id
+                                },
+                                mods : { presence : user.presence },
+                                mix : { block : 'user', elem : 'video' },
+                                user : {
+                                    name : user.name,
+                                    realName : user.real_name,
+                                    hideStatus : true,
+                                    image_48 : user.profile.image_48
+                                }
+                            },
+                            {
+                                tag : 'video',
+                                attrs : {
+                                    class : 'video_remote',
+                                    autoplay : true,
+                                    controls : true,
+                                    src : URL.createObjectURL(event.stream)
+                                }
+                            }
+                        ]
                     })
                 );
 
                 this.remoteStream = event.stream;
+
+                WebRTC._sidebar.domElem.removeClass('sidebar_inactive');
             }
         };
 

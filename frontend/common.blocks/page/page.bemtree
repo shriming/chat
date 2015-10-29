@@ -1,7 +1,7 @@
 match(this.ctx.data)
     .def()(function(){
         var data = this.ctx.data;
-        var options = data.req ? data.req.options : {};
+        var options = data.req? data.req.options : {};
         var isLogged = Boolean(data.user);
         var pageContent;
 
@@ -71,7 +71,7 @@ match(this.ctx.data)
                 },
                 {
                     block : 'sidebar',
-                    mods : { right : true },
+                    mods : { right : true, inactive : true },
                     content : [
                         {
                             block : 'controller',
@@ -113,12 +113,12 @@ match(this.ctx.data)
             head : [
                 {
                     elem : 'meta',
-                    attrs: {
-                        name: 'viewport',
-                        content: 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'
+                    attrs : {
+                        name : 'viewport',
+                        content : 'width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0'
                     }
                 },
-                { elem : 'meta', attrs: { name: 'theme-color', content: '#383455'} },
+                { elem : 'meta', attrs : { name : 'theme-color', content : '#383455' } },
                 { elem : 'css', url : '/static/css/_merged.css' },
                 { elem : 'favicon', url : '/static/images/favicon.ico' }
             ],

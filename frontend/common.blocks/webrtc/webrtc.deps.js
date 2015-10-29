@@ -1,6 +1,7 @@
 ({
     mustDeps : [
         { block : 'socket-io' },
-        { block : 'notify' }
+        { block : 'notify' },
+        { block : 'i-users' }
     ]
 });

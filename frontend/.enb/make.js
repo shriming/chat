@@ -181,7 +181,7 @@ module.exports = function (config) {
                 ],
                 [
                     tech.borschik,
-                    { sourceTarget : '?.css', destTarget : '_?.css', tech : 'cleancss', freeze : true, minify : true }
+                    { sourceTarget : '?.css', destTarget : '_?.css', freeze : true, minify : false }
                 ]
             ]);
         });
