@@ -7,6 +7,8 @@ var flatten = require('gulp-flatten');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 var stylint = require('gulp-stylint');
+var minifyCss = require('gulp-minify-css');
+var gulpif = require('gulp-if');
 var config = require('./config/env/config');
 
 /***************************************************************************
@@ -46,6 +48,7 @@ gulp.task('copy-css', function(){
     return gulp.src(config.dest.mergedCss)
         .pipe(replace(/(url\([',"]?(.*[\/]{1})?(.*\.(png|jpg|gif|svg))[',"]?\))/g, 'url("../images/$3")'))
         .pipe(flatten())
+        .pipe(gulpif(config.env === 'production', minifyCss()))
         .pipe(gulp.dest(config.dest.finalCss));
 });
 
